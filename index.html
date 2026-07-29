@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
 <style>
   :root{
     --forest-deep:#142219;
@@ -30,9 +31,8 @@
     --font-mono:'IBM Plex Mono', monospace;
   }
   *{box-sizing:border-box;}
-  html,body{height:100%;}
+  html,body{height:100%; margin:0; overflow:hidden;}
   body{
-    margin:0;
     font-family:var(--font-ui);
     background:var(--cream-bg);
     color:var(--ink);
@@ -40,6 +40,7 @@
   }
   button{font-family:inherit;cursor:pointer;}
   input,textarea{font-family:inherit;}
+  svg.lucide{width:15px; height:15px; vertical-align:-3px; stroke-width:2.1;}
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
   }
@@ -59,14 +60,14 @@
 
   /* ---------- Auth screen ---------- */
   .auth-screen{
-    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    height:100vh; overflow-y:auto; display:flex; align-items:center; justify-content:center;
     background:
       radial-gradient(1200px 600px at 15% -10%, rgba(169,117,46,.10), transparent),
       var(--forest-deep);
     padding:24px;
   }
   .auth-card{
-    width:360px; max-width:100%; background:var(--paper); border-radius:14px;
+    width:380px; max-width:100%; background:var(--paper); border-radius:14px;
     padding:36px 32px 30px; box-shadow:0 30px 60px rgba(0,0,0,.35);
     text-align:center;
     animation: cardIn .5s cubic-bezier(.2,.8,.2,1);
@@ -82,11 +83,12 @@
     background:var(--white); font-size:16px; color:var(--ink);
   }
   .auth-card input:focus{outline:2px solid var(--ochre); outline-offset:1px;}
+  .auth-hint{font-size:11.5px; color:var(--ink-soft); margin:-4px 0 0;}
   .auth-error{color:var(--error); font-size:12.5px; margin-top:12px;}
   .link-btn{background:none; border:none; color:var(--forest-mid); font-size:12.5px; margin-top:14px; text-decoration:underline; text-underline-offset:2px;}
 
   /* ---------- Buttons ---------- */
-  .btn{border:none; border-radius:7px; padding:9px 16px; font-size:13.5px; font-weight:600; transition:transform .12s ease, background .15s ease; white-space:nowrap;}
+  .btn{border:none; border-radius:7px; padding:9px 16px; font-size:13.5px; font-weight:600; transition:transform .12s ease, background .15s ease; white-space:nowrap; display:inline-flex; align-items:center; gap:6px;}
   .btn:active{transform:scale(.97);}
   .btn-primary{background:var(--ochre); color:#241505;}
   .btn-primary:hover{background:#B9832F;}
@@ -97,14 +99,15 @@
   .btn:disabled{opacity:.45; cursor:not-allowed; transform:none;}
   .btn-lg{padding:13px 22px; font-size:14.5px; border-radius:9px;}
   .btn-sm{padding:6px 12px; font-size:12px;}
-  .btn-block{width:100%;}
-  .icon-btn{background:none; border:none; font-size:20px; line-height:1; color:var(--ink-soft);}
+  .btn-block{width:100%; justify-content:center;}
+  .icon-btn{background:none; border:none; font-size:20px; line-height:1; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center; padding:4px;}
+  .icon-btn:hover{color:var(--error);}
 
   /* ---------- App shell / header ---------- */
   .app-header{
     display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
     background:var(--forest-deep); color:#EDE8D8; padding:12px 22px;
-    position:sticky; top:0; z-index:50;
+    flex-shrink:0;
   }
   .brand{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-size:16.5px; flex-shrink:0;}
   .brand img{width:28px; height:28px; object-fit:contain;}
@@ -113,10 +116,11 @@
   .header-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
   .user-email{font-size:12.5px; color:#B9C4B4; margin-right:2px;}
 
-  .app-container{display:flex; flex-direction:column; min-height:100vh;}
+  .app-container{display:flex; flex-direction:column; height:100vh; overflow:hidden;}
 
   /* ---------- Dashboard ---------- */
-  .dashboard-view{flex:1; padding:34px 30px 60px; max-width:1080px; margin:0 auto; width:100%;}
+  .dashboard-view{flex:1; min-height:0; overflow-y:auto; padding:34px 30px 60px; }
+  .dashboard-view-inner{max-width:1080px; margin:0 auto; width:100%;}
   .dash-hero{
     display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
     background:var(--forest); color:#EDE8D8; border-radius:16px; padding:30px 32px; margin-bottom:32px;
@@ -126,11 +130,13 @@
   .dash-hero h1{font-family:var(--font-display); font-size:26px; margin:0 0 6px; font-weight:600;}
   .dash-sub{font-size:13.5px; color:#C4CDBE; margin:0; max-width:38ch;}
   .dash-list-section{margin-top:8px;}
-  .dash-list-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; flex-wrap:wrap;}
+  .dash-list-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px; flex-wrap:wrap;}
   .dash-list-head h2{font-family:var(--font-display); font-size:18px; margin:0; font-weight:600; color:var(--ink);}
+  .dash-list-hint{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px;}
 
   .quotes-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px;}
   .quote-card{
+    position:relative;
     background:var(--paper); border:1px solid var(--paper-line); border-radius:12px; padding:16px 16px 14px;
     cursor:pointer; transition:transform .12s ease, box-shadow .15s ease; text-align:left;
     display:flex; flex-direction:column; gap:8px;
@@ -140,6 +146,7 @@
   .quote-card .qid{font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--ink);}
   .quote-card .qcust{font-size:13.5px; color:var(--ink-soft); line-height:1.4;}
   .quote-card .qamount{font-family:var(--font-mono); font-size:15px; font-weight:700; color:var(--ink); margin-top:auto;}
+  .quote-card .qc-delete{position:absolute; top:10px; right:10px;}
   .quotes-empty, .dash-loading{padding:30px 20px; text-align:center; color:var(--ink-soft); font-size:13px; grid-column:1/-1; background:var(--paper); border-radius:12px; border:1px dashed var(--paper-line);}
 
   .status-badge{font-size:10px; text-transform:uppercase; letter-spacing:.05em; padding:2px 7px; border-radius:999px; flex-shrink:0;}
@@ -147,13 +154,14 @@
   .status-badge.final{background:#DCEBD8; color:#2C5A2A;}
 
   /* ---------- Workspace (panel + preview) ---------- */
-  .workspace{display:grid; grid-template-columns:min(390px, 38vw) 1fr; flex:1; min-height:0;}
+  .workspace{display:grid; grid-template-columns:min(400px, 38vw) 1fr; flex:1; min-height:0; overflow:hidden;}
 
   .panel{
     background:var(--forest); color:#EDE8D8; padding:18px 18px 24px;
-    overflow-y:auto;
+    overflow-y:auto; height:100%;
   }
   .panel-top-actions{display:flex; gap:8px; margin-bottom:10px;}
+  .panel-intro{font-size:12px; color:#9FB196; line-height:1.5; margin:0 0 14px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,.10);}
   .panel-section{
     border-bottom:1px solid rgba(255,255,255,.10);
     padding:4px 0 14px; margin-bottom:8px;
@@ -163,10 +171,11 @@
     color:#C9D2C0; padding:10px 2px; list-style:none; display:flex; align-items:center; justify-content:space-between;
   }
   .panel-section summary::-webkit-details-marker{display:none;}
-  .panel-section summary::after{content:'+'; font-size:16px; color:#8FA087;}
-  .panel-section[open] summary::after{content:'–';}
+  .panel-section summary .chevron{transition:transform .2s ease; color:#8FA087; flex-shrink:0;}
+  .panel-section[open] summary .chevron{transform:rotate(180deg);}
   .section-body{padding:6px 2px 2px; display:flex; flex-direction:column; gap:12px; animation:sectionIn .25s ease-out;}
   @keyframes sectionIn{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:none;} }
+  .section-hint{font-size:11.5px; color:#9FB196; line-height:1.5; margin:0;}
   .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:10px 12px;}
   .panel label{font-size:12px; color:#C4CDBE; display:flex; flex-direction:column; gap:5px;}
   .panel input[type=text], .panel input[type=email], .panel input[type=number], .panel input[type=tel], .panel textarea{
@@ -176,6 +185,12 @@
   .panel input:focus, .panel textarea:focus{outline:2px solid var(--ochre); outline-offset:1px;}
   .checkbox-row{flex-direction:row !important; align-items:center; gap:8px !important; font-size:12.5px;}
   .checkbox-row input{width:auto;}
+
+  .readonly-box{
+    background:#1B2C20; border:1px dashed rgba(255,255,255,.22); border-radius:6px; color:#EDE8D8;
+    padding:8px 10px; font-size:13.5px; display:flex; align-items:center; gap:8px;
+  }
+  .readonly-box svg{flex-shrink:0; color:#8FA087;}
 
   .pill-group{display:flex; flex-wrap:wrap; gap:6px;}
   .pill{
@@ -188,8 +203,10 @@
   .toggle-grid input{width:auto;}
 
   .item-group{margin-bottom:14px;}
-  .item-group h4{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:#95A68B; margin:0 0 8px; font-weight:600;}
+  .item-group h4{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:#95A68B; margin:0 0 3px; font-weight:600;}
+  .item-group .item-hint{font-size:11px; color:#7E9075; margin:0 0 8px;}
   .item-rows{display:flex; flex-direction:column; gap:6px;}
+  .item-row-labels{display:grid; grid-template-columns:1fr 46px 74px 74px; gap:5px; font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; color:#7E9075; padding:0 2px;}
   .item-row{display:grid; grid-template-columns:1fr 46px 74px 74px; gap:5px; align-items:center;}
   .item-row input{padding:6px 7px; font-size:12px;}
   .row-total{font-family:var(--font-mono); font-size:12px; color:#E7E2CF; text-align:right;}
@@ -199,10 +216,11 @@
     display:flex; flex-direction:column; gap:8px; border-top:1px solid rgba(255,255,255,.12);
   }
   .save-status{font-size:11.5px; color:#98A98F; margin:2px 0 0; min-height:14px;}
+  .action-hint{font-size:11px; color:#8FA087; margin:0; line-height:1.5;}
 
   /* ---------- Preview stage ---------- */
   .preview-stage{
-    padding:38px 46px; overflow-y:auto;
+    padding:38px 46px; overflow-y:auto; height:100%;
     display:flex; justify-content:center; align-items:flex-start;
     background:
       radial-gradient(900px 400px at 50% 0%, rgba(255,255,255,.5), transparent);
@@ -292,9 +310,14 @@
   }
 
   @media (max-width: 860px){
-    .workspace{grid-template-columns:1fr;}
-    .panel{max-height:none; order:2;}
-    .preview-stage{max-height:none; order:1; padding:22px;}
+    /* On small screens the two panes stack, so let the whole page scroll
+       as one instead of nesting two independent scroll areas. */
+    html,body{overflow:auto; height:auto;}
+    .app-container{height:auto; overflow:visible;}
+    .dashboard-view{overflow:visible; height:auto;}
+    .workspace{grid-template-columns:1fr; overflow:visible;}
+    .panel{max-height:none; height:auto; overflow:visible; order:2;}
+    .preview-stage{max-height:none; height:auto; overflow:visible; order:1; padding:22px;}
     .doc-parties, .doc-footer-grid, .grid-2{grid-template-columns:1fr;}
     .dashboard-view{padding:26px 18px 50px;}
     .dash-hero{padding:24px 22px;}
@@ -317,6 +340,7 @@
     .doc-company-meta{font-size:10.5px;}
     .doc-title-row{flex-direction:column; align-items:flex-start;}
     .doc-meta-block{text-align:left;}
+    .item-row-labels{display:none;}
     .item-row{grid-template-columns:1fr; grid-template-areas:"label" "qty-price-total";}
     .item-row input[data-field="label"]{grid-column:1/-1;}
     .item-row{display:grid; grid-template-columns:1fr; gap:4px;}
@@ -328,16 +352,6 @@
     .dash-hero h1{font-size:22px;}
     .doc-totals tr.grand td{font-size:15px;}
   }
-
-  /* ---------- Modal (legacy, kept for potential reuse) ---------- */
-  .modal-overlay{
-    position:fixed; inset:0; background:rgba(20,34,25,.55); display:flex; align-items:center; justify-content:center; z-index:150; padding:16px;
-    animation:fadeIn .18s ease-out;
-  }
-  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-  .modal{background:var(--paper); border-radius:12px; width:560px; max-width:100%; max-height:80vh; display:flex; flex-direction:column; box-shadow:0 30px 70px rgba(0,0,0,.4);}
-  .modal-head{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--paper-line);}
-  .modal-head h2{font-family:var(--font-display); font-size:17px; margin:0;}
 </style>
 </head>
 <body>
@@ -351,12 +365,16 @@
     <h1>MbuziPlus Quotation Maker</h1>
     <p class="auth-sub">Coordinator sign-in</p>
     <form id="authForm">
+      <label id="authNameLabel" hidden>Full name — this is attributed to every quotation you create
+        <input type="text" id="authName" autocomplete="name">
+      </label>
       <label>Email
         <input type="email" id="authEmail" autocomplete="username" required>
       </label>
       <label>Password
         <input type="password" id="authPassword" autocomplete="current-password" minlength="6" required>
       </label>
+      <p class="auth-hint" id="authNameHint" hidden>Your name is printed on every quotation you raise, on the "Prepared by" line — enter it exactly as you want customers to see it.</p>
       <button type="submit" id="authSubmitBtn" class="btn btn-primary btn-block">Sign in</button>
     </form>
     <button id="authModeToggle" class="link-btn" type="button">Need an account? Create one</button>
@@ -372,46 +390,51 @@
       <span class="brand-text">MbuziPlus Quotation Maker</span>
     </div>
     <div class="header-nav">
-      <button class="btn btn-ghost btn-sm" id="navDashboardBtn">Dashboard</button>
+      <button class="btn btn-ghost btn-sm" id="navDashboardBtn"><i data-lucide="layout-dashboard"></i> Dashboard</button>
     </div>
     <div class="header-actions">
       <span class="user-email" id="userEmail"></span>
-      <button class="btn btn-ghost btn-sm" id="signOutBtn">Sign out</button>
+      <button class="btn btn-ghost btn-sm" id="signOutBtn"><i data-lucide="log-out"></i> Sign out</button>
     </div>
   </header>
 
   <!-- ============ DASHBOARD VIEW ============ -->
   <main id="dashboardView" class="dashboard-view">
-    <section class="dash-hero">
-      <div>
-        <p class="dash-eyebrow">Coordinator dashboard</p>
-        <h1>Welcome back</h1>
-        <p class="dash-sub">Start a fresh quotation or reopen one you've already been working on.</p>
-      </div>
-      <button class="btn btn-primary btn-lg" id="dashNewQuoteBtn">+ New quotation</button>
-    </section>
-    <section class="dash-list-section">
-      <div class="dash-list-head">
-        <h2>Recent quotations</h2>
-        <button class="btn btn-ghost btn-sm" id="dashRefreshBtn">Refresh</button>
-      </div>
-      <div class="quotes-grid" id="dashQuotesGrid">
-        <div class="dash-loading">Loading…</div>
-      </div>
-    </section>
+    <div class="dashboard-view-inner">
+      <section class="dash-hero">
+        <div>
+          <p class="dash-eyebrow">Coordinator dashboard</p>
+          <h1>Welcome back</h1>
+          <p class="dash-sub">Start a fresh quotation or reopen one you've already been working on. Everything below is read live from the database — nothing here is sample data.</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="dashNewQuoteBtn"><i data-lucide="plus"></i> New quotation</button>
+      </section>
+      <section class="dash-list-section">
+        <div class="dash-list-head">
+          <h2>Recent quotations</h2>
+          <button class="btn btn-ghost btn-sm" id="dashRefreshBtn"><i data-lucide="refresh-cw"></i> Refresh</button>
+        </div>
+        <p class="dash-list-hint">The 50 most recently updated quotations, pulled directly from the database. Use the trash icon on a card to permanently delete a quotation — useful for clearing out old test entries.</p>
+        <div class="quotes-grid" id="dashQuotesGrid">
+          <div class="dash-loading">Loading…</div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <!-- ============ WORKSPACE VIEW ============ -->
   <main id="workspaceView" class="workspace" hidden>
-    <!-- CONTROL PANEL -->
+    <!-- CONTROL PANEL (scrolls independently of the preview) -->
     <aside class="panel" id="panel">
       <div class="panel-top-actions">
-        <button class="btn btn-ghost btn-sm" id="backToDashboardBtn">&larr; Dashboard</button>
+        <button class="btn btn-ghost btn-sm" id="backToDashboardBtn"><i data-lucide="arrow-left"></i> Dashboard</button>
       </div>
+      <p class="panel-intro">Everything you change here updates the preview on the right instantly. Nothing is sent to the customer until you generate the PDF.</p>
 
       <details class="panel-section" open>
-        <summary>Quote type</summary>
+        <summary>Quote type <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
+          <p class="section-hint">Pick a preset that matches what you're quoting for. Each preset switches the five lettered sections (A–E) on or off for you. "Custom" lets you tick sections individually below.</p>
           <div class="pill-group" id="quoteTypePills">
             <button type="button" class="pill active" data-type="full">Full Package</button>
             <button type="button" class="pill" data-type="animalsOnly">Animals Only</button>
@@ -431,68 +454,92 @@
       </details>
 
       <details class="panel-section" open>
-        <summary>Customer &amp; parties</summary>
-        <div class="section-body grid-2">
-          <label>First name<input type="text" id="custFirst"></label>
-          <label>Last name<input type="text" id="custLast"></label>
-          <label>Location / County<input type="text" id="custLocation"></label>
-          <label>Phone<input type="tel" id="custPhone"></label>
-          <label>Farmer<input type="text" id="farmerName"></label>
-          <label>Farm manager<input type="text" id="farmManagerName"></label>
-          <label style="grid-column:1/-1">Prepared by (coordinator)<input type="text" id="preparedBy"></label>
+        <summary>Customer &amp; parties <i data-lucide="chevron-down" class="chevron"></i></summary>
+        <div class="section-body">
+          <p class="section-hint">Who this quotation is for. These fields appear at the top of the document, under "Quotation for" and "Named roles".</p>
+          <div class="grid-2">
+            <label>First name<input type="text" id="custFirst" placeholder="Jane"></label>
+            <label>Last name<input type="text" id="custLast" placeholder="Wanjiku"></label>
+            <label>Location / County<input type="text" id="custLocation" placeholder="Kiambu County"></label>
+            <label>Phone<input type="tel" id="custPhone" placeholder="0722 000 000"></label>
+            <label>Farmer<input type="text" id="farmerName" placeholder="Name of the farmer"></label>
+            <label>Farm manager<input type="text" id="farmManagerName" placeholder="Name of the farm manager"></label>
+            <label>Cohort (optional)<input type="text" id="custCohort" placeholder="e.g. Cohort 2"></label>
+          </div>
+          <label>Prepared by
+            <span class="readonly-box"><i data-lucide="badge-check"></i> <span id="preparedByDisplay">—</span></span>
+          </label>
+          <p class="section-hint">This is set automatically from your signed-in account so every quotation is traceable to the coordinator who raised it — it isn't a free-text field.</p>
         </div>
       </details>
 
       <details class="panel-section" open>
-        <summary>Goat package setup</summary>
+        <summary>Goat package setup <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
           <label>Number of goats<input type="number" id="goatCount" min="0" value="2"></label>
+          <p class="section-hint">Changing this updates the goat, insurance, medical-cover and feed-basket quantities in sections B and D automatically — you don't need to edit those rows by hand.</p>
           <label class="checkbox-row"><input type="checkbox" id="medicalCoverToggle"> Include optional medical cover in the total</label>
+          <p class="section-hint">Medical cover always appears on the document for reference. This checkbox only decides whether its cost is added into the Goat Package subtotal and grand total.</p>
         </div>
       </details>
 
       <details class="panel-section" open>
-        <summary>Line items</summary>
+        <summary>Line items <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
+          <p class="section-hint">Fine-tune quantities and unit prices per line. The line and section totals below recalculate as you type.</p>
           <div class="item-group" data-group="training">
             <h4>A · Trainings</h4>
+            <p class="item-hint">Only shown on the document if section A is switched on above.</p>
+            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span>Total</span></div>
             <div class="item-rows" id="rows-training"></div>
           </div>
           <div class="item-group" data-group="goatPackage">
             <h4>B · Goat package</h4>
+            <p class="item-hint">Only shown on the document if section B is switched on above.</p>
+            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span>Total</span></div>
             <div class="item-rows" id="rows-goatPackage"></div>
           </div>
           <div class="item-group" data-group="feed">
             <h4>D · 1-month feed</h4>
+            <p class="item-hint">Only shown on the document if section D is switched on above.</p>
+            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span>Total</span></div>
             <div class="item-rows" id="rows-feed"></div>
           </div>
         </div>
       </details>
 
       <details class="panel-section">
-        <summary>Housing, others &amp; tax note</summary>
+        <summary>Housing, others &amp; tax note <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
-          <label>C · Housing note<textarea id="housingNote" rows="3"></textarea></label>
-          <label>E · Others note<textarea id="othersNote" rows="3"></textarea></label>
+          <label>C · Housing note
+            <textarea id="housingNote" rows="3"></textarea>
+          </label>
+          <p class="section-hint">Housing is never a fixed price — it's always quoted separately after a site visit, and is deliberately excluded from the grand total.</p>
+          <label>E · Others note
+            <textarea id="othersNote" rows="3"></textarea>
+          </label>
+          <p class="section-hint">For anything handled case-by-case (vet call-outs, extra forage). Also excluded from the grand total.</p>
           <label>Tax / VAT statement<input type="text" id="vatNote"></label>
+          <p class="section-hint">A short line stating whether the prices above are VAT-inclusive or exclusive. It's printed just under the totals block.</p>
         </div>
       </details>
 
       <div class="panel-actions">
         <p class="save-status" id="saveStatus">No quote open yet</p>
-        <button class="btn btn-secondary" id="saveDraftBtn" disabled>Save draft</button>
-        <button class="btn btn-secondary" id="finalizeBtn" disabled>Finalize quotation</button>
+        <button class="btn btn-secondary" id="saveDraftBtn" disabled><i data-lucide="save"></i> Save draft</button>
+        <button class="btn btn-secondary" id="finalizeBtn" disabled><i data-lucide="lock"></i> Finalize quotation</button>
+        <p class="action-hint">Finalizing locks the inputs so a sent quotation can't be edited by accident. You can reopen it any time.</p>
         <label class="checkbox-row" style="color:#EDE8D8;"><input type="checkbox" id="coverPageToggle"> Include cover page in PDF</label>
-        <button class="btn btn-primary" id="generatePdfBtn" disabled>Generate PDF</button>
+        <button class="btn btn-primary" id="generatePdfBtn" disabled><i data-lucide="file-down"></i> Generate PDF</button>
       </div>
     </aside>
 
-    <!-- LIVE PREVIEW -->
+    <!-- LIVE PREVIEW (scrolls independently of the panel) -->
     <section class="preview-stage">
       <div class="paper" id="paper">
         <div class="empty-hint">
           <p>No quotation open. Start a new one to begin — it gets its official number the moment you create it.</p>
-          <button class="btn btn-primary" id="emptyNewQuoteBtn">New Quote</button>
+          <button class="btn btn-primary" id="emptyNewQuoteBtn"><i data-lucide="plus"></i> New Quote</button>
         </div>
       </div>
     </section>
@@ -503,10 +550,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import {
   getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-  createUserWithEmailAndPassword, signOut
+  createUserWithEmailAndPassword, signOut, updateProfile
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, runTransaction,
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, runTransaction,
   collection, query, orderBy, getDocs, serverTimestamp, limit
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
@@ -524,6 +571,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const LOGO_URL = "https://res.cloudinary.com/dpymwa41m/image/upload/v1784023246/android-chrome-512x512_x2ld4i.png";
+
+function refreshIcons(){
+  if(window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+}
 
 /* ================= RATE CARD (defaults) ================= */
 const RATE_CARD = {
@@ -556,6 +607,7 @@ const SECTION_PRESETS = {
 let quote = null;
 let currentDraftRef = null;
 let autosaveTimer = null;
+let previewRenderTimer = null;
 
 function freshItems(goatCount){
   return {
@@ -578,15 +630,25 @@ function freshItems(goatCount){
   };
 }
 
+function accountDisplayName(user){
+  if(!user) return '';
+  if(user.displayName && user.displayName.trim()) return user.displayName.trim();
+  return (user.email || '').split('@')[0];
+}
+
 function defaultQuoteState(id){
   const goatCount = 2;
+  const user = auth.currentUser;
   return {
     id,
     status: 'draft',
     quoteType: 'full',
     sections: { ...SECTION_PRESETS.full },
-    customer: { firstName:'', lastName:'', location:'', phone:'' },
-    farmer:'', farmManager:'', preparedBy:'',
+    customer: { firstName:'', lastName:'', location:'', phone:'', cohort:'' },
+    farmer:'', farmManager:'',
+    preparedBy: accountDisplayName(user),
+    createdByUid: user ? user.uid : '',
+    createdByEmail: user ? user.email : '',
     goatCount,
     medicalCoverIncluded:false,
     items: freshItems(goatCount),
@@ -624,6 +686,9 @@ function showWorkspace(){
 
 /* ================= AUTH ================= */
 const authForm = document.getElementById('authForm');
+const authName = document.getElementById('authName');
+const authNameLabel = document.getElementById('authNameLabel');
+const authNameHint = document.getElementById('authNameHint');
 const authEmail = document.getElementById('authEmail');
 const authPassword = document.getElementById('authPassword');
 const authError = document.getElementById('authError');
@@ -633,8 +698,12 @@ let authMode = 'signin';
 
 authModeToggle.addEventListener('click', () => {
   authMode = authMode === 'signin' ? 'signup' : 'signin';
-  authSubmitBtn.textContent = authMode === 'signin' ? 'Sign in' : 'Create account';
-  authModeToggle.textContent = authMode === 'signin' ? 'Need an account? Create one' : 'Already have an account? Sign in';
+  const isSignup = authMode === 'signup';
+  authNameLabel.hidden = !isSignup;
+  authNameHint.hidden = !isSignup;
+  authName.required = isSignup;
+  authSubmitBtn.textContent = isSignup ? 'Create account' : 'Sign in';
+  authModeToggle.textContent = isSignup ? 'Already have an account? Sign in' : 'Need an account? Create one';
   authError.hidden = true;
 });
 
@@ -646,7 +715,9 @@ authForm.addEventListener('submit', async (e) => {
     if(authMode === 'signin'){
       await signInWithEmailAndPassword(auth, authEmail.value.trim(), authPassword.value);
     } else {
-      await createUserWithEmailAndPassword(auth, authEmail.value.trim(), authPassword.value);
+      const cred = await createUserWithEmailAndPassword(auth, authEmail.value.trim(), authPassword.value);
+      const name = authName.value.trim();
+      if(name) await updateProfile(cred.user, { displayName: name });
     }
   } catch(err){
     authError.textContent = humanizeAuthError(err);
@@ -669,7 +740,7 @@ document.getElementById('signOutBtn').addEventListener('click', () => signOut(au
 
 onAuthStateChanged(auth, (user) => {
   if(user){
-    document.getElementById('userEmail').textContent = user.email || '';
+    document.getElementById('userEmail').textContent = accountDisplayName(user);
     quote = null;
     currentDraftRef = null;
     showDashboard();
@@ -678,6 +749,7 @@ onAuthStateChanged(auth, (user) => {
     currentDraftRef = null;
     showAuthScreen();
   }
+  refreshIcons();
 });
 
 /* ================= TOASTS ================= */
@@ -732,6 +804,8 @@ function serializeQuote(q){
     farmer: q.farmer,
     farmManager: q.farmManager,
     preparedBy: q.preparedBy,
+    createdByUid: q.createdByUid || '',
+    createdByEmail: q.createdByEmail || '',
     goatCount: q.goatCount,
     medicalCoverIncluded: q.medicalCoverIncluded,
     items: q.items,
@@ -777,7 +851,7 @@ async function finalizeQuote(){
   }
 }
 
-/* ================= DASHBOARD LIST ================= */
+/* ================= DASHBOARD LIST (always live from Firestore — no sample/dummy data) ================= */
 async function loadDashboardQuotes(){
   const grid = document.getElementById('dashQuotesGrid');
   grid.innerHTML = '<div class="dash-loading">Loading…</div>';
@@ -797,6 +871,7 @@ async function loadDashboardQuotes(){
       card.type = 'button';
       card.className = 'quote-card';
       card.innerHTML = `
+        <button type="button" class="icon-btn qc-delete" data-id="${escapeHtml(docSnap.id)}" title="Delete this quotation permanently"><i data-lucide="trash-2"></i></button>
         <div class="qc-top">
           <span class="qid">${escapeHtml(docSnap.id)}</span>
           <span class="status-badge ${d.status || 'draft'}">${d.status || 'draft'}</span>
@@ -804,8 +879,22 @@ async function loadDashboardQuotes(){
         <span class="qcust">${escapeHtml(custName)}</span>
         <span class="qamount">KES ${formatMoney(totals.grandTotal)}</span>`;
       card.addEventListener('click', () => loadQuote(docSnap.id, d));
+      const delBtn = card.querySelector('.qc-delete');
+      delBtn.addEventListener('click', async (evt) => {
+        evt.stopPropagation();
+        if(!confirm(`Permanently delete quotation ${docSnap.id}? This cannot be undone.`)) return;
+        try{
+          await deleteDoc(doc(db, 'quotations', docSnap.id));
+          showToast(`Quotation ${docSnap.id} deleted`);
+          loadDashboardQuotes();
+        } catch(err){
+          console.error(err);
+          showToast('Could not delete — check your connection.', true);
+        }
+      });
       grid.appendChild(card);
     });
+    refreshIcons();
   } catch(err){
     console.error(err);
     grid.innerHTML = '<div class="quotes-empty">Could not load quotations — check your connection.</div>';
@@ -826,10 +915,12 @@ function loadQuote(id, data){
     status: data.status || 'draft',
     quoteType: data.quoteType || 'custom',
     sections: data.sections || { ...SECTION_PRESETS.full },
-    customer: data.customer || { firstName:'', lastName:'', location:'', phone:'' },
+    customer: data.customer || { firstName:'', lastName:'', location:'', phone:'', cohort:'' },
     farmer: data.farmer || '',
     farmManager: data.farmManager || '',
-    preparedBy: data.preparedBy || '',
+    preparedBy: data.preparedBy || accountDisplayName(auth.currentUser),
+    createdByUid: data.createdByUid || '',
+    createdByEmail: data.createdByEmail || '',
     goatCount: data.goatCount != null ? data.goatCount : 2,
     medicalCoverIncluded: !!data.medicalCoverIncluded,
     items: data.items || freshItems(data.goatCount || 2),
@@ -875,9 +966,10 @@ function bindQuoteToForm(){
   document.getElementById('custLast').value = quote.customer.lastName || '';
   document.getElementById('custLocation').value = quote.customer.location || '';
   document.getElementById('custPhone').value = quote.customer.phone || '';
+  document.getElementById('custCohort').value = quote.customer.cohort || '';
   document.getElementById('farmerName').value = quote.farmer || '';
   document.getElementById('farmManagerName').value = quote.farmManager || '';
-  document.getElementById('preparedBy').value = quote.preparedBy || '';
+  document.getElementById('preparedByDisplay').textContent = quote.preparedBy || '—';
   document.getElementById('goatCount').value = quote.goatCount;
   document.getElementById('medicalCoverToggle').checked = quote.medicalCoverIncluded;
   document.getElementById('housingNote').value = quote.housingNote;
@@ -887,6 +979,7 @@ function bindQuoteToForm(){
   syncQuoteTypePills();
   renderItemRows();
   setControlsEnabled(quote.status !== 'final');
+  refreshIcons();
 }
 
 function setControlsEnabled(enabled){
@@ -897,7 +990,10 @@ function setControlsEnabled(enabled){
   document.getElementById('saveDraftBtn').disabled = !quote;
   document.getElementById('generatePdfBtn').disabled = !quote;
   document.getElementById('finalizeBtn').disabled = !quote;
-  document.getElementById('finalizeBtn').textContent = quote && quote.status === 'final' ? 'Reopen for editing' : 'Finalize quotation';
+  document.getElementById('finalizeBtn').innerHTML = quote && quote.status === 'final'
+    ? '<i data-lucide="lock-open"></i> Reopen for editing'
+    : '<i data-lucide="lock"></i> Finalize quotation';
+  refreshIcons();
 }
 
 function syncSectionCheckboxes(){
@@ -948,7 +1044,7 @@ document.querySelectorAll('.item-rows').forEach(container => {
     item[field] = field === 'label' ? e.target.value : Number(e.target.value);
     const lineTotal = (Number(item.qty)||0) * (Number(item.unitPrice)||0);
     row.querySelector('.row-total').textContent = formatMoney(lineTotal);
-    renderPreview();
+    schedulePreviewUpdate();
     scheduleAutosave();
   });
 });
@@ -960,33 +1056,33 @@ document.getElementById('goatCount').addEventListener('input', (e) => {
   quote.items.goatPackage.forEach(i => { if(['goat','goatInsurance','medicalCover'].includes(i.key)) i.qty = count; });
   quote.items.feed.forEach(i => { if(i.key === 'feedBasket') i.qty = count; });
   renderItemRows();
-  renderPreview();
+  schedulePreviewUpdate();
   scheduleAutosave();
 });
 
 document.getElementById('medicalCoverToggle').addEventListener('change', (e) => {
   if(!quote) return;
   quote.medicalCoverIncluded = e.target.checked;
-  renderPreview();
+  schedulePreviewUpdate();
   scheduleAutosave();
 });
 
-[['custFirst','customer','firstName'], ['custLast','customer','lastName'], ['custLocation','customer','location'], ['custPhone','customer','phone']]
+[['custFirst','customer','firstName'], ['custLast','customer','lastName'], ['custLocation','customer','location'], ['custPhone','customer','phone'], ['custCohort','customer','cohort']]
   .forEach(([id, obj, field]) => {
     document.getElementById(id).addEventListener('input', (e) => {
       if(!quote) return;
       quote[obj][field] = e.target.value;
-      renderPreview();
+      schedulePreviewUpdate();
       scheduleAutosave();
     });
   });
 
-[['farmerName','farmer'], ['farmManagerName','farmManager'], ['preparedBy','preparedBy'], ['housingNote','housingNote'], ['othersNote','othersNote'], ['vatNote','vatNote']]
+[['farmerName','farmer'], ['farmManagerName','farmManager'], ['housingNote','housingNote'], ['othersNote','othersNote'], ['vatNote','vatNote']]
   .forEach(([id, field]) => {
     document.getElementById(id).addEventListener('input', (e) => {
       if(!quote) return;
       quote[field] = e.target.value;
-      renderPreview();
+      schedulePreviewUpdate();
       scheduleAutosave();
     });
   });
@@ -1012,6 +1108,15 @@ document.getElementById('quoteTypePills').addEventListener('click', (e) => {
   scheduleAutosave();
 });
 
+/* Debounced preview re-render: typing fires this on every keystroke, but
+   the full preview only rebuilds once every ~120ms of inactivity. This is
+   what keeps typing responsive — clicks on checkboxes/pills/presets render
+   immediately since those aren't fired in rapid bursts. */
+function schedulePreviewUpdate(){
+  clearTimeout(previewRenderTimer);
+  previewRenderTimer = setTimeout(renderPreview, 120);
+}
+
 /* ================= PREVIEW RENDER ================= */
 function setSaveStatus(text, isError){
   const el = document.getElementById('saveStatus');
@@ -1029,8 +1134,9 @@ function pulse(el){
 function renderPreview(){
   const paper = document.getElementById('paper');
   if(!quote){
-    paper.innerHTML = `<div class="empty-hint"><p>No quotation open. Start a new one to begin — it gets its official number the moment you create it.</p><button class="btn btn-primary" id="emptyNewQuoteBtn2">New Quote</button></div>`;
+    paper.innerHTML = `<div class="empty-hint"><p>No quotation open. Start a new one to begin — it gets its official number the moment you create it.</p><button class="btn btn-primary" id="emptyNewQuoteBtn2"><i data-lucide="plus"></i> New Quote</button></div>`;
     document.getElementById('emptyNewQuoteBtn2').addEventListener('click', startNewQuote);
+    refreshIcons();
     return;
   }
   const t = calcTotals(quote);
@@ -1082,6 +1188,7 @@ function renderPreview(){
           <h5>Named roles</h5>
           <p>Farmer: ${escapeHtml(quote.farmer || '—')}</p>
           <p>Farm manager: ${escapeHtml(quote.farmManager || '—')}</p>
+          ${quote.customer.cohort ? `<p>Cohort: ${escapeHtml(quote.customer.cohort)}</p>` : ''}
         </div>
       </div>`;
 
@@ -1248,8 +1355,8 @@ document.getElementById('generatePdfBtn').addEventListener('click', async () => 
   if(!quote) return;
   const btn = document.getElementById('generatePdfBtn');
   btn.disabled = true;
-  const originalText = btn.textContent;
-  btn.textContent = 'Generating…';
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = 'Generating…';
   try{
     await ensureJsPdf();
     const logoData = await loadImageAsDataUrl(LOGO_URL);
@@ -1260,10 +1367,15 @@ document.getElementById('generatePdfBtn').addEventListener('click', async () => 
     showToast('Could not generate the PDF.', true);
   } finally {
     btn.disabled = false;
-    btn.textContent = originalText;
+    btn.innerHTML = originalHtml;
+    refreshIcons();
   }
 });
 
+/* PDF typography: a single clean sans-serif family (Helvetica — the closest
+   built-in equivalent to Arial/Calibri) used throughout, with bold weight
+   on every header, section title, subtotal and total so the document reads
+   as a professional, confident business quotation rather than a casual note. */
 async function buildPdf(logoData){
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ unit:'pt', format:'a4' });
@@ -1277,19 +1389,21 @@ async function buildPdf(logoData){
   const issueDate = new Date();
   const validUntil = new Date(issueDate.getTime() + RATE_CARD.validityDays*24*3600*1000);
   const fmtDate = d => d.toLocaleDateString('en-KE', { day:'2-digit', month:'short', year:'numeric' });
-  const inkColor = [27,42,34];
-  const softColor = [95,105,98];
-  const ochreColor = [169,117,46];
+  const inkColor = [20,30,24];
+  const softColor = [80,92,84];
+  const ochreColor = [153,102,32];
+  const F = 'helvetica';
 
   if(includeCover){
     if(logoData){ pdf.addImage(logoData, 'PNG', pageW/2 - 30, 130, 60, 60); }
     pdf.setTextColor(...inkColor);
-    pdf.setFont('times','bold'); pdf.setFontSize(26);
+    pdf.setFont(F,'bold'); pdf.setFontSize(27);
     pdf.text('Imfuyo · MbuziPlus', pageW/2, 220, { align:'center' });
-    pdf.setFont('times','normal'); pdf.setFontSize(15);
+    pdf.setFont(F,'normal'); pdf.setFontSize(15);
     pdf.text('Dairy-Goat Programme Quotation', pageW/2, 245, { align:'center' });
-    pdf.setFontSize(11); pdf.setTextColor(...softColor);
+    pdf.setFont(F,'bold'); pdf.setFontSize(11); pdf.setTextColor(...softColor);
     pdf.text(quote.id || '', pageW/2, 280, { align:'center' });
+    pdf.setFont(F,'normal');
     pdf.text(`Prepared for ${custName}`, pageW/2, 298, { align:'center' });
     pdf.text(`Issued ${fmtDate(issueDate)}  ·  Valid until ${fmtDate(validUntil)}`, pageW/2, 316, { align:'center' });
     pdf.setFontSize(10);
@@ -1305,31 +1419,32 @@ async function buildPdf(logoData){
 
   // Letterhead
   if(logoData){ pdf.addImage(logoData, 'PNG', margin, y, 30, 30); }
-  pdf.setFont('times','bold'); pdf.setFontSize(15); pdf.setTextColor(...inkColor);
+  pdf.setFont(F,'bold'); pdf.setFontSize(16); pdf.setTextColor(...inkColor);
   pdf.text('MbuziPlus Dairy-Goat Programme', margin + 38, y + 13);
-  pdf.setFont('times','italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
+  pdf.setFont(F,'italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
   pdf.text('Imfuyo is a data and financial infrastructure platform for the livestock value chain.', margin + 38, y + 27, { maxWidth: 300 });
-  pdf.setFont('helvetica','normal'); pdf.setFontSize(9);
+  pdf.setFont(F,'bold'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
   pdf.text(['Imfuyo Usajili Solutions Limited','Nairobi, Kenya','www.imfuyo.farm','Paybill 522522'], pageW - margin, y, { align:'right' });
   y += 46;
-  pdf.setDrawColor(...inkColor); pdf.setLineWidth(1.2);
+  pdf.setDrawColor(...inkColor); pdf.setLineWidth(1.4);
   pdf.line(margin, y, pageW - margin, y);
   y += 22;
 
-  pdf.setFont('times','bold'); pdf.setFontSize(20); pdf.setTextColor(...inkColor);
+  pdf.setFont(F,'bold'); pdf.setFontSize(21); pdf.setTextColor(...inkColor);
   pdf.text('QUOTATION', margin, y);
-  pdf.setFont('courier','normal'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
+  pdf.setFont(F,'bold'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
   pdf.text(`${quote.id || 'Unsaved'}`, pageW - margin, y - 12, { align:'right' });
   pdf.text(`Issued ${fmtDate(issueDate)}`, pageW - margin, y, { align:'right' });
   pdf.text(`Valid until ${fmtDate(validUntil)}`, pageW - margin, y + 12, { align:'right' });
   y += 30;
 
-  pdf.setFont('helvetica','bold'); pdf.setFontSize(9); pdf.setTextColor(...[107,136,99]);
+  pdf.setFont(F,'bold'); pdf.setFontSize(9); pdf.setTextColor(...[90,115,82]);
   pdf.text('QUOTATION FOR', margin, y);
   pdf.text('NAMED ROLES', margin + 270, y);
   y += 13;
-  pdf.setFont('times','normal'); pdf.setFontSize(10.5); pdf.setTextColor(...inkColor);
+  pdf.setFont(F,'bold'); pdf.setFontSize(11); pdf.setTextColor(...inkColor);
   pdf.text(custName, margin, y);
+  pdf.setFont(F,'normal');
   pdf.text(`Farmer: ${quote.farmer || '—'}`, margin + 270, y);
   y += 13;
   pdf.setTextColor(...softColor);
@@ -1339,41 +1454,44 @@ async function buildPdf(logoData){
   y += 13;
   pdf.setTextColor(...softColor);
   pdf.text(quote.customer.phone || '—', margin, y);
+  if(quote.customer.cohort){
+    pdf.setTextColor(...inkColor);
+    pdf.text(`Cohort: ${quote.customer.cohort}`, margin + 270, y);
+  }
   y += 24;
 
   function drawTable(title, items, subtotal, extraRowFn){
     checkPageBreak(30);
-    pdf.setFont('times','bold'); pdf.setFontSize(12); pdf.setTextColor(...inkColor);
+    pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
     pdf.text(title, margin, y);
     y += 14;
-    pdf.setFont('helvetica','bold'); pdf.setFontSize(8); pdf.setTextColor(...softColor);
+    pdf.setFont(F,'bold'); pdf.setFontSize(8.5); pdf.setTextColor(...softColor);
     pdf.text('ITEM', margin, y);
     pdf.text('QTY', pageW - margin - 150, y, { align:'right' });
     pdf.text('UNIT PRICE', pageW - margin - 75, y, { align:'right' });
     pdf.text('TOTAL', pageW - margin, y, { align:'right' });
     y += 5;
-    pdf.setDrawColor(...inkColor); pdf.setLineWidth(0.8);
+    pdf.setDrawColor(...inkColor); pdf.setLineWidth(0.9);
     pdf.line(margin, y, pageW - margin, y);
     y += 12;
-    pdf.setFont('times','normal'); pdf.setFontSize(9.5); pdf.setTextColor(...inkColor);
+    pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...inkColor);
     items.forEach(item => {
       checkPageBreak(22);
       const lines = pdf.splitTextToSize(item.label, 300);
       pdf.text(lines, margin, y);
-      pdf.setFont('courier','normal');
+      pdf.setFont(F,'bold');
       pdf.text(String(item.qty), pageW - margin - 150, y, { align:'right' });
       pdf.text(formatMoney(item.unitPrice), pageW - margin - 75, y, { align:'right' });
       pdf.text(formatMoney((Number(item.qty)||0)*(Number(item.unitPrice)||0)), pageW - margin, y, { align:'right' });
-      pdf.setFont('times','normal');
+      pdf.setFont(F,'normal');
       y += lines.length * 11 + 6;
     });
     if(extraRowFn) extraRowFn();
-    pdf.setDrawColor(...inkColor); pdf.setLineWidth(0.8);
+    pdf.setDrawColor(...inkColor); pdf.setLineWidth(0.9);
     pdf.line(margin, y, pageW - margin, y);
     y += 12;
-    pdf.setFont('helvetica','bold'); pdf.setFontSize(10); pdf.setTextColor(...inkColor);
+    pdf.setFont(F,'bold'); pdf.setFontSize(10.5); pdf.setTextColor(...inkColor);
     pdf.text('Subtotal', margin, y);
-    pdf.setFont('courier','bold');
     pdf.text(formatMoney(subtotal), pageW - margin, y, { align:'right' });
     y += 22;
   }
@@ -1387,7 +1505,7 @@ async function buildPdf(logoData){
     drawTable('B · Goats, Feed Concentrate, Goat Insurance & Service', core, t.goatPackageSubtotal, () => {
       if(medical){
         checkPageBreak(16);
-        pdf.setFont('times','italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
+        pdf.setFont(F,'italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
         const note = quote.medicalCoverIncluded ? '' : ' — not included in total';
         pdf.text(`${medical.label}${note}: KES ${formatMoney((Number(medical.qty)||0)*(Number(medical.unitPrice)||0))}`, margin, y, { maxWidth: pageW - margin*2 });
         y += 16;
@@ -1396,10 +1514,10 @@ async function buildPdf(logoData){
   }
   if(s.housing){
     checkPageBreak(50);
-    pdf.setFont('times','bold'); pdf.setFontSize(12); pdf.setTextColor(...inkColor);
+    pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
     pdf.text('C · Goat Housing Structure', margin, y);
     y += 14;
-    pdf.setFont('times','normal'); pdf.setFontSize(9.5); pdf.setTextColor(...softColor);
+    pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
     const lines = pdf.splitTextToSize(quote.housingNote, pageW - margin*2);
     pdf.text(lines, margin, y);
     y += lines.length * 12 + 14;
@@ -1409,46 +1527,46 @@ async function buildPdf(logoData){
   }
   if(s.others){
     checkPageBreak(50);
-    pdf.setFont('times','bold'); pdf.setFontSize(12); pdf.setTextColor(...inkColor);
+    pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
     pdf.text('E · Others — Billed Separately on Request', margin, y);
     y += 14;
-    pdf.setFont('times','normal'); pdf.setFontSize(9.5); pdf.setTextColor(...softColor);
+    pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
     const lines = pdf.splitTextToSize(quote.othersNote, pageW - margin*2);
     pdf.text(lines, margin, y);
     y += lines.length * 12 + 14;
   }
 
   checkPageBreak(120);
-  pdf.setDrawColor(...inkColor); pdf.setLineWidth(1.2);
+  pdf.setDrawColor(...inkColor); pdf.setLineWidth(1.4);
   pdf.line(margin, y, pageW - margin, y);
   y += 18;
-  pdf.setFont('courier','normal'); pdf.setFontSize(11); pdf.setTextColor(...inkColor);
+  pdf.setFont(F,'bold'); pdf.setFontSize(11.5); pdf.setTextColor(...inkColor);
   if(s.training){ pdf.text('A. Training', margin, y); pdf.text(`KES ${formatMoney(t.trainingSubtotal)}`, pageW - margin, y, { align:'right' }); y += 16; }
   if(s.goatPackage){ pdf.text('B. Goat Package', margin, y); pdf.text(`KES ${formatMoney(t.goatPackageSubtotal)}`, pageW - margin, y, { align:'right' }); y += 16; }
   if(s.feed){ pdf.text('D. 1-Month Feed', margin, y); pdf.text(`KES ${formatMoney(t.feedSubtotal)}`, pageW - margin, y, { align:'right' }); y += 16; }
-  pdf.setFont('courier','bold'); pdf.setFontSize(15);
+  pdf.setFont(F,'bold'); pdf.setFontSize(16);
   pdf.text('GRAND TOTAL', margin, y + 4); pdf.text(`KES ${formatMoney(t.grandTotal)}`, pageW - margin, y + 4, { align:'right' });
   y += 26;
   if(s.goatPackage){
-    pdf.setFont('courier','bold'); pdf.setFontSize(10.5); pdf.setTextColor(...ochreColor);
+    pdf.setFont(F,'bold'); pdf.setFontSize(11); pdf.setTextColor(...ochreColor);
     pdf.text('Deposit to start — 70% of goat package (B)', margin, y);
     pdf.text(`KES ${formatMoney(t.deposit)}`, pageW - margin, y, { align:'right' });
     y += 22;
   }
 
   checkPageBreak(90);
-  pdf.setFont('times','italic'); pdf.setFontSize(8.5); pdf.setTextColor(...softColor);
+  pdf.setFont(F,'italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
   const footNote = `${quote.vatNote} Housing (C) and other services (E) are quoted separately and are not included in the grand total. This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.`;
   const footLines = pdf.splitTextToSize(footNote, pageW - margin*2);
   pdf.text(footLines, margin, y);
   y += footLines.length * 11 + 16;
 
   checkPageBreak(80);
-  pdf.setFont('helvetica','bold'); pdf.setFontSize(9); pdf.setTextColor(...[107,136,99]);
+  pdf.setFont(F,'bold'); pdf.setFontSize(9); pdf.setTextColor(...[90,115,82]);
   pdf.text('HOW TO PAY', margin, y);
   pdf.text('ACCEPTANCE', margin + 270, y);
   y += 13;
-  pdf.setFont('times','normal'); pdf.setFontSize(9.5); pdf.setTextColor(...inkColor);
+  pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...inkColor);
   pdf.text(['M-PESA Paybill: 522522','Account: your phone number','70% deposit before delivery.','Pay only via Paybill 522522.'], margin, y);
   pdf.text('Customer name & signature', margin + 270, y);
   pdf.line(margin + 270, y + 30, pageW - margin, y + 30);
@@ -1457,11 +1575,13 @@ async function buildPdf(logoData){
   y += 70;
 
   checkPageBreak(20);
-  pdf.setFont('times','italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
+  pdf.setFont(F,'italic'); pdf.setFontSize(9.5); pdf.setTextColor(...softColor);
   pdf.text(`Prepared by ${quote.preparedBy || '—'}, MbuziPlus Coordinator · for Imfuyo Usajili Solutions Limited`, margin, y);
 
   pdf.save(`${quote.id || 'MbuziPlus-Quotation'}.pdf`);
 }
+
+refreshIcons();
 </script>
 </body>
 </html>
