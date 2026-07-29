@@ -134,6 +134,16 @@
   .dash-list-head h2{font-family:var(--font-display); font-size:18px; margin:0; font-weight:600; color:var(--ink);}
   .dash-list-hint{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px;}
 
+  .dash-search-row{display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+  .dash-search-wrap{position:relative; flex:1; min-width:220px;}
+  .dash-search-wrap svg{position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--ink-soft); pointer-events:none;}
+  .dash-search-wrap input{
+    width:100%; padding:10px 12px 10px 34px; border-radius:8px; border:1px solid var(--paper-line);
+    background:var(--white); font-size:13.5px; color:var(--ink);
+  }
+  .dash-search-wrap input:focus{outline:2px solid var(--ochre); outline-offset:1px;}
+  .dash-search-clear{background:var(--paper); border:1px solid var(--paper-line); border-radius:8px; padding:0 12px; font-size:12.5px; color:var(--ink-soft);}
+
   .quotes-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px;}
   .quote-card{
     position:relative;
@@ -145,6 +155,7 @@
   .quote-card .qc-top{display:flex; align-items:flex-start; justify-content:space-between; gap:8px;}
   .quote-card .qid{font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--ink);}
   .quote-card .qcust{font-size:13.5px; color:var(--ink-soft); line-height:1.4;}
+  .quote-card .qauthor{font-size:11px; color:var(--moss);}
   .quote-card .qamount{font-family:var(--font-mono); font-size:15px; font-weight:700; color:var(--ink); margin-top:auto;}
   .quote-card .qc-delete{position:absolute; top:10px; right:10px;}
   .quotes-empty, .dash-loading{padding:30px 20px; text-align:center; color:var(--ink-soft); font-size:13px; grid-column:1/-1; background:var(--paper); border-radius:12px; border:1px dashed var(--paper-line);}
@@ -154,13 +165,20 @@
   .status-badge.final{background:#DCEBD8; color:#2C5A2A;}
 
   /* ---------- Workspace (panel + preview) ---------- */
-  .workspace{display:grid; grid-template-columns:min(400px, 38vw) 1fr; flex:1; min-height:0; overflow:hidden;}
+  .workspace{display:grid; grid-template-columns:min(420px, 40vw) 1fr; flex:1; min-height:0; overflow:hidden; transition:grid-template-columns .22s cubic-bezier(.2,.8,.2,1);}
+  .workspace.panel-expanded{grid-template-columns:1fr 0fr;}
 
   .panel{
-    background:var(--forest); color:#EDE8D8; padding:18px 18px 24px;
+    background:var(--forest); color:#EDE8D8; padding:18px 22px 28px;
     overflow-y:auto; height:100%;
+    transition:padding .2s ease;
   }
-  .panel-top-actions{display:flex; gap:8px; margin-bottom:10px;}
+  .workspace.panel-expanded .panel{padding:22px clamp(22px, 8vw, 140px) 60px;}
+  .workspace.panel-expanded .preview-stage{opacity:0; pointer-events:none;}
+  .preview-stage{transition:opacity .15s ease;}
+
+  .panel-top-actions{display:flex; gap:8px; margin-bottom:10px; align-items:center; justify-content:space-between;}
+  .panel-top-left{display:flex; gap:8px;}
   .panel-intro{font-size:12px; color:#9FB196; line-height:1.5; margin:0 0 14px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,.10);}
   .panel-section{
     border-bottom:1px solid rgba(255,255,255,.10);
@@ -177,6 +195,7 @@
   @keyframes sectionIn{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:none;} }
   .section-hint{font-size:11.5px; color:#9FB196; line-height:1.5; margin:0;}
   .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:10px 12px;}
+  .workspace.panel-expanded .grid-2{grid-template-columns:1fr 1fr 1fr;}
   .panel label{font-size:12px; color:#C4CDBE; display:flex; flex-direction:column; gap:5px;}
   .panel input[type=text], .panel input[type=email], .panel input[type=number], .panel input[type=tel], .panel textarea{
     background:#1B2C20; border:1px solid rgba(255,255,255,.14); border-radius:6px; color:#F2EFE3;
@@ -199,17 +218,24 @@
   }
   .pill.active{background:var(--ochre); color:#241505; border-color:var(--ochre); font-weight:600;}
   .toggle-grid{display:flex; flex-direction:column; gap:8px; font-size:12.5px;}
-  .toggle-grid label{flex-direction:row; align-items:center; gap:8px;}
   .toggle-grid input{width:auto;}
 
-  .item-group{margin-bottom:14px;}
+  .item-group{margin-bottom:18px; background:rgba(255,255,255,.03); border-radius:8px; padding:12px 12px 6px;}
   .item-group h4{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:#95A68B; margin:0 0 3px; font-weight:600;}
-  .item-group .item-hint{font-size:11px; color:#7E9075; margin:0 0 8px;}
-  .item-rows{display:flex; flex-direction:column; gap:6px;}
-  .item-row-labels{display:grid; grid-template-columns:1fr 46px 74px 74px; gap:5px; font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; color:#7E9075; padding:0 2px;}
-  .item-row{display:grid; grid-template-columns:1fr 46px 74px 74px; gap:5px; align-items:center;}
-  .item-row input{padding:6px 7px; font-size:12px;}
-  .row-total{font-family:var(--font-mono); font-size:12px; color:#E7E2CF; text-align:right;}
+  .item-group .item-hint{font-size:11px; color:#7E9075; margin:0 0 10px;}
+  .item-rows{display:flex; flex-direction:column; gap:8px;}
+
+  /* Line item grid: Item name gets the flexible column; qty/price/total get
+     fixed, wide-enough columns so numbers never look cramped or truncated. */
+  .item-row-labels{display:grid; grid-template-columns:1fr 64px 96px 100px; gap:8px; font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; color:#7E9075; padding:0 2px 2px;}
+  .item-row-labels span:not(:first-child){text-align:right;}
+  .item-row{display:grid; grid-template-columns:1fr 64px 96px 100px; gap:8px; align-items:center; background:#182920; border-radius:6px; padding:6px; border:1px solid rgba(255,255,255,.06);}
+  .item-row input{padding:7px 8px; font-size:12.5px; min-width:0;}
+  .item-row input[data-field="qty"], .item-row input[data-field="unitPrice"]{text-align:right; font-family:var(--font-mono);}
+  .row-total{font-family:var(--font-mono); font-size:12.5px; color:#F2EFE3; text-align:right; font-weight:600; padding-right:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+  .workspace.panel-expanded .item-row-labels,
+  .workspace.panel-expanded .item-row{grid-template-columns:1fr 80px 130px 140px;}
 
   .panel-actions{
     position:sticky; bottom:0; background:var(--forest); padding-top:12px; margin-top:6px;
@@ -316,9 +342,12 @@
     .app-container{height:auto; overflow:visible;}
     .dashboard-view{overflow:visible; height:auto;}
     .workspace{grid-template-columns:1fr; overflow:visible;}
+    .workspace.panel-expanded{grid-template-columns:1fr;}
     .panel{max-height:none; height:auto; overflow:visible; order:2;}
+    .workspace.panel-expanded .panel{order:1;}
     .preview-stage{max-height:none; height:auto; overflow:visible; order:1; padding:22px;}
-    .doc-parties, .doc-footer-grid, .grid-2{grid-template-columns:1fr;}
+    .workspace.panel-expanded .preview-stage{display:none;}
+    .doc-parties, .doc-footer-grid, .grid-2, .workspace.panel-expanded .grid-2{grid-template-columns:1fr;}
     .dashboard-view{padding:26px 18px 50px;}
     .dash-hero{padding:24px 22px;}
   }
@@ -341,10 +370,10 @@
     .doc-title-row{flex-direction:column; align-items:flex-start;}
     .doc-meta-block{text-align:left;}
     .item-row-labels{display:none;}
-    .item-row{grid-template-columns:1fr; grid-template-areas:"label" "qty-price-total";}
+    .item-row, .workspace.panel-expanded .item-row{grid-template-columns:1fr; grid-template-areas:"label" "qty-price-total";}
     .item-row input[data-field="label"]{grid-column:1/-1;}
-    .item-row{display:grid; grid-template-columns:1fr; gap:4px;}
-    .item-row .qtp{display:grid; grid-template-columns:46px 74px 74px; gap:5px;}
+    .item-row{display:grid; grid-template-columns:1fr; gap:6px;}
+    .item-row .qtp{display:grid; grid-template-columns:56px 90px 90px; gap:6px;}
   }
 
   @media (max-width: 420px){
@@ -414,7 +443,14 @@
           <h2>Recent quotations</h2>
           <button class="btn btn-ghost btn-sm" id="dashRefreshBtn"><i data-lucide="refresh-cw"></i> Refresh</button>
         </div>
-        <p class="dash-list-hint">The 50 most recently updated quotations, pulled directly from the database. Use the trash icon on a card to permanently delete a quotation — useful for clearing out old test entries.</p>
+        <p class="dash-list-hint">All quotations from every coordinator, pulled directly from the database. Use the trash icon on a card to remove a quotation — it is kept in the database as a deleted record, not permanently erased.</p>
+        <div class="dash-search-row">
+          <div class="dash-search-wrap">
+            <i data-lucide="search"></i>
+            <input type="text" id="dashSearchInput" placeholder="Search by customer name or quote number (e.g. MP-Q-2026-0012)">
+          </div>
+          <button class="btn btn-ghost btn-sm dash-search-clear" id="dashSearchClearBtn" hidden>Clear</button>
+        </div>
         <div class="quotes-grid" id="dashQuotesGrid">
           <div class="dash-loading">Loading…</div>
         </div>
@@ -427,7 +463,12 @@
     <!-- CONTROL PANEL (scrolls independently of the preview) -->
     <aside class="panel" id="panel">
       <div class="panel-top-actions">
-        <button class="btn btn-ghost btn-sm" id="backToDashboardBtn"><i data-lucide="arrow-left"></i> Dashboard</button>
+        <div class="panel-top-left">
+          <button class="btn btn-ghost btn-sm" id="backToDashboardBtn"><i data-lucide="arrow-left"></i> Dashboard</button>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="panelExpandBtn" title="Expand editor to full width">
+          <i data-lucide="maximize-2" id="panelExpandIcon"></i> <span id="panelExpandLabel">Expand</span>
+        </button>
       </div>
       <p class="panel-intro">Everything you change here updates the preview on the right instantly. Nothing is sent to the customer until you generate the PDF.</p>
 
@@ -486,23 +527,23 @@
       <details class="panel-section" open>
         <summary>Line items <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
-          <p class="section-hint">Fine-tune quantities and unit prices per line. The line and section totals below recalculate as you type.</p>
+          <p class="section-hint">Fine-tune quantities and unit prices per line. The line and section totals below recalculate as you type. Use "Expand" above for a clearer, wider view of these fields.</p>
           <div class="item-group" data-group="training">
             <h4>A · Trainings</h4>
             <p class="item-hint">Only shown on the document if section A is switched on above.</p>
-            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span>Total</span></div>
+            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
             <div class="item-rows" id="rows-training"></div>
           </div>
           <div class="item-group" data-group="goatPackage">
             <h4>B · Goat package</h4>
             <p class="item-hint">Only shown on the document if section B is switched on above.</p>
-            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span>Total</span></div>
+            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
             <div class="item-rows" id="rows-goatPackage"></div>
           </div>
           <div class="item-group" data-group="feed">
             <h4>D · 1-month feed</h4>
             <p class="item-hint">Only shown on the document if section D is switched on above.</p>
-            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Price</span><span>Total</span></div>
+            <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
             <div class="item-rows" id="rows-feed"></div>
           </div>
         </div>
@@ -608,6 +649,8 @@ let quote = null;
 let currentDraftRef = null;
 let autosaveTimer = null;
 let previewRenderTimer = null;
+let allQuotesCache = []; // { id, data } — cached list for instant client-side search/filter
+let panelExpanded = false;
 
 function freshItems(goatCount){
   return {
@@ -777,22 +820,59 @@ async function getNextQuoteNumber(){
   return `MP-Q-${year}-${String(number).padStart(4,'0')}`;
 }
 
-/* ================= NEW QUOTE / LOAD / SAVE ================= */
-async function startNewQuote(){
-  try{
-    const id = await getNextQuoteNumber();
-    quote = defaultQuoteState(id);
-    currentDraftRef = doc(db, 'quotations', id);
-    await setDoc(currentDraftRef, serializeQuote(quote));
-    bindQuoteToForm();
-    renderAll();
-    showWorkspace();
-    setSaveStatus(`New quotation ${id} started`);
-    showToast(`Quotation ${id} created`);
-  } catch(err){
-    console.error(err);
-    showToast('Could not start a new quote — check your connection.', true);
-  }
+/* ================= NEW QUOTE / LOAD / SAVE =================
+   Speed fix: the workspace now opens INSTANTLY with a temporary in-memory
+   quote (no waiting on network). The real sequential number + Firestore
+   document are created in the background and swapped in silently the
+   moment they're ready, so a coordinator can start typing right away
+   instead of staring at a spinner. */
+let pendingNumbering = false;
+
+function startNewQuote(){
+  if(pendingNumbering) return;
+  pendingNumbering = true;
+
+  // 1) Build a temporary local quote and open the workspace immediately.
+  const tempId = null;
+  quote = defaultQuoteState(tempId);
+  quote._pendingId = true;
+  currentDraftRef = null;
+  bindQuoteToForm();
+  renderAll();
+  showWorkspace();
+  setSaveStatus('Assigning quote number…');
+  setControlsEnabled(true);
+  document.getElementById('saveDraftBtn').disabled = true;
+  document.getElementById('finalizeBtn').disabled = true;
+  document.getElementById('generatePdfBtn').disabled = true;
+
+  const workingQuote = quote; // guard against the user navigating away mid-flight
+
+  // 2) In the background: reserve the real number, create the Firestore doc.
+  (async () => {
+    try{
+      const id = await getNextQuoteNumber();
+      const ref = doc(db, 'quotations', id);
+      await setDoc(ref, serializeQuote({ ...workingQuote, id }));
+      if(quote === workingQuote){
+        quote.id = id;
+        delete quote._pendingId;
+        currentDraftRef = ref;
+        renderPreview();
+        setSaveStatus(`New quotation ${id} started`);
+        document.getElementById('saveDraftBtn').disabled = false;
+        document.getElementById('finalizeBtn').disabled = false;
+        document.getElementById('generatePdfBtn').disabled = false;
+        showToast(`Quotation ${id} created`);
+      }
+    } catch(err){
+      console.error(err);
+      showToast('Could not reserve a quote number — check your connection.', true);
+      setSaveStatus('Could not create quote — try again', true);
+    } finally {
+      pendingNumbering = false;
+    }
+  })();
 }
 
 function serializeQuote(q){
@@ -812,6 +892,7 @@ function serializeQuote(q){
     housingNote: q.housingNote,
     othersNote: q.othersNote,
     vatNote: q.vatNote,
+    deleted: !!q.deleted,
     updatedAt: serverTimestamp()
   };
 }
@@ -851,55 +932,96 @@ async function finalizeQuote(){
   }
 }
 
-/* ================= DASHBOARD LIST (always live from Firestore — no sample/dummy data) ================= */
+/* ================= DASHBOARD LIST (always live from Firestore — no sample/dummy data) =================
+   Fetches once into allQuotesCache, then search/filter is instant and
+   entirely client-side — no re-querying Firestore on every keystroke. */
 async function loadDashboardQuotes(){
   const grid = document.getElementById('dashQuotesGrid');
   grid.innerHTML = '<div class="dash-loading">Loading…</div>';
   try{
-    const q = query(collection(db, 'quotations'), orderBy('updatedAt', 'desc'), limit(50));
+    const q = query(collection(db, 'quotations'), orderBy('updatedAt', 'desc'), limit(300));
     const snap = await getDocs(q);
-    if(snap.empty){
-      grid.innerHTML = '<div class="quotes-empty">No quotations yet — create your first one above.</div>';
-      return;
-    }
-    grid.innerHTML = '';
+    allQuotesCache = [];
     snap.forEach(docSnap => {
       const d = docSnap.data();
-      const totals = calcTotals(normalizeForCalc(d));
-      const custName = [d.customer && d.customer.firstName, d.customer && d.customer.lastName].filter(Boolean).join(' ') || 'No customer name';
-      const card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'quote-card';
-      card.innerHTML = `
-        <button type="button" class="icon-btn qc-delete" data-id="${escapeHtml(docSnap.id)}" title="Delete this quotation permanently"><i data-lucide="trash-2"></i></button>
-        <div class="qc-top">
-          <span class="qid">${escapeHtml(docSnap.id)}</span>
-          <span class="status-badge ${d.status || 'draft'}">${d.status || 'draft'}</span>
-        </div>
-        <span class="qcust">${escapeHtml(custName)}</span>
-        <span class="qamount">KES ${formatMoney(totals.grandTotal)}</span>`;
-      card.addEventListener('click', () => loadQuote(docSnap.id, d));
-      const delBtn = card.querySelector('.qc-delete');
-      delBtn.addEventListener('click', async (evt) => {
-        evt.stopPropagation();
-        if(!confirm(`Permanently delete quotation ${docSnap.id}? This cannot be undone.`)) return;
-        try{
-          await deleteDoc(doc(db, 'quotations', docSnap.id));
-          showToast(`Quotation ${docSnap.id} deleted`);
-          loadDashboardQuotes();
-        } catch(err){
-          console.error(err);
-          showToast('Could not delete — check your connection.', true);
-        }
-      });
-      grid.appendChild(card);
+      if(d.deleted) return; // soft-deleted — kept in the collection, hidden from the list
+      allQuotesCache.push({ id: docSnap.id, data: d });
     });
-    refreshIcons();
+    renderDashboardGrid(allQuotesCache);
   } catch(err){
     console.error(err);
     grid.innerHTML = '<div class="quotes-empty">Could not load quotations — check your connection.</div>';
   }
 }
+
+function renderDashboardGrid(list){
+  const grid = document.getElementById('dashQuotesGrid');
+  if(!list.length){
+    grid.innerHTML = '<div class="quotes-empty">No quotations match — try a different search, or create your first one above.</div>';
+    return;
+  }
+  grid.innerHTML = '';
+  list.slice(0, 50).forEach(({ id, data: d }) => {
+    const totals = calcTotals(normalizeForCalc(d));
+    const custName = [d.customer && d.customer.firstName, d.customer && d.customer.lastName].filter(Boolean).join(' ') || 'No customer name';
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'quote-card';
+    card.innerHTML = `
+      <button type="button" class="icon-btn qc-delete" data-id="${escapeHtml(id)}" title="Remove this quotation"><i data-lucide="trash-2"></i></button>
+      <div class="qc-top">
+        <span class="qid">${escapeHtml(id)}</span>
+        <span class="status-badge ${d.status || 'draft'}">${d.status || 'draft'}</span>
+      </div>
+      <span class="qcust">${escapeHtml(custName)}</span>
+      ${d.preparedBy ? `<span class="qauthor">Prepared by ${escapeHtml(d.preparedBy)}</span>` : ''}
+      <span class="qamount">KES ${formatMoney(totals.grandTotal)}</span>`;
+    card.addEventListener('click', () => loadQuote(id, d));
+    const delBtn = card.querySelector('.qc-delete');
+    delBtn.addEventListener('click', async (evt) => {
+      evt.stopPropagation();
+      if(!confirm(`Remove quotation ${id} from the dashboard? It stays in the database as a deleted record and can be restored by support if needed.`)) return;
+      try{
+        // Soft delete: mark the record instead of erasing it, so the audit
+        // trail survives in the same collection any signed-in user can write to.
+        await updateDoc(doc(db, 'quotations', id), {
+          deleted: true,
+          deletedAt: serverTimestamp(),
+          deletedByUid: auth.currentUser ? auth.currentUser.uid : '',
+          deletedByEmail: auth.currentUser ? auth.currentUser.email : '',
+          updatedAt: serverTimestamp()
+        });
+        showToast(`Quotation ${id} removed`);
+        loadDashboardQuotes();
+      } catch(err){
+        console.error(err);
+        showToast('Could not remove — check your connection.', true);
+      }
+    });
+    grid.appendChild(card);
+  });
+  refreshIcons();
+}
+
+/* ---- Search / filter (client-side over the cached list) ---- */
+const dashSearchInput = document.getElementById('dashSearchInput');
+const dashSearchClearBtn = document.getElementById('dashSearchClearBtn');
+
+function applyDashSearch(){
+  const term = dashSearchInput.value.trim().toLowerCase();
+  dashSearchClearBtn.hidden = !term;
+  if(!term){
+    renderDashboardGrid(allQuotesCache);
+    return;
+  }
+  const filtered = allQuotesCache.filter(({ id, data: d }) => {
+    const custName = [d.customer && d.customer.firstName, d.customer && d.customer.lastName].filter(Boolean).join(' ').toLowerCase();
+    return id.toLowerCase().includes(term) || custName.includes(term);
+  });
+  renderDashboardGrid(filtered);
+}
+dashSearchInput.addEventListener('input', applyDashSearch);
+dashSearchClearBtn.addEventListener('click', () => { dashSearchInput.value=''; applyDashSearch(); dashSearchInput.focus(); });
 
 function normalizeForCalc(d){
   return {
@@ -959,6 +1081,22 @@ function formatMoney(n){
 function escapeHtml(s){
   return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+
+/* ================= PANEL EXPAND / FOCUS MODE ================= */
+const workspaceEl = document.getElementById('workspaceView');
+const panelExpandBtn = document.getElementById('panelExpandBtn');
+const panelExpandIcon = document.getElementById('panelExpandIcon');
+const panelExpandLabel = document.getElementById('panelExpandLabel');
+
+function setPanelExpanded(expanded){
+  panelExpanded = expanded;
+  workspaceEl.classList.toggle('panel-expanded', expanded);
+  panelExpandIcon.setAttribute('data-lucide', expanded ? 'minimize-2' : 'maximize-2');
+  panelExpandLabel.textContent = expanded ? 'Collapse' : 'Expand';
+  panelExpandBtn.title = expanded ? 'Collapse back to split view' : 'Expand editor to full width';
+  refreshIcons();
+}
+panelExpandBtn.addEventListener('click', () => setPanelExpanded(!panelExpanded));
 
 /* ================= PANEL BINDING ================= */
 function bindQuoteToForm(){
@@ -1022,12 +1160,10 @@ function renderRowGroup(group, items){
     row.dataset.index = idx;
     const lineTotal = (Number(item.qty)||0) * (Number(item.unitPrice)||0);
     row.innerHTML = `
-      <input type="text" data-field="label" value="${escapeHtml(item.label)}">
-      <div class="qtp">
-        <input type="number" min="0" data-field="qty" value="${item.qty}">
-        <input type="number" min="0" data-field="unitPrice" value="${item.unitPrice}">
-        <span class="row-total">${formatMoney(lineTotal)}</span>
-      </div>`;
+      <input type="text" data-field="label" value="${escapeHtml(item.label)}" title="${escapeHtml(item.label)}">
+      <input type="number" min="0" data-field="qty" value="${item.qty}">
+      <input type="number" min="0" data-field="unitPrice" value="${item.unitPrice}">
+      <span class="row-total" title="KES ${formatMoney(lineTotal)}">${formatMoney(lineTotal)}</span>`;
     container.appendChild(row);
   });
 }
@@ -1043,7 +1179,9 @@ document.querySelectorAll('.item-rows').forEach(container => {
     const item = quote.items[group][idx];
     item[field] = field === 'label' ? e.target.value : Number(e.target.value);
     const lineTotal = (Number(item.qty)||0) * (Number(item.unitPrice)||0);
-    row.querySelector('.row-total').textContent = formatMoney(lineTotal);
+    const totalEl = row.querySelector('.row-total');
+    totalEl.textContent = formatMoney(lineTotal);
+    totalEl.title = `KES ${formatMoney(lineTotal)}`;
     schedulePreviewUpdate();
     scheduleAutosave();
   });
@@ -1145,6 +1283,7 @@ function renderPreview(){
   const issueDate = new Date();
   const validUntil = new Date(issueDate.getTime() + RATE_CARD.validityDays*24*3600*1000);
   const fmtDate = d => d.toLocaleDateString('en-KE', { day:'2-digit', month:'short', year:'numeric' });
+  const displayId = quote.id || (quote._pendingId ? 'Assigning number…' : 'Unsaved');
 
   let html = `
     <div class="paper-inner">
@@ -1168,7 +1307,7 @@ function renderPreview(){
       <div class="doc-title-row">
         <h2 class="doc-title">Quotation</h2>
         <div class="doc-meta-block">
-          <div><strong>${quote.id || 'Unsaved'}</strong></div>
+          <div><strong>${escapeHtml(displayId)}</strong></div>
           <div>Issued ${fmtDate(issueDate)}</div>
           <div>Valid until ${fmtDate(validUntil)}</div>
           <div><span class="status-badge ${quote.status}">${quote.status}</span></div>
@@ -1318,7 +1457,7 @@ document.getElementById('dashNewQuoteBtn').addEventListener('click', startNewQuo
 document.getElementById('emptyNewQuoteBtn').addEventListener('click', startNewQuote);
 document.getElementById('dashRefreshBtn').addEventListener('click', loadDashboardQuotes);
 document.getElementById('navDashboardBtn').addEventListener('click', showDashboard);
-document.getElementById('backToDashboardBtn').addEventListener('click', showDashboard);
+document.getElementById('backToDashboardBtn').addEventListener('click', () => { setPanelExpanded(false); showDashboard(); });
 document.getElementById('saveDraftBtn').addEventListener('click', () => saveDraft(false));
 document.getElementById('finalizeBtn').addEventListener('click', finalizeQuote);
 
@@ -1382,6 +1521,7 @@ async function buildPdf(logoData){
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
   const margin = 48;
+  const footerZone = 30; // reserved space at the bottom of every page for the page-number footer
   const includeCover = document.getElementById('coverPageToggle').checked;
   const t = calcTotals(quote);
   const s = quote.sections;
@@ -1413,8 +1553,10 @@ async function buildPdf(logoData){
 
   let y = margin;
 
+  // Page breaks now reserve room for the footer band too, so a section
+  // never gets crowded right up against the page-number line.
   function checkPageBreak(extra){
-    if(y + extra > pageH - margin){ pdf.addPage(); y = margin; }
+    if(y + extra > pageH - margin - footerZone){ pdf.addPage(); y = margin; }
   }
 
   // Letterhead
@@ -1461,7 +1603,8 @@ async function buildPdf(logoData){
   y += 24;
 
   function drawTable(title, items, subtotal, extraRowFn){
-    checkPageBreak(30);
+    // Keep the section title glued to at least its header row + one line item.
+    checkPageBreak(56);
     pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
     pdf.text(title, margin, y);
     y += 14;
@@ -1476,8 +1619,8 @@ async function buildPdf(logoData){
     y += 12;
     pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...inkColor);
     items.forEach(item => {
-      checkPageBreak(22);
       const lines = pdf.splitTextToSize(item.label, 300);
+      checkPageBreak(lines.length * 11 + 10);
       pdf.text(lines, margin, y);
       pdf.setFont(F,'bold');
       pdf.text(String(item.qty), pageW - margin - 150, y, { align:'right' });
@@ -1487,6 +1630,7 @@ async function buildPdf(logoData){
       y += lines.length * 11 + 6;
     });
     if(extraRowFn) extraRowFn();
+    checkPageBreak(30);
     pdf.setDrawColor(...inkColor); pdf.setLineWidth(0.9);
     pdf.line(margin, y, pageW - margin, y);
     y += 12;
@@ -1513,12 +1657,13 @@ async function buildPdf(logoData){
     });
   }
   if(s.housing){
-    checkPageBreak(50);
+    checkPageBreak(60);
     pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
     pdf.text('C · Goat Housing Structure', margin, y);
     y += 14;
     pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
     const lines = pdf.splitTextToSize(quote.housingNote, pageW - margin*2);
+    checkPageBreak(lines.length * 12 + 14);
     pdf.text(lines, margin, y);
     y += lines.length * 12 + 14;
   }
@@ -1526,17 +1671,20 @@ async function buildPdf(logoData){
     drawTable('D · 1-Month Feed', quote.items.feed, t.feedSubtotal);
   }
   if(s.others){
-    checkPageBreak(50);
+    checkPageBreak(60);
     pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
     pdf.text('E · Others — Billed Separately on Request', margin, y);
     y += 14;
     pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
     const lines = pdf.splitTextToSize(quote.othersNote, pageW - margin*2);
+    checkPageBreak(lines.length * 12 + 14);
     pdf.text(lines, margin, y);
     y += lines.length * 12 + 14;
   }
 
-  checkPageBreak(120);
+  // Totals block: kept together on one page rather than letting the grand
+  // total get orphaned alone at the top of a fresh page.
+  checkPageBreak(140);
   pdf.setDrawColor(...inkColor); pdf.setLineWidth(1.4);
   pdf.line(margin, y, pageW - margin, y);
   y += 18;
@@ -1577,6 +1725,22 @@ async function buildPdf(logoData){
   checkPageBreak(20);
   pdf.setFont(F,'italic'); pdf.setFontSize(9.5); pdf.setTextColor(...softColor);
   pdf.text(`Prepared by ${quote.preparedBy || '—'}, MbuziPlus Coordinator · for Imfuyo Usajili Solutions Limited`, margin, y);
+
+  // ---- Page numbers on every page (added last, once total page count is known) ----
+  const totalPages = pdf.internal.getNumberOfPages();
+  for(let i = 1; i <= totalPages; i++){
+    pdf.setPage(i);
+    pdf.setDrawColor(...[210,202,180]); pdf.setLineWidth(0.6);
+    pdf.line(margin, pageH - margin + 4, pageW - margin, pageH - margin + 4);
+    pdf.setFont(F,'normal'); pdf.setFontSize(8.5); pdf.setTextColor(...softColor);
+    const coverOffset = includeCover ? 1 : 0;
+    const label = includeCover && i === 1
+      ? 'Cover'
+      : `Page ${i - coverOffset} of ${totalPages - coverOffset}`;
+    pdf.text(label, pageW / 2, pageH - margin + 16, { align:'center' });
+    pdf.text(quote.id || 'Unsaved', margin, pageH - margin + 16);
+    pdf.text('MbuziPlus Quotation', pageW - margin, pageH - margin + 16, { align:'right' });
+  }
 
   pdf.save(`${quote.id || 'MbuziPlus-Quotation'}.pdf`);
 }
