@@ -560,8 +560,6 @@
             <textarea id="othersNote" rows="3"></textarea>
           </label>
           <p class="section-hint">For anything handled case-by-case (vet call-outs, extra forage). Also excluded from the grand total.</p>
-          <label>Tax / VAT statement<input type="text" id="vatNote"></label>
-          <p class="section-hint">A short line stating whether the prices above are VAT-inclusive or exclusive. It's printed just under the totals block.</p>
         </div>
       </details>
 
@@ -632,8 +630,7 @@ const RATE_CARD = {
   depositPct: 0.70,
   validityDays: 14,
   defaultHousingNote: "By site visit — separate quotation. Our fundi visits the farm, measures, and issues a written quote for your pen. Not included in the grand total.",
-  defaultOthersNote: "Animal-health inspections, veterinary call-outs and additional feed / forage are handled case by case with your coordinator and are not part of this quoted total.",
-  defaultVatNote: "Prices are in KES and inclusive of VAT where applicable."
+  defaultOthersNote: "Animal-health inspections, veterinary call-outs and additional feed / forage are handled case by case with your coordinator and are not part of this quoted total."
 };
 
 const SECTION_PRESETS = {
@@ -697,7 +694,6 @@ function defaultQuoteState(id){
     items: freshItems(goatCount),
     housingNote: RATE_CARD.defaultHousingNote,
     othersNote: RATE_CARD.defaultOthersNote,
-    vatNote: RATE_CARD.defaultVatNote,
     createdAt: Date.now(),
     updatedAt: Date.now()
   };
@@ -891,7 +887,6 @@ function serializeQuote(q){
     items: q.items,
     housingNote: q.housingNote,
     othersNote: q.othersNote,
-    vatNote: q.vatNote,
     deleted: !!q.deleted,
     updatedAt: serverTimestamp()
   };
@@ -1047,8 +1042,7 @@ function loadQuote(id, data){
     medicalCoverIncluded: !!data.medicalCoverIncluded,
     items: data.items || freshItems(data.goatCount || 2),
     housingNote: data.housingNote || RATE_CARD.defaultHousingNote,
-    othersNote: data.othersNote || RATE_CARD.defaultOthersNote,
-    vatNote: data.vatNote || RATE_CARD.defaultVatNote
+    othersNote: data.othersNote || RATE_CARD.defaultOthersNote
   };
   currentDraftRef = doc(db, 'quotations', id);
   bindQuoteToForm();
@@ -1112,7 +1106,6 @@ function bindQuoteToForm(){
   document.getElementById('medicalCoverToggle').checked = quote.medicalCoverIncluded;
   document.getElementById('housingNote').value = quote.housingNote;
   document.getElementById('othersNote').value = quote.othersNote;
-  document.getElementById('vatNote').value = quote.vatNote;
   syncSectionCheckboxes();
   syncQuoteTypePills();
   renderItemRows();
@@ -1215,7 +1208,7 @@ document.getElementById('medicalCoverToggle').addEventListener('change', (e) => 
     });
   });
 
-[['farmerName','farmer'], ['farmManagerName','farmManager'], ['housingNote','housingNote'], ['othersNote','othersNote'], ['vatNote','vatNote']]
+[['farmerName','farmer'], ['farmManagerName','farmManager'], ['housingNote','housingNote'], ['othersNote','othersNote']]
   .forEach(([id, field]) => {
     document.getElementById(id).addEventListener('input', (e) => {
       if(!quote) return;
@@ -1361,25 +1354,20 @@ function renderPreview(){
           ${s.goatPackage ? `<tr><td>B. Goat Package</td><td class="amt-goat">KES ${formatMoney(t.goatPackageSubtotal)}</td></tr>` : ''}
           ${s.feed ? `<tr><td>D. 1-Month Feed</td><td class="amt-feed">KES ${formatMoney(t.feedSubtotal)}</td></tr>` : ''}
           <tr class="grand"><td>Grand total</td><td class="amt-grand">KES ${formatMoney(t.grandTotal)}</td></tr>
-          ${s.goatPackage ? `<tr class="deposit"><td>Deposit to start — 70% of goat package (B)</td><td class="amt-deposit">KES ${formatMoney(t.deposit)}</td></tr>` : ''}
         </table>
       </div>
 
-      <p class="doc-note-plain">${escapeHtml(quote.vatNote)} Housing (C) and other services (E) are quoted separately and are not included in the grand total. This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.</p>
+      <p class="doc-note-plain">Housing (C) and other services (E) are quoted separately and are not included in the grand total. This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.</p>
 
       <div class="doc-footer-grid">
         <div>
           <h5>How to pay</h5>
-          <p>M-PESA / KCB Bank Paybill: 522522</p>
-          <p>Account number: 1303787342</p>
-          <p>70% deposit before the goat package is delivered. Instalments accepted.</p>
+          <p>KCB Bank – M-PESA Paybill Number: 522522</p>
+          <p>Imfuyo Usajili Solutions Ltd Account Number: 1303787342</p>
         </div>
         <div>
-          <h5>Acceptance</h5>
-          <p>Customer name &amp; signature</p>
-          <div class="sign-line">&nbsp;</div>
-          <p style="margin-top:10px;">Date</p>
-          <div class="sign-line">&nbsp;</div>
+          <h5>Disclaimer</h5>
+          <p>This quotation is prepared based on prior engagement through email, social media, meetings, or other communication channels. By sharing details and requesting the quotation, the recipient confirms their interest in the stated offering. A formal agreement will be issued upon payment receipt or earlier upon request.</p>
         </div>
       </div>
 
@@ -1693,32 +1681,27 @@ async function buildPdf(logoData){
   pdf.setFont(F,'bold'); pdf.setFontSize(16);
   pdf.text('GRAND TOTAL', margin, y + 4); pdf.text(`KES ${formatMoney(t.grandTotal)}`, pageW - margin, y + 4, { align:'right' });
   y += 26;
-  if(s.goatPackage){
-    pdf.setFont(F,'bold'); pdf.setFontSize(11); pdf.setTextColor(...ochreColor);
-    pdf.text('Deposit to start — 70% of goat package (B)', margin, y);
-    pdf.text(`KES ${formatMoney(t.deposit)}`, pageW - margin, y, { align:'right' });
-    y += 22;
-  }
 
   checkPageBreak(90);
   pdf.setFont(F,'italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
-  const footNote = `${quote.vatNote} Housing (C) and other services (E) are quoted separately and are not included in the grand total. This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.`;
+  const footNote = `Housing (C) and other services (E) are quoted separately and are not included in the grand total. This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.`;
   const footLines = pdf.splitTextToSize(footNote, pageW - margin*2);
   pdf.text(footLines, margin, y);
   y += footLines.length * 11 + 16;
 
-  checkPageBreak(80);
+  checkPageBreak(110);
   pdf.setFont(F,'bold'); pdf.setFontSize(9); pdf.setTextColor(...[90,115,82]);
   pdf.text('HOW TO PAY', margin, y);
-  pdf.text('ACCEPTANCE', margin + 270, y);
+  pdf.text('DISCLAIMER', margin + 270, y);
   y += 13;
   pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...inkColor);
-  pdf.text(['M-PESA / KCB Bank Paybill: 522522','Account number: 1303787342','70% deposit before delivery.'], margin, y);
-  pdf.text('Customer name & signature', margin + 270, y);
-  pdf.line(margin + 270, y + 30, pageW - margin, y + 30);
-  pdf.text('Date', margin + 270, y + 46);
-  pdf.line(margin + 270, y + 60, pageW - margin, y + 60);
-  y += 70;
+  const payLines = ['KCB Bank – M-PESA', 'Paybill Number: 522522', 'Imfuyo Usajili Solutions Ltd', 'Account Number: 1303787342'];
+  pdf.text(payLines, margin, y);
+  pdf.setFontSize(8.5); pdf.setTextColor(...softColor);
+  const disclaimerText = 'This quotation is prepared based on prior engagement through email, social media, meetings, or other communication channels. By sharing details and requesting the quotation, the recipient confirms their interest in the stated offering. A formal agreement will be issued upon payment receipt or earlier upon request.';
+  const disclaimerLines = pdf.splitTextToSize(disclaimerText, pageW - margin - (margin + 270));
+  pdf.text(disclaimerLines, margin + 270, y);
+  y += Math.max(payLines.length * 12, disclaimerLines.length * 10) + 14;
 
   checkPageBreak(20);
   pdf.setFont(F,'italic'); pdf.setFontSize(9.5); pdf.setTextColor(...softColor);
