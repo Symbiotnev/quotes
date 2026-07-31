@@ -1299,8 +1299,7 @@ function renderPreview(){
         <div class="doc-company-meta">
           Imfuyo Usajili Solutions Limited<br>
           Nairobi, Kenya<br>
-          www.imfuyo.farm<br>
-          Paybill 522522
+          www.imfuyo.farm
         </div>
       </div>
 
@@ -1371,10 +1370,8 @@ function renderPreview(){
       <div class="doc-footer-grid">
         <div>
           <h5>How to pay</h5>
-          <p>M-PESA Paybill: 522522</p>
           <p>Account: your phone number</p>
           <p>70% deposit before the goat package is delivered. Instalments accepted.</p>
-          <p>Pay only via Paybill 522522 — never to a personal number.</p>
         </div>
         <div>
           <h5>Acceptance</h5>
@@ -1547,7 +1544,7 @@ async function buildPdf(logoData){
     pdf.text(`Prepared for ${custName}`, pageW/2, 298, { align:'center' });
     pdf.text(`Issued ${fmtDate(issueDate)}  ·  Valid until ${fmtDate(validUntil)}`, pageW/2, 316, { align:'center' });
     pdf.setFontSize(10);
-    pdf.text('Imfuyo Usajili Solutions Limited  ·  Nairobi, Kenya  ·  Paybill 522522', pageW/2, pageH-60, { align:'center' });
+    pdf.text('Imfuyo Usajili Solutions Limited  ·  Nairobi, Kenya', pageW/2, pageH-60, { align:'center' });
     pdf.addPage();
   }
 
@@ -1566,7 +1563,7 @@ async function buildPdf(logoData){
   pdf.setFont(F,'italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
   pdf.text('Imfuyo is a data and financial infrastructure platform for the livestock value chain.', margin + 38, y + 27, { maxWidth: 300 });
   pdf.setFont(F,'bold'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
-  pdf.text(['Imfuyo Usajili Solutions Limited','Nairobi, Kenya','www.imfuyo.farm','Paybill 522522'], pageW - margin, y, { align:'right' });
+  pdf.text(['Imfuyo Usajili Solutions Limited','Nairobi, Kenya','www.imfuyo.farm'], pageW - margin, y, { align:'right' });
   y += 46;
   pdf.setDrawColor(...inkColor); pdf.setLineWidth(1.4);
   pdf.line(margin, y, pageW - margin, y);
@@ -1715,7 +1712,7 @@ async function buildPdf(logoData){
   pdf.text('ACCEPTANCE', margin + 270, y);
   y += 13;
   pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...inkColor);
-  pdf.text(['M-PESA Paybill: 522522','Account: your phone number','70% deposit before delivery.','Pay only via Paybill 522522.'], margin, y);
+  pdf.text(['Account: your phone number','70% deposit before delivery.'], margin, y);
   pdf.text('Customer name & signature', margin + 270, y);
   pdf.line(margin + 270, y + 30, pageW - margin, y + 30);
   pdf.text('Date', margin + 270, y + 46);
