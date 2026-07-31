@@ -518,9 +518,7 @@
         <summary>Goat package setup <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
           <label>Number of goats<input type="number" id="goatCount" min="0" value="2"></label>
-          <p class="section-hint">Changing this updates the goat, insurance, medical-cover and feed-basket quantities in sections B and D automatically — you don't need to edit those rows by hand.</p>
-          <label class="checkbox-row"><input type="checkbox" id="medicalCoverToggle"> Include optional medical cover in the total</label>
-          <p class="section-hint">Medical cover always appears on the document for reference. This checkbox only decides whether its cost is added into the Goat Package subtotal and grand total.</p>
+          <p class="section-hint">Changing this updates the goat, insurance, and feed-basket quantities in sections B and D automatically — you don't need to edit those rows by hand.</p>
         </div>
       </details>
 
@@ -625,8 +623,7 @@ const RATE_CARD = {
   serviceCharge: { label: "Imfuyo service charge", qty: 1, unitPrice: 6000 },
   transport:     { label: "Transport", qty: 1, unitPrice: 10000 },
   transportCert: { label: "Transportation certificate", qty: 1, unitPrice: 1000 },
-  medicalCover:  { label: "Optional: goat medical cover (on request)", unitPrice: 1500, linkedToGoatCount: true },
-  feedBasket:    { label: "One month feed basket per goat (hay, silage, mineral lick, dairy concentrate — incl. Imfuyo margin)", unitPrice: 6100, linkedToGoatCount: true },
+  feedBasket:    { label: "One month feed basket per goat", unitPrice: 6100, linkedToGoatCount: true },
   depositPct: 0.70,
   validityDays: 14,
   defaultHousingNote: "By site visit — separate quotation. Our fundi visits the farm, measures, and issues a written quote for your pen. Not included in the grand total.",
@@ -661,8 +658,7 @@ function freshItems(goatCount){
       { key:'feedConcentrateStarter', label: RATE_CARD.feedConcentrateStarter.label, qty: RATE_CARD.feedConcentrateStarter.qty, unitPrice: RATE_CARD.feedConcentrateStarter.unitPrice },
       { key:'serviceCharge', label: RATE_CARD.serviceCharge.label, qty: RATE_CARD.serviceCharge.qty, unitPrice: RATE_CARD.serviceCharge.unitPrice },
       { key:'transport', label: RATE_CARD.transport.label, qty: RATE_CARD.transport.qty, unitPrice: RATE_CARD.transport.unitPrice },
-      { key:'transportCert', label: RATE_CARD.transportCert.label, qty: RATE_CARD.transportCert.qty, unitPrice: RATE_CARD.transportCert.unitPrice },
-      { key:'medicalCover', label: RATE_CARD.medicalCover.label, qty: goatCount, unitPrice: RATE_CARD.medicalCover.unitPrice }
+      { key:'transportCert', label: RATE_CARD.transportCert.label, qty: RATE_CARD.transportCert.qty, unitPrice: RATE_CARD.transportCert.unitPrice }
     ],
     feed: [
       { key:'feedBasket', label: RATE_CARD.feedBasket.label, qty: goatCount, unitPrice: RATE_CARD.feedBasket.unitPrice }
@@ -690,7 +686,6 @@ function defaultQuoteState(id){
     createdByUid: user ? user.uid : '',
     createdByEmail: user ? user.email : '',
     goatCount,
-    medicalCoverIncluded:false,
     items: freshItems(goatCount),
     housingNote: RATE_CARD.defaultHousingNote,
     othersNote: RATE_CARD.defaultOthersNote,
@@ -883,7 +878,6 @@ function serializeQuote(q){
     createdByUid: q.createdByUid || '',
     createdByEmail: q.createdByEmail || '',
     goatCount: q.goatCount,
-    medicalCoverIncluded: q.medicalCoverIncluded,
     items: q.items,
     housingNote: q.housingNote,
     othersNote: q.othersNote,
@@ -1021,8 +1015,7 @@ dashSearchClearBtn.addEventListener('click', () => { dashSearchInput.value=''; a
 function normalizeForCalc(d){
   return {
     sections: d.sections || { ...SECTION_PRESETS.full },
-    items: d.items || freshItems(d.goatCount || 2),
-    medicalCoverIncluded: !!d.medicalCoverIncluded
+    items: d.items || freshItems(d.goatCount || 2)
   };
 }
 
@@ -1039,7 +1032,6 @@ function loadQuote(id, data){
     createdByUid: data.createdByUid || '',
     createdByEmail: data.createdByEmail || '',
     goatCount: data.goatCount != null ? data.goatCount : 2,
-    medicalCoverIncluded: !!data.medicalCoverIncluded,
     items: data.items || freshItems(data.goatCount || 2),
     housingNote: data.housingNote || RATE_CARD.defaultHousingNote,
     othersNote: data.othersNote || RATE_CARD.defaultOthersNote
@@ -1058,15 +1050,11 @@ function sumItems(items){
 
 function calcTotals(q){
   const trainingSubtotal = q.sections.training ? sumItems(q.items.training) : 0;
-  const goatItems = (q.items.goatPackage || []).filter(i => i.key !== 'medicalCover');
-  const goatCoreSubtotal = q.sections.goatPackage ? sumItems(goatItems) : 0;
-  const medicalItem = (q.items.goatPackage || []).find(i => i.key === 'medicalCover');
-  const medicalAmount = medicalItem ? (Number(medicalItem.qty)||0) * (Number(medicalItem.unitPrice)||0) : 0;
-  const goatPackageSubtotal = goatCoreSubtotal + (q.medicalCoverIncluded && q.sections.goatPackage ? medicalAmount : 0);
+  const goatPackageSubtotal = q.sections.goatPackage ? sumItems(q.items.goatPackage) : 0;
   const feedSubtotal = q.sections.feed ? sumItems(q.items.feed) : 0;
   const grandTotal = trainingSubtotal + goatPackageSubtotal + feedSubtotal;
   const deposit = q.sections.goatPackage ? Math.round(goatPackageSubtotal * RATE_CARD.depositPct) : 0;
-  return { trainingSubtotal, goatCoreSubtotal, medicalAmount, goatPackageSubtotal, feedSubtotal, grandTotal, deposit };
+  return { trainingSubtotal, goatPackageSubtotal, feedSubtotal, grandTotal, deposit };
 }
 
 function formatMoney(n){
@@ -1103,7 +1091,6 @@ function bindQuoteToForm(){
   document.getElementById('farmManagerName').value = quote.farmManager || '';
   document.getElementById('preparedByDisplay').textContent = quote.preparedBy || '—';
   document.getElementById('goatCount').value = quote.goatCount;
-  document.getElementById('medicalCoverToggle').checked = quote.medicalCoverIncluded;
   document.getElementById('housingNote').value = quote.housingNote;
   document.getElementById('othersNote').value = quote.othersNote;
   syncSectionCheckboxes();
@@ -1184,16 +1171,9 @@ document.getElementById('goatCount').addEventListener('input', (e) => {
   if(!quote) return;
   const count = Math.max(0, Number(e.target.value) || 0);
   quote.goatCount = count;
-  quote.items.goatPackage.forEach(i => { if(['goat','goatInsurance','medicalCover'].includes(i.key)) i.qty = count; });
+  quote.items.goatPackage.forEach(i => { if(['goat','goatInsurance'].includes(i.key)) i.qty = count; });
   quote.items.feed.forEach(i => { if(i.key === 'feedBasket') i.qty = count; });
   renderItemRows();
-  schedulePreviewUpdate();
-  scheduleAutosave();
-});
-
-document.getElementById('medicalCoverToggle').addEventListener('change', (e) => {
-  if(!quote) return;
-  quote.medicalCoverIncluded = e.target.checked;
   schedulePreviewUpdate();
   scheduleAutosave();
 });
@@ -1327,7 +1307,7 @@ function renderPreview(){
     html += renderTable('A · Imfuyo Academy — MbuziPlus Trainings', quote.items.training, t.trainingSubtotal);
   }
   if(s.goatPackage){
-    html += renderGoatPackageTable(quote.items.goatPackage, t, quote.medicalCoverIncluded);
+    html += renderTable('B · Goats, Feed Concentrate, Goat Insurance &amp; Service', quote.items.goatPackage, t.goatPackageSubtotal);
   }
   if(s.housing){
     html += `
@@ -1395,39 +1375,6 @@ function renderTable(title, items, subtotal){
           <tbody>
             ${rows}
             <tr class="subtotal-row"><td>Subtotal</td><td></td><td></td><td>${formatMoney(subtotal)}</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>`;
-}
-
-function renderGoatPackageTable(items, t, medicalIncluded){
-  const core = items.filter(i => i.key !== 'medicalCover');
-  const medical = items.find(i => i.key === 'medicalCover');
-  const rows = core.map(i => `
-    <tr>
-      <td>${escapeHtml(i.label)}</td>
-      <td class="num">${i.qty}</td>
-      <td class="money">${formatMoney(i.unitPrice)}</td>
-      <td class="money">${formatMoney((Number(i.qty)||0)*(Number(i.unitPrice)||0))}</td>
-    </tr>`).join('');
-  const medicalRow = medical ? `
-    <tr class="${medicalIncluded ? '' : 'excluded'}">
-      <td>${escapeHtml(medical.label)}${medicalIncluded ? '' : ' — not included'}</td>
-      <td class="num">${medical.qty}</td>
-      <td class="money">${formatMoney(medical.unitPrice)}</td>
-      <td class="money">${formatMoney((Number(medical.qty)||0)*(Number(medical.unitPrice)||0))}</td>
-    </tr>` : '';
-  return `
-    <div class="doc-section">
-      <h3 class="doc-section-title">B · Goats, Feed Concentrate, Goat Insurance &amp; Service</h3>
-      <div class="doc-table-scroll">
-        <table class="doc-table">
-          <thead><tr><th>Item</th><th>Qty</th><th>Unit Price (KES)</th><th>Total (KES)</th></tr></thead>
-          <tbody>
-            ${rows}
-            <tr class="subtotal-row"><td>Subtotal — Goat Package</td><td></td><td></td><td>${formatMoney(t.goatPackageSubtotal)}</td></tr>
-            ${medicalRow}
           </tbody>
         </table>
       </div>
@@ -1630,17 +1577,7 @@ async function buildPdf(logoData){
     drawTable('A · Imfuyo Academy — MbuziPlus Trainings', quote.items.training, t.trainingSubtotal);
   }
   if(s.goatPackage){
-    const core = quote.items.goatPackage.filter(i => i.key !== 'medicalCover');
-    const medical = quote.items.goatPackage.find(i => i.key === 'medicalCover');
-    drawTable('B · Goats, Feed Concentrate, Goat Insurance & Service', core, t.goatPackageSubtotal, () => {
-      if(medical){
-        checkPageBreak(16);
-        pdf.setFont(F,'italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
-        const note = quote.medicalCoverIncluded ? '' : ' — not included in total';
-        pdf.text(`${medical.label}${note}: KES ${formatMoney((Number(medical.qty)||0)*(Number(medical.unitPrice)||0))}`, margin, y, { maxWidth: pageW - margin*2 });
-        y += 16;
-      }
-    });
+    drawTable('B · Goats, Feed Concentrate, Goat Insurance & Service', quote.items.goatPackage, t.goatPackageSubtotal);
   }
   if(s.housing){
     checkPageBreak(60);
