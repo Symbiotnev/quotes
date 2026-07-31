@@ -1370,7 +1370,8 @@ function renderPreview(){
       <div class="doc-footer-grid">
         <div>
           <h5>How to pay</h5>
-          <p>Account: your phone number</p>
+          <p>M-PESA / KCB Bank Paybill: 522522</p>
+          <p>Account number: 1303787342</p>
           <p>70% deposit before the goat package is delivered. Instalments accepted.</p>
         </div>
         <div>
@@ -1712,7 +1713,7 @@ async function buildPdf(logoData){
   pdf.text('ACCEPTANCE', margin + 270, y);
   y += 13;
   pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...inkColor);
-  pdf.text(['Account: your phone number','70% deposit before delivery.'], margin, y);
+  pdf.text(['M-PESA / KCB Bank Paybill: 522522','Account number: 1303787342','70% deposit before delivery.'], margin, y);
   pdf.text('Customer name & signature', margin + 270, y);
   pdf.line(margin + 270, y + 30, pageW - margin, y + 30);
   pdf.text('Date', margin + 270, y + 46);
