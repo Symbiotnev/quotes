@@ -24,7 +24,9 @@
     --error:#B3432E;
     --cream-bg:#EFEAE0;
     --white:#FFFFFF;
-    --radius:10px;
+    --radius:18px;
+    --radius-sm:12px;
+    --radius-lg:26px;
     --font-display:'Fraunces', serif;
     --font-body:'Source Serif 4', serif;
     --font-ui:'Inter', sans-serif;
@@ -39,19 +41,18 @@
     -webkit-font-smoothing:antialiased;
   }
   button{font-family:inherit;cursor:pointer;}
-  input,textarea{font-family:inherit;}
+  input,textarea,select{font-family:inherit;}
   svg.lucide{width:15px; height:15px; vertical-align:-3px; stroke-width:2.1;}
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
   }
 
-  /* ---------- CRITICAL: hidden attribute must always win over component display rules ---------- */
   [hidden]{ display:none !important; }
 
   /* ---------- Toasts ---------- */
   .toast-container{position:fixed; top:14px; right:14px; left:14px; z-index:300; display:flex; flex-direction:column; align-items:flex-end; gap:8px; pointer-events:none;}
   .toast{
-    background:var(--forest-deep); color:#F3F0E6; padding:10px 16px; border-radius:8px;
+    background:var(--forest-deep); color:#F3F0E6; padding:10px 18px; border-radius:999px;
     font-size:13.5px; box-shadow:0 8px 24px rgba(0,0,0,.25); max-width:340px;
     animation: toastIn .28s ease-out;
   }
@@ -63,11 +64,12 @@
     height:100vh; overflow-y:auto; display:flex; align-items:center; justify-content:center;
     background:
       radial-gradient(1200px 600px at 15% -10%, rgba(169,117,46,.10), transparent),
+      radial-gradient(900px 500px at 100% 110%, rgba(107,136,99,.14), transparent),
       var(--forest-deep);
     padding:24px;
   }
   .auth-card{
-    width:380px; max-width:100%; background:var(--paper); border-radius:14px;
+    width:380px; max-width:100%; background:var(--paper); border-radius:28px;
     padding:36px 32px 30px; box-shadow:0 30px 60px rgba(0,0,0,.35);
     text-align:center;
     animation: cardIn .5s cubic-bezier(.2,.8,.2,1);
@@ -79,7 +81,7 @@
   .auth-card form{display:flex; flex-direction:column; gap:12px; text-align:left;}
   .auth-card label{font-size:12.5px; color:var(--ink-soft); display:flex; flex-direction:column; gap:5px;}
   .auth-card input{
-    padding:10px 12px; border-radius:7px; border:1px solid var(--paper-line);
+    padding:10px 14px; border-radius:14px; border:1px solid var(--paper-line);
     background:var(--white); font-size:16px; color:var(--ink);
   }
   .auth-card input:focus{outline:2px solid var(--ochre); outline-offset:1px;}
@@ -88,20 +90,20 @@
   .link-btn{background:none; border:none; color:var(--forest-mid); font-size:12.5px; margin-top:14px; text-decoration:underline; text-underline-offset:2px;}
 
   /* ---------- Buttons ---------- */
-  .btn{border:none; border-radius:7px; padding:9px 16px; font-size:13.5px; font-weight:600; transition:transform .12s ease, background .15s ease; white-space:nowrap; display:inline-flex; align-items:center; gap:6px;}
+  .btn{border:none; border-radius:14px; padding:9px 16px; font-size:13.5px; font-weight:600; transition:transform .12s ease, background .15s ease; white-space:nowrap; display:inline-flex; align-items:center; gap:6px;}
   .btn:active{transform:scale(.97);}
   .btn-primary{background:var(--ochre); color:#241505;}
   .btn-primary:hover{background:#B9832F;}
   .btn-secondary{background:var(--forest-mid); color:#F3F0E6;}
   .btn-secondary:hover{background:var(--forest);}
-  .btn-ghost{background:transparent; color:#EDE8D8; border:1px solid rgba(255,255,255,.22);}
+  .btn-ghost{background:transparent; color:#EDE8D8; border:1px solid rgba(255,255,255,.22); border-radius:999px;}
   .btn-ghost:hover{background:rgba(255,255,255,.08);}
   .btn:disabled{opacity:.45; cursor:not-allowed; transform:none;}
-  .btn-lg{padding:13px 22px; font-size:14.5px; border-radius:9px;}
-  .btn-sm{padding:6px 12px; font-size:12px;}
+  .btn-lg{padding:13px 24px; font-size:14.5px; border-radius:18px;}
+  .btn-sm{padding:6px 13px; font-size:12px; border-radius:999px;}
   .btn-block{width:100%; justify-content:center;}
-  .icon-btn{background:none; border:none; font-size:20px; line-height:1; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center; padding:4px;}
-  .icon-btn:hover{color:var(--error);}
+  .icon-btn{background:none; border:none; font-size:20px; line-height:1; color:var(--ink-soft); display:inline-flex; align-items:center; justify-content:center; padding:4px; border-radius:999px;}
+  .icon-btn:hover{color:var(--error); background:rgba(179,67,46,.08);}
 
   /* ---------- App shell / header ---------- */
   .app-header{
@@ -123,9 +125,10 @@
   .dashboard-view-inner{max-width:1080px; margin:0 auto; width:100%;}
   .dash-hero{
     display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
-    background:var(--forest); color:#EDE8D8; border-radius:16px; padding:30px 32px; margin-bottom:32px;
+    background:var(--forest); color:#EDE8D8; border-radius:var(--radius-lg); padding:30px 32px; margin-bottom:32px;
     box-shadow:0 18px 40px rgba(20,34,25,.18);
   }
+  .dash-hero-actions{display:flex; gap:10px; flex-wrap:wrap;}
   .dash-eyebrow{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#9FB196; margin:0 0 8px;}
   .dash-hero h1{font-family:var(--font-display); font-size:26px; margin:0 0 6px; font-weight:600;}
   .dash-sub{font-size:13.5px; color:#C4CDBE; margin:0; max-width:38ch;}
@@ -136,18 +139,18 @@
 
   .dash-search-row{display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
   .dash-search-wrap{position:relative; flex:1; min-width:220px;}
-  .dash-search-wrap svg{position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--ink-soft); pointer-events:none;}
+  .dash-search-wrap svg{position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--ink-soft); pointer-events:none;}
   .dash-search-wrap input{
-    width:100%; padding:10px 12px 10px 34px; border-radius:8px; border:1px solid var(--paper-line);
+    width:100%; padding:10px 12px 10px 36px; border-radius:999px; border:1px solid var(--paper-line);
     background:var(--white); font-size:13.5px; color:var(--ink);
   }
   .dash-search-wrap input:focus{outline:2px solid var(--ochre); outline-offset:1px;}
-  .dash-search-clear{background:var(--paper); border:1px solid var(--paper-line); border-radius:8px; padding:0 12px; font-size:12.5px; color:var(--ink-soft);}
+  .dash-search-clear{background:var(--paper); border:1px solid var(--paper-line); border-radius:999px; padding:0 14px; font-size:12.5px; color:var(--ink-soft);}
 
   .quotes-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px;}
   .quote-card{
     position:relative;
-    background:var(--paper); border:1px solid var(--paper-line); border-radius:12px; padding:16px 16px 14px;
+    background:var(--paper); border:1px solid var(--paper-line); border-radius:var(--radius); padding:16px 16px 14px;
     cursor:pointer; transition:transform .12s ease, box-shadow .15s ease; text-align:left;
     display:flex; flex-direction:column; gap:8px;
   }
@@ -158,9 +161,9 @@
   .quote-card .qauthor{font-size:11px; color:var(--moss);}
   .quote-card .qamount{font-family:var(--font-mono); font-size:15px; font-weight:700; color:var(--ink); margin-top:auto;}
   .quote-card .qc-delete{position:absolute; top:10px; right:10px;}
-  .quotes-empty, .dash-loading{padding:30px 20px; text-align:center; color:var(--ink-soft); font-size:13px; grid-column:1/-1; background:var(--paper); border-radius:12px; border:1px dashed var(--paper-line);}
+  .quotes-empty, .dash-loading{padding:30px 20px; text-align:center; color:var(--ink-soft); font-size:13px; grid-column:1/-1; background:var(--paper); border-radius:var(--radius); border:1px dashed var(--paper-line);}
 
-  .status-badge{font-size:10px; text-transform:uppercase; letter-spacing:.05em; padding:2px 7px; border-radius:999px; flex-shrink:0;}
+  .status-badge{font-size:10px; text-transform:uppercase; letter-spacing:.05em; padding:2px 9px; border-radius:999px; flex-shrink:0;}
   .status-badge.draft{background:#E7E1D0; color:#6B5A2F;}
   .status-badge.final{background:#DCEBD8; color:#2C5A2A;}
 
@@ -198,39 +201,37 @@
   .workspace.panel-expanded .grid-2{grid-template-columns:1fr 1fr 1fr;}
   .panel label{font-size:12px; color:#C4CDBE; display:flex; flex-direction:column; gap:5px;}
   .panel input[type=text], .panel input[type=email], .panel input[type=number], .panel input[type=tel], .panel textarea{
-    background:#1B2C20; border:1px solid rgba(255,255,255,.14); border-radius:6px; color:#F2EFE3;
-    padding:8px 10px; font-size:13.5px; width:100%;
+    background:#1B2C20; border:1px solid rgba(255,255,255,.14); border-radius:12px; color:#F2EFE3;
+    padding:8px 12px; font-size:13.5px; width:100%;
   }
   .panel input:focus, .panel textarea:focus{outline:2px solid var(--ochre); outline-offset:1px;}
   .checkbox-row{flex-direction:row !important; align-items:center; gap:8px !important; font-size:12.5px;}
   .checkbox-row input{width:auto;}
 
   .readonly-box{
-    background:#1B2C20; border:1px dashed rgba(255,255,255,.22); border-radius:6px; color:#EDE8D8;
-    padding:8px 10px; font-size:13.5px; display:flex; align-items:center; gap:8px;
+    background:#1B2C20; border:1px dashed rgba(255,255,255,.22); border-radius:12px; color:#EDE8D8;
+    padding:8px 12px; font-size:13.5px; display:flex; align-items:center; gap:8px;
   }
   .readonly-box svg{flex-shrink:0; color:#8FA087;}
 
   .pill-group{display:flex; flex-wrap:wrap; gap:6px;}
   .pill{
     background:#1B2C20; border:1px solid rgba(255,255,255,.16); color:#D6DECB;
-    border-radius:999px; padding:6px 12px; font-size:12px; transition:background .15s ease, color .15s ease;
+    border-radius:999px; padding:6px 13px; font-size:12px; transition:background .15s ease, color .15s ease;
   }
   .pill.active{background:var(--ochre); color:#241505; border-color:var(--ochre); font-weight:600;}
   .toggle-grid{display:flex; flex-direction:column; gap:8px; font-size:12.5px;}
   .toggle-grid input{width:auto;}
 
-  .item-group{margin-bottom:18px; background:rgba(255,255,255,.03); border-radius:8px; padding:12px 12px 6px;}
+  .item-group{margin-bottom:18px; background:rgba(255,255,255,.03); border-radius:16px; padding:12px 12px 6px;}
   .item-group h4{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:#95A68B; margin:0 0 3px; font-weight:600;}
   .item-group .item-hint{font-size:11px; color:#7E9075; margin:0 0 10px;}
   .item-rows{display:flex; flex-direction:column; gap:8px;}
 
-  /* Line item grid: Item name gets the flexible column; qty/price/total get
-     fixed, wide-enough columns so numbers never look cramped or truncated. */
   .item-row-labels{display:grid; grid-template-columns:1fr 64px 96px 100px; gap:8px; font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; color:#7E9075; padding:0 2px 2px;}
   .item-row-labels span:not(:first-child){text-align:right;}
-  .item-row{display:grid; grid-template-columns:1fr 64px 96px 100px; gap:8px; align-items:center; background:#182920; border-radius:6px; padding:6px; border:1px solid rgba(255,255,255,.06);}
-  .item-row input{padding:7px 8px; font-size:12.5px; min-width:0;}
+  .item-row{display:grid; grid-template-columns:1fr 64px 96px 100px; gap:8px; align-items:center; background:#182920; border-radius:12px; padding:6px; border:1px solid rgba(255,255,255,.06);}
+  .item-row input{padding:7px 9px; font-size:12.5px; min-width:0; border-radius:8px;}
   .item-row input[data-field="qty"], .item-row input[data-field="unitPrice"]{text-align:right; font-family:var(--font-mono);}
   .row-total{font-family:var(--font-mono); font-size:12.5px; color:#F2EFE3; text-align:right; font-weight:600; padding-right:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 
@@ -244,6 +245,15 @@
   .save-status{font-size:11.5px; color:#98A98F; margin:2px 0 0; min-height:14px;}
   .action-hint{font-size:11px; color:#8FA087; margin:0; line-height:1.5;}
 
+  /* ---------- Structure (Section C) builder ---------- */
+  .structure-summary{
+    display:flex; align-items:center; gap:10px; background:#1B2C20; border:1px solid rgba(255,255,255,.14);
+    border-radius:14px; padding:10px 14px; font-size:12.5px; color:#D6DECB;
+  }
+  .structure-summary strong{color:#F2EFE3;}
+  .capacity-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .capacity-row input[type=number]{max-width:100px;}
+
   /* ---------- Preview stage ---------- */
   .preview-stage{
     padding:38px 46px; overflow-y:auto; height:100%;
@@ -254,11 +264,12 @@
   .paper{
     width:100%; max-width:760px; background:var(--paper); color:var(--ink);
     box-shadow:0 2px 4px rgba(27,42,34,.06), 0 22px 46px rgba(27,42,34,.18);
-    border-radius:3px; position:relative; padding:0 0 40px;
+    border-radius:20px; position:relative; padding:0 0 40px;
     font-family:var(--font-body);
+    overflow:hidden;
   }
   .paper::before{
-    content:''; position:absolute; top:0; left:0; right:0; height:5px; border-radius:3px 3px 0 0;
+    content:''; position:absolute; top:0; left:0; right:0; height:5px;
     background:repeating-linear-gradient(90deg, var(--paper) 0 10px, var(--paper-line) 10px 12px);
     opacity:.6;
   }
@@ -302,7 +313,7 @@
   tr.excluded td{opacity:.65; font-style:italic;}
 
   .doc-note-box{
-    background:var(--ochre-soft); border-radius:6px; padding:12px 14px; font-size:12.5px; color:#5C4213;
+    background:var(--ochre-soft); border-radius:14px; padding:12px 14px; font-size:12.5px; color:#5C4213;
     margin-top:8px; line-height:1.55;
   }
   .doc-note-plain{font-size:12.5px; color:var(--ink-soft); margin-top:8px; line-height:1.55;}
@@ -329,15 +340,115 @@
   .empty-hint{padding:80px 20px; text-align:center; color:var(--ink-soft); font-family:var(--font-ui); font-size:13.5px;}
   .empty-hint button{margin-top:14px;}
 
+  /* ================= WIZARD ================= */
+  .wizard-screen{
+    height:100vh; overflow:hidden; display:flex; flex-direction:column;
+    background:
+      radial-gradient(1000px 500px at 100% -10%, rgba(169,117,46,.08), transparent),
+      var(--cream-bg);
+  }
+  .wizard-header{
+    flex-shrink:0; background:var(--forest-deep); color:#EDE8D8; padding:16px 26px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .wizard-title{display:flex; align-items:center; gap:12px;}
+  .wizard-title h1{font-family:var(--font-display); font-size:17px; margin:0; font-weight:600;}
+  .wizard-stepper{display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.06); padding:6px; border-radius:999px;}
+  .wizard-step-pill{
+    display:flex; align-items:center; gap:7px; padding:7px 14px 7px 8px; border-radius:999px; font-size:12px; color:#9FB196;
+    transition:background .2s ease, color .2s ease;
+  }
+  .wizard-step-pill .num{
+    width:20px; height:20px; border-radius:50%; background:rgba(255,255,255,.1); color:#C4CDBE;
+    display:flex; align-items:center; justify-content:center; font-size:10.5px; font-weight:700; flex-shrink:0;
+  }
+  .wizard-step-pill.active{background:var(--ochre); color:#241505; font-weight:600;}
+  .wizard-step-pill.active .num{background:#241505; color:var(--ochre);}
+  .wizard-step-pill.done{color:#DCEBD8;}
+  .wizard-step-pill.done .num{background:var(--moss); color:#0F1A12;}
+  .wizard-body{flex:1; min-height:0; overflow-y:auto;}
+  .wizard-body-inner{max-width:1080px; margin:0 auto; padding:32px 30px 70px;}
+  .wizard-close-btn{flex-shrink:0;}
+
+  .wizard-lede{margin:0 0 26px;}
+  .wizard-lede h2{font-family:var(--font-display); font-size:24px; margin:0 0 6px; font-weight:600;}
+  .wizard-lede p{font-size:13.5px; color:var(--ink-soft); margin:0; max-width:56ch;}
+
+  /* Step 1: roster */
+  .roster-count{
+    display:inline-flex; align-items:center; gap:6px; background:var(--paper); border:1px solid var(--paper-line);
+    border-radius:999px; padding:6px 14px; font-size:12.5px; color:var(--ink-soft); margin-bottom:16px;
+  }
+  .roster-list{display:flex; flex-direction:column; gap:12px;}
+  .roster-row{
+    background:var(--paper); border:1px solid var(--paper-line); border-radius:var(--radius);
+    padding:16px 18px; display:grid; grid-template-columns:28px 1fr 34px; gap:14px; align-items:center;
+    box-shadow:0 4px 14px rgba(27,42,34,.05);
+  }
+  .roster-row .roster-idx{
+    width:28px; height:28px; border-radius:50%; background:var(--forest); color:#EDE8D8;
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; font-family:var(--font-mono);
+  }
+  .roster-fields{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px;}
+  .roster-fields input{
+    padding:9px 12px; border-radius:12px; border:1px solid var(--paper-line); background:var(--white);
+    font-size:13px; color:var(--ink); width:100%;
+  }
+  .roster-fields input:focus{outline:2px solid var(--ochre); outline-offset:1px;}
+  .roster-add-row{
+    border:1.5px dashed var(--paper-line); border-radius:var(--radius); padding:16px; text-align:center;
+    color:var(--ink-soft); font-size:13px; background:transparent; width:100%;
+  }
+  .roster-add-row:hover{border-color:var(--ochre); color:var(--ochre);}
+  .wizard-footer-actions{display:flex; justify-content:space-between; align-items:center; margin-top:26px; gap:12px; flex-wrap:wrap;}
+
+  /* Step 2: configure */
+  .configure-layout{display:grid; grid-template-columns:420px 1fr; gap:24px; align-items:start;}
+  .farmer-nav{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; background:var(--forest);
+    color:#EDE8D8; border-radius:var(--radius); padding:12px 16px; margin-bottom:16px;
+  }
+  .farmer-nav .fn-name{font-family:var(--font-display); font-size:15px; font-weight:600;}
+  .farmer-nav .fn-sub{font-size:11px; color:#9FB196;}
+  .wz-panel{
+    background:var(--forest); color:#EDE8D8; border-radius:var(--radius-lg); padding:18px 20px 22px;
+  }
+  .wz-preview-wrap{position:sticky; top:0;}
+
+  /* Step 3: review */
+  .review-nav{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; flex-wrap:wrap;
+  }
+  .review-strip{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;}
+  .review-chip{
+    flex-shrink:0; padding:8px 14px; border-radius:999px; font-size:12px; background:var(--paper);
+    border:1px solid var(--paper-line); color:var(--ink-soft); white-space:nowrap;
+  }
+  .review-chip.active{background:var(--forest); color:#EDE8D8; border-color:var(--forest);}
+  .review-chip .amt{font-family:var(--font-mono); margin-left:6px; opacity:.75;}
+
+  /* Step 4: create */
+  .create-summary{
+    background:var(--paper); border:1px solid var(--paper-line); border-radius:var(--radius-lg);
+    padding:28px 30px; max-width:640px;
+  }
+  .create-summary h3{font-family:var(--font-display); font-size:19px; margin:0 0 6px;}
+  .create-list{display:flex; flex-direction:column; gap:8px; margin:18px 0;}
+  .create-list-row{display:flex; justify-content:space-between; gap:10px; font-size:13px; padding:8px 12px; background:var(--white); border-radius:10px; border:1px solid var(--paper-line-soft);}
+  .create-list-row .amt{font-family:var(--font-mono); font-weight:600;}
+  .create-progress{font-size:12.5px; color:var(--ink-soft); margin-top:10px;}
+  .create-done-grid{display:flex; flex-direction:column; gap:8px; margin-top:16px;}
+  .create-done-row{display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:13px; background:#DCEBD8; border-radius:10px; padding:8px 12px; color:#2C5A2A;}
+
   /* ---------- Responsive breakpoints ---------- */
   @media (max-width: 1000px){
     .workspace{grid-template-columns:340px 1fr;}
     .preview-stage{padding:28px;}
+    .configure-layout{grid-template-columns:1fr;}
+    .wz-preview-wrap{position:static;}
   }
 
   @media (max-width: 860px){
-    /* On small screens the two panes stack, so let the whole page scroll
-       as one instead of nesting two independent scroll areas. */
     html,body{overflow:auto; height:auto;}
     .app-container{height:auto; overflow:visible;}
     .dashboard-view{overflow:visible; height:auto;}
@@ -350,6 +461,9 @@
     .doc-parties, .doc-footer-grid, .grid-2, .workspace.panel-expanded .grid-2{grid-template-columns:1fr;}
     .dashboard-view{padding:26px 18px 50px;}
     .dash-hero{padding:24px 22px;}
+    .wizard-screen{height:auto; overflow:visible;}
+    .wizard-body{overflow:visible; height:auto;}
+    .roster-row{grid-template-columns:28px 1fr; grid-template-areas:"idx fields" "del fields";}
   }
 
   @media (max-width: 640px){
@@ -359,6 +473,8 @@
     .user-email{display:none;}
     .dash-hero{flex-direction:column; align-items:flex-start;}
     .dash-hero .btn{width:100%;}
+    .dash-hero-actions{width:100%;}
+    .dash-hero-actions .btn{flex:1;}
     .quotes-grid{grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));}
     .panel{padding:14px 14px 20px;}
     .preview-stage{padding:14px;}
@@ -374,6 +490,8 @@
     .item-row input[data-field="label"]{grid-column:1/-1;}
     .item-row{display:grid; grid-template-columns:1fr; gap:6px;}
     .item-row .qtp{display:grid; grid-template-columns:56px 90px 90px; gap:6px;}
+    .wizard-body-inner{padding:20px 16px 60px;}
+    .wizard-stepper{display:none;}
   }
 
   @media (max-width: 420px){
@@ -434,9 +552,12 @@
         <div>
           <p class="dash-eyebrow">Coordinator dashboard</p>
           <h1>Welcome back</h1>
-          <p class="dash-sub">Start a fresh quotation or reopen one you've already been working on. Everything below is read live from the database — nothing here is sample data.</p>
+          <p class="dash-sub">Start a fresh quotation, raise several at once for a batch of farmers, or reopen one you've already been working on.</p>
         </div>
-        <button class="btn btn-primary btn-lg" id="dashNewQuoteBtn"><i data-lucide="plus"></i> New quotation</button>
+        <div class="dash-hero-actions">
+          <button class="btn btn-ghost btn-lg" id="dashNewBatchBtn"><i data-lucide="users"></i> New batch</button>
+          <button class="btn btn-primary btn-lg" id="dashNewQuoteBtn"><i data-lucide="plus"></i> New quotation</button>
+        </div>
       </section>
       <section class="dash-list-section">
         <div class="dash-list-head">
@@ -458,9 +579,8 @@
     </div>
   </main>
 
-  <!-- ============ WORKSPACE VIEW ============ -->
+  <!-- ============ WORKSPACE VIEW (single quote) ============ -->
   <main id="workspaceView" class="workspace" hidden>
-    <!-- CONTROL PANEL (scrolls independently of the preview) -->
     <aside class="panel" id="panel">
       <div class="panel-top-actions">
         <div class="panel-top-left">
@@ -518,7 +638,7 @@
         <summary>Goat package setup <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
           <label>Number of goats<input type="number" id="goatCount" min="0" value="2"></label>
-          <p class="section-hint">Changing this updates the goat, insurance, and feed-basket quantities in sections B and D automatically — you don't need to edit those rows by hand.</p>
+          <p class="section-hint">Changing this updates the goat, insurance, and feed-basket quantities in sections B and D automatically — and, if housing capacity is set to "same as goat count", the structure materials in section C too.</p>
         </div>
       </details>
 
@@ -547,17 +667,22 @@
         </div>
       </details>
 
+      <details class="panel-section" open>
+        <summary>C · Housing structure <i data-lucide="chevron-down" class="chevron"></i></summary>
+        <div class="section-body" id="structureBody-"></div>
+      </details>
+
       <details class="panel-section">
-        <summary>Housing, others &amp; tax note <i data-lucide="chevron-down" class="chevron"></i></summary>
+        <summary>Others &amp; extra notes <i data-lucide="chevron-down" class="chevron"></i></summary>
         <div class="section-body">
-          <label>C · Housing note
-            <textarea id="housingNote" rows="3"></textarea>
-          </label>
-          <p class="section-hint">Housing is never a fixed price — it's always quoted separately after a site visit, and is deliberately excluded from the grand total.</p>
           <label>E · Others note
             <textarea id="othersNote" rows="3"></textarea>
           </label>
-          <p class="section-hint">For anything handled case-by-case (vet call-outs, extra forage). Also excluded from the grand total.</p>
+          <p class="section-hint">For anything handled case-by-case (vet call-outs, extra forage). Excluded from the grand total.</p>
+          <label>Additional site / housing notes
+            <textarea id="housingNote" rows="3"></textarea>
+          </label>
+          <p class="section-hint">Optional — printed under the housing materials table (e.g. "final framing confirmed on site visit").</p>
         </div>
       </details>
 
@@ -571,7 +696,6 @@
       </div>
     </aside>
 
-    <!-- LIVE PREVIEW (scrolls independently of the panel) -->
     <section class="preview-stage">
       <div class="paper" id="paper">
         <div class="empty-hint">
@@ -581,7 +705,207 @@
       </div>
     </section>
   </main>
+
+  <!-- ============ BATCH WIZARD ============ -->
+  <main id="wizardScreen" class="wizard-screen" hidden>
+    <header class="wizard-header">
+      <div class="wizard-title">
+        <button class="btn btn-ghost btn-sm wizard-close-btn" id="wizCloseBtn"><i data-lucide="x"></i></button>
+        <h1>New batch of quotations</h1>
+      </div>
+      <div class="wizard-stepper" id="wizardStepper">
+        <div class="wizard-step-pill" data-step="1"><span class="num">1</span> Farmers</div>
+        <div class="wizard-step-pill" data-step="2"><span class="num">2</span> Configure</div>
+        <div class="wizard-step-pill" data-step="3"><span class="num">3</span> Review</div>
+        <div class="wizard-step-pill" data-step="4"><span class="num">4</span> Create</div>
+      </div>
+      <span></span>
+    </header>
+
+    <div class="wizard-body">
+      <div class="wizard-body-inner">
+
+        <!-- STEP 1: roster -->
+        <section id="wizStep1">
+          <div class="wizard-lede">
+            <h2>Who is this batch for?</h2>
+            <p>Add each farmer you're quoting today — up to 10 in one batch. Just enough to identify them for now; you'll set what each one needs on the next step.</p>
+          </div>
+          <div class="roster-count"><i data-lucide="users"></i> <span id="rosterCountLabel">3 of 10 farmers</span></div>
+          <div class="roster-list" id="rosterList"></div>
+          <button class="roster-add-row" id="rosterAddBtn" type="button"><i data-lucide="plus"></i> Add another farmer</button>
+          <div class="wizard-footer-actions">
+            <span></span>
+            <button class="btn btn-primary btn-lg" id="wizStep1NextBtn">Continue to Configure <i data-lucide="arrow-right"></i></button>
+          </div>
+        </section>
+
+        <!-- STEP 2: configure -->
+        <section id="wizStep2" hidden>
+          <div class="wizard-lede">
+            <h2>Configure each quote</h2>
+            <p>Full control, same as a single quotation — set the package, goats, housing and line items per farmer, then move to the next.</p>
+          </div>
+          <div class="farmer-nav">
+            <button class="btn btn-ghost btn-sm" id="wzPrevFarmerBtn"><i data-lucide="chevron-left"></i></button>
+            <div>
+              <div class="fn-name" id="wzFarmerNavName">—</div>
+              <div class="fn-sub" id="wzFarmerNavSub">Farmer 1 of 3</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="wzNextFarmerBtn"><i data-lucide="chevron-right"></i></button>
+          </div>
+          <div class="configure-layout">
+            <aside class="wz-panel" id="wzPanel">
+              <details class="panel-section" open>
+                <summary>Quote type <i data-lucide="chevron-down" class="chevron"></i></summary>
+                <div class="section-body">
+                  <div class="pill-group" id="wzQuoteTypePills">
+                    <button type="button" class="pill active" data-type="full">Full Package</button>
+                    <button type="button" class="pill" data-type="animalsOnly">Animals Only</button>
+                    <button type="button" class="pill" data-type="feedOnly">Feed Only</button>
+                    <button type="button" class="pill" data-type="structureOnly">Structure Only</button>
+                    <button type="button" class="pill" data-type="feedAndStructure">Feed + Structure</button>
+                    <button type="button" class="pill" data-type="custom">Custom</button>
+                  </div>
+                  <div class="toggle-grid" id="wzSectionToggles">
+                    <label><input type="checkbox" data-section="training"> A · Imfuyo Academy (Trainings)</label>
+                    <label><input type="checkbox" data-section="goatPackage"> B · Goat Package</label>
+                    <label><input type="checkbox" data-section="housing"> C · Housing Structure</label>
+                    <label><input type="checkbox" data-section="feed"> D · 1-Month Feed</label>
+                    <label><input type="checkbox" data-section="others"> E · Others (billed separately)</label>
+                  </div>
+                </div>
+              </details>
+              <details class="panel-section" open>
+                <summary>Customer &amp; parties <i data-lucide="chevron-down" class="chevron"></i></summary>
+                <div class="section-body">
+                  <div class="grid-2">
+                    <label>First name<input type="text" id="wzCustFirst"></label>
+                    <label>Last name<input type="text" id="wzCustLast"></label>
+                    <label>Location / County<input type="text" id="wzCustLocation"></label>
+                    <label>Phone<input type="tel" id="wzCustPhone"></label>
+                    <label>Farmer<input type="text" id="wzFarmerName"></label>
+                    <label>Farm manager<input type="text" id="wzFarmManagerName"></label>
+                    <label>Cohort (optional)<input type="text" id="wzCustCohort"></label>
+                  </div>
+                </div>
+              </details>
+              <details class="panel-section" open>
+                <summary>Goat package setup <i data-lucide="chevron-down" class="chevron"></i></summary>
+                <div class="section-body">
+                  <label>Number of goats<input type="number" id="wzGoatCount" min="0" value="2"></label>
+                </div>
+              </details>
+              <details class="panel-section" open>
+                <summary>Line items <i data-lucide="chevron-down" class="chevron"></i></summary>
+                <div class="section-body">
+                  <div class="item-group" data-group="training">
+                    <h4>A · Trainings</h4>
+                    <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
+                    <div class="item-rows" id="wz-rows-training"></div>
+                  </div>
+                  <div class="item-group" data-group="goatPackage">
+                    <h4>B · Goat package</h4>
+                    <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
+                    <div class="item-rows" id="wz-rows-goatPackage"></div>
+                  </div>
+                  <div class="item-group" data-group="feed">
+                    <h4>D · 1-month feed</h4>
+                    <div class="item-row-labels"><span>Item</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
+                    <div class="item-rows" id="wz-rows-feed"></div>
+                  </div>
+                </div>
+              </details>
+              <details class="panel-section" open>
+                <summary>C · Housing structure <i data-lucide="chevron-down" class="chevron"></i></summary>
+                <div class="section-body" id="structureBody-wz"></div>
+              </details>
+              <details class="panel-section">
+                <summary>Others &amp; extra notes <i data-lucide="chevron-down" class="chevron"></i></summary>
+                <div class="section-body">
+                  <label>E · Others note<textarea id="wzOthersNote" rows="3"></textarea></label>
+                  <label>Additional site / housing notes<textarea id="wzHousingNote" rows="3"></textarea></label>
+                </div>
+              </details>
+            </aside>
+            <div class="wz-preview-wrap">
+              <div class="paper" id="wzPaper"></div>
+            </div>
+          </div>
+          <div class="wizard-footer-actions">
+            <button class="btn btn-ghost btn-lg" id="wizStep2BackBtn"><i data-lucide="arrow-left"></i> Back to farmers</button>
+            <button class="btn btn-primary btn-lg" id="wizStep2NextBtn">Review all <i data-lucide="arrow-right"></i></button>
+          </div>
+        </section>
+
+        <!-- STEP 3: review -->
+        <section id="wizStep3" hidden>
+          <div class="wizard-lede">
+            <h2>Review before creating</h2>
+            <p>Flip through each farmer's quote to check it's accurate. Nothing is saved to the database yet.</p>
+          </div>
+          <div class="review-nav">
+            <div class="fn-sub" id="reviewNavSub" style="color:var(--ink-soft);">Farmer 1 of 3</div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-ghost btn-sm" id="reviewPrevBtn"><i data-lucide="chevron-left"></i> Prev</button>
+              <button class="btn btn-ghost btn-sm" id="reviewNextBtn">Next <i data-lucide="chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="review-strip" id="reviewStrip"></div>
+          <div style="max-width:760px; margin-top:18px;">
+            <div class="paper" id="reviewPaper"></div>
+          </div>
+          <div class="wizard-footer-actions">
+            <button class="btn btn-ghost btn-lg" id="wizStep3BackBtn"><i data-lucide="arrow-left"></i> Back to configure</button>
+            <button class="btn btn-primary btn-lg" id="wizStep3NextBtn">Looks good — create all <i data-lucide="arrow-right"></i></button>
+          </div>
+        </section>
+
+        <!-- STEP 4: create -->
+        <section id="wizStep4" hidden>
+          <div class="wizard-lede">
+            <h2>Create the batch</h2>
+            <p>This reserves a quotation number for each farmer and saves them as drafts — you can edit or finalize each individually afterward.</p>
+          </div>
+          <div class="create-summary">
+            <h3 id="createSummaryTitle">Ready to create 3 quotations</h3>
+            <div class="create-list" id="createList"></div>
+            <button class="btn btn-primary btn-lg btn-block" id="wizCreateBtn"><i data-lucide="check"></i> Create all quotations</button>
+            <p class="create-progress" id="createProgress"></p>
+            <div class="create-done-grid" id="createDoneGrid"></div>
+            <div id="createDoneActions" hidden style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-secondary" id="wizDownloadAllBtn"><i data-lucide="file-down"></i> Download all PDFs</button>
+              <button class="btn btn-primary" id="wizGoDashboardBtn"><i data-lucide="layout-dashboard"></i> Go to dashboard</button>
+            </div>
+          </div>
+          <div class="wizard-footer-actions">
+            <button class="btn btn-ghost btn-lg" id="wizStep4BackBtn"><i data-lucide="arrow-left"></i> Back to review</button>
+            <span></span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
 </div>
+
+<!-- Reusable template for the housing-structure editor body -->
+<template id="structureEditorTemplate">
+  <p class="section-hint">Pick the structure, how many animals it needs to house, and the framing option — the materials list and price scale automatically.</p>
+  <div class="pill-group" data-role="structurePicker"></div>
+  <div class="capacity-row">
+    <div class="pill-group" data-role="capacityModePills">
+      <button type="button" class="pill active" data-mode="goatCount">Same as goat count</button>
+      <button type="button" class="pill" data-mode="custom">Custom capacity</button>
+    </div>
+    <input type="number" min="1" data-role="customCapacityInput" style="display:none;" placeholder="Goats to house">
+  </div>
+  <div class="pill-group" data-role="variantPicker"></div>
+  <div class="structure-summary" data-role="structureSummary"><i data-lucide="home"></i> <span data-role="structureSummaryText">—</span></div>
+  <div class="item-row-labels"><span>Material</span><span>Qty</span><span>Unit price</span><span>Total</span></div>
+  <div class="item-rows" data-role="structureRows"></div>
+  <button type="button" class="btn btn-ghost btn-sm" data-role="recalcBtn" style="align-self:flex-start;"><i data-lucide="rotate-ccw"></i> Recalculate from catalog</button>
+</template>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
@@ -591,7 +915,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, runTransaction,
-  collection, query, orderBy, getDocs, serverTimestamp, limit
+  collection, query, orderBy, getDocs, serverTimestamp, limit, writeBatch
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -608,6 +932,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const LOGO_URL = "https://res.cloudinary.com/dpymwa41m/image/upload/v1784023246/android-chrome-512x512_x2ld4i.png";
+const MAX_BATCH = 10;
 
 function refreshIcons(){
   if(window.lucide && window.lucide.createIcons) window.lucide.createIcons();
@@ -626,9 +951,42 @@ const RATE_CARD = {
   feedBasket:    { label: "One month feed basket per goat", unitPrice: 6100, linkedToGoatCount: true },
   depositPct: 0.70,
   validityDays: 14,
-  defaultHousingNote: "By site visit — separate quotation. Our fundi visits the farm, measures, and issues a written quote for your pen. Not included in the grand total.",
   defaultOthersNote: "Animal-health inspections, veterinary call-outs and additional feed / forage are handled case by case with your coordinator and are not part of this quoted total."
 };
+
+/* ================= PEN STRUCTURE CATALOG =================
+   Sourced from the "6x6, 2-Pen" materials list. baseCapacity is the
+   number of goats ONE structure unit is built for; larger farmers need
+   multiple units, scaled in whole numbers (you can't build half a pen). */
+const PEN_STRUCTURES = {
+  '6x6-2pen': {
+    id: '6x6-2pen',
+    label: '6×6 ft — 2-Pen',
+    baseCapacity: 2,
+    variants: [
+      { id:'timber', label:'With Timber' },
+      { id:'offcut', label:'With Offcut' }
+    ],
+    materials: [
+      { key:'ironSheet',     label:'Iron sheet, 3m each',                 qty:2,   unitPrice:1200,  variant:'both' },
+      { key:'nails4',        label:'Nails — 4" ordinary',                 qty:2,   unitPrice:200,   variant:'both' },
+      { key:'nails3',        label:'Nails — 3" ordinary',                 qty:4,   unitPrice:200,   variant:'both' },
+      { key:'nails2',        label:'Nails — 2" ordinary',                 qty:1.5, unitPrice:200,   variant:'both' },
+      { key:'roofingNails',  label:'Roofing nails',                       qty:1,   unitPrice:250,   variant:'both' },
+      { key:'roofingRubber', label:'Roofing rubber, 1 packet',            qty:1,   unitPrice:100,   variant:'both' },
+      { key:'hinges',        label:'Hinges (2 per door)',                 qty:4,   unitPrice:50,    variant:'both' },
+      { key:'koji',          label:'Koji',                                qty:1,   unitPrice:120,   variant:'both' },
+      { key:'timberFraming', label:'Timber framing, 6×1 (per ft)',        qty:500, unitPrice:42,    variant:'timber' },
+      { key:'offcutFraming', label:'Offcut framing, 6×1 (per piece)',     qty:55,  unitPrice:218.18,variant:'offcut' },
+      { key:'fito',          label:'Fito',                                qty:16,  unitPrice:170,   variant:'both' },
+      { key:'doorFrame',     label:'Door frame',                          qty:2,   unitPrice:270,   variant:'both' },
+      { key:'treatedPost',   label:'Treated post',                        qty:8,   unitPrice:400,   variant:'both' },
+      { key:'labour',        label:'Labour (days)',                       qty:2,   unitPrice:2200,  variant:'both' },
+      { key:'transport',     label:'Transport (subject to destination)',  qty:1,   unitPrice:5000,  variant:'both' }
+    ]
+  }
+};
+const DEFAULT_STRUCTURE_ID = '6x6-2pen';
 
 const SECTION_PRESETS = {
   full:             { training:true,  goatPackage:true,  housing:true,  feed:true,  others:true  },
@@ -643,8 +1001,14 @@ let quote = null;
 let currentDraftRef = null;
 let autosaveTimer = null;
 let previewRenderTimer = null;
-let allQuotesCache = []; // { id, data } — cached list for instant client-side search/filter
+let allQuotesCache = [];
 let panelExpanded = false;
+
+let batchQuotes = [];        // array of quote-shaped objects, used only in the wizard
+let wizardStep = 1;
+let wizActiveIndex = 0;      // active farmer in step 2
+let reviewActiveIndex = 0;   // active farmer in step 3
+let createdBatchIds = [];
 
 function freshItems(goatCount){
   return {
@@ -664,6 +1028,37 @@ function freshItems(goatCount){
       { key:'feedBasket', label: RATE_CARD.feedBasket.label, qty: goatCount, unitPrice: RATE_CARD.feedBasket.unitPrice }
     ]
   };
+}
+
+function roundQty(n){
+  return Math.round(n * 100) / 100;
+}
+
+function buildStructureItems(structureId, variant, capacity){
+  const struct = PEN_STRUCTURES[structureId];
+  if(!struct) return [];
+  const units = Math.max(1, Math.ceil((Number(capacity) || 1) / struct.baseCapacity));
+  return struct.materials
+    .filter(m => m.variant === 'both' || m.variant === variant)
+    .map(m => ({ key: m.key, label: m.label, qty: roundQty(m.qty * units), unitPrice: m.unitPrice }));
+}
+
+function freshStructure(goatCount){
+  const structureId = DEFAULT_STRUCTURE_ID;
+  const variant = PEN_STRUCTURES[structureId].variants[0].id;
+  return {
+    structureId,
+    variant,
+    capacityMode: 'goatCount', // 'goatCount' | 'custom'
+    customCapacity: goatCount || 2,
+    items: buildStructureItems(structureId, variant, goatCount || 2)
+  };
+}
+
+function structureCapacity(q){
+  return q.structure.capacityMode === 'custom'
+    ? (Number(q.structure.customCapacity) || 1)
+    : (Number(q.goatCount) || 1);
 }
 
 function accountDisplayName(user){
@@ -687,7 +1082,8 @@ function defaultQuoteState(id){
     createdByEmail: user ? user.email : '',
     goatCount,
     items: freshItems(goatCount),
-    housingNote: RATE_CARD.defaultHousingNote,
+    structure: freshStructure(goatCount),
+    housingNote: '',
     othersNote: RATE_CARD.defaultOthersNote,
     createdAt: Date.now(),
     updatedAt: Date.now()
@@ -699,7 +1095,13 @@ const authScreen = document.getElementById('authScreen');
 const appContainer = document.getElementById('appContainer');
 const dashboardView = document.getElementById('dashboardView');
 const workspaceView = document.getElementById('workspaceView');
+const wizardScreen = document.getElementById('wizardScreen');
 
+function hideAllMain(){
+  dashboardView.hidden = true;
+  workspaceView.hidden = true;
+  wizardScreen.hidden = true;
+}
 function showAuthScreen(){
   authScreen.hidden = false;
   appContainer.hidden = true;
@@ -707,15 +1109,21 @@ function showAuthScreen(){
 function showDashboard(){
   authScreen.hidden = true;
   appContainer.hidden = false;
+  hideAllMain();
   dashboardView.hidden = false;
-  workspaceView.hidden = true;
   loadDashboardQuotes();
 }
 function showWorkspace(){
   authScreen.hidden = true;
   appContainer.hidden = false;
-  dashboardView.hidden = true;
+  hideAllMain();
   workspaceView.hidden = false;
+}
+function showWizard(){
+  authScreen.hidden = true;
+  appContainer.hidden = false;
+  hideAllMain();
+  wizardScreen.hidden = false;
 }
 
 /* ================= AUTH ================= */
@@ -798,34 +1206,36 @@ function showToast(msg, isError){
 
 /* ================= NUMBERING ================= */
 async function getNextQuoteNumber(){
+  const ids = await reserveQuoteNumbers(1);
+  return ids[0];
+}
+
+async function reserveQuoteNumbers(count){
   const counterRef = doc(db, 'counters', 'quotations');
   const year = new Date().getFullYear();
-  const number = await runTransaction(db, async (tx) => {
+  const startNumber = await runTransaction(db, async (tx) => {
     const snap = await tx.get(counterRef);
     let data = snap.exists() ? snap.data() : { year, lastNumber: 0 };
     if(data.year !== year){ data = { year, lastNumber: 0 }; }
-    const next = (data.lastNumber || 0) + 1;
-    tx.set(counterRef, { year, lastNumber: next });
-    return next;
+    const start = (data.lastNumber || 0) + 1;
+    tx.set(counterRef, { year, lastNumber: start + count - 1 });
+    return start;
   });
-  return `MP-Q-${year}-${String(number).padStart(4,'0')}`;
+  const ids = [];
+  for(let i = 0; i < count; i++){
+    ids.push(`MP-Q-${year}-${String(startNumber + i).padStart(4,'0')}`);
+  }
+  return ids;
 }
 
-/* ================= NEW QUOTE / LOAD / SAVE =================
-   Speed fix: the workspace now opens INSTANTLY with a temporary in-memory
-   quote (no waiting on network). The real sequential number + Firestore
-   document are created in the background and swapped in silently the
-   moment they're ready, so a coordinator can start typing right away
-   instead of staring at a spinner. */
+/* ================= NEW QUOTE (single) / LOAD / SAVE ================= */
 let pendingNumbering = false;
 
 function startNewQuote(){
   if(pendingNumbering) return;
   pendingNumbering = true;
 
-  // 1) Build a temporary local quote and open the workspace immediately.
-  const tempId = null;
-  quote = defaultQuoteState(tempId);
+  quote = defaultQuoteState(null);
   quote._pendingId = true;
   currentDraftRef = null;
   bindQuoteToForm();
@@ -837,9 +1247,8 @@ function startNewQuote(){
   document.getElementById('finalizeBtn').disabled = true;
   document.getElementById('generatePdfBtn').disabled = true;
 
-  const workingQuote = quote; // guard against the user navigating away mid-flight
+  const workingQuote = quote;
 
-  // 2) In the background: reserve the real number, create the Firestore doc.
   (async () => {
     try{
       const id = await getNextQuoteNumber();
@@ -849,7 +1258,7 @@ function startNewQuote(){
         quote.id = id;
         delete quote._pendingId;
         currentDraftRef = ref;
-        renderPreview();
+        renderPreviewInto(document.getElementById('paper'), quote);
         setSaveStatus(`New quotation ${id} started`);
         document.getElementById('saveDraftBtn').disabled = false;
         document.getElementById('finalizeBtn').disabled = false;
@@ -879,6 +1288,7 @@ function serializeQuote(q){
     createdByEmail: q.createdByEmail || '',
     goatCount: q.goatCount,
     items: q.items,
+    structure: q.structure,
     housingNote: q.housingNote,
     othersNote: q.othersNote,
     deleted: !!q.deleted,
@@ -921,9 +1331,7 @@ async function finalizeQuote(){
   }
 }
 
-/* ================= DASHBOARD LIST (always live from Firestore — no sample/dummy data) =================
-   Fetches once into allQuotesCache, then search/filter is instant and
-   entirely client-side — no re-querying Firestore on every keystroke. */
+/* ================= DASHBOARD LIST ================= */
 async function loadDashboardQuotes(){
   const grid = document.getElementById('dashQuotesGrid');
   grid.innerHTML = '<div class="dash-loading">Loading…</div>';
@@ -933,7 +1341,7 @@ async function loadDashboardQuotes(){
     allQuotesCache = [];
     snap.forEach(docSnap => {
       const d = docSnap.data();
-      if(d.deleted) return; // soft-deleted — kept in the collection, hidden from the list
+      if(d.deleted) return;
       allQuotesCache.push({ id: docSnap.id, data: d });
     });
     renderDashboardGrid(allQuotesCache);
@@ -971,8 +1379,6 @@ function renderDashboardGrid(list){
       evt.stopPropagation();
       if(!confirm(`Remove quotation ${id} from the dashboard? It stays in the database as a deleted record and can be restored by support if needed.`)) return;
       try{
-        // Soft delete: mark the record instead of erasing it, so the audit
-        // trail survives in the same collection any signed-in user can write to.
         await updateDoc(doc(db, 'quotations', id), {
           deleted: true,
           deletedAt: serverTimestamp(),
@@ -992,7 +1398,6 @@ function renderDashboardGrid(list){
   refreshIcons();
 }
 
-/* ---- Search / filter (client-side over the cached list) ---- */
 const dashSearchInput = document.getElementById('dashSearchInput');
 const dashSearchClearBtn = document.getElementById('dashSearchClearBtn');
 
@@ -1013,13 +1418,17 @@ dashSearchInput.addEventListener('input', applyDashSearch);
 dashSearchClearBtn.addEventListener('click', () => { dashSearchInput.value=''; applyDashSearch(); dashSearchInput.focus(); });
 
 function normalizeForCalc(d){
+  const goatCount = d.goatCount != null ? d.goatCount : 2;
   return {
     sections: d.sections || { ...SECTION_PRESETS.full },
-    items: d.items || freshItems(d.goatCount || 2)
+    items: d.items || freshItems(goatCount),
+    structure: d.structure || freshStructure(goatCount),
+    goatCount
   };
 }
 
 function loadQuote(id, data){
+  const goatCount = data.goatCount != null ? data.goatCount : 2;
   quote = {
     id,
     status: data.status || 'draft',
@@ -1031,9 +1440,10 @@ function loadQuote(id, data){
     preparedBy: data.preparedBy || accountDisplayName(auth.currentUser),
     createdByUid: data.createdByUid || '',
     createdByEmail: data.createdByEmail || '',
-    goatCount: data.goatCount != null ? data.goatCount : 2,
-    items: data.items || freshItems(data.goatCount || 2),
-    housingNote: data.housingNote || RATE_CARD.defaultHousingNote,
+    goatCount,
+    items: data.items || freshItems(goatCount),
+    structure: data.structure || freshStructure(goatCount),
+    housingNote: data.housingNote || '',
     othersNote: data.othersNote || RATE_CARD.defaultOthersNote
   };
   currentDraftRef = doc(db, 'quotations', id);
@@ -1052,9 +1462,10 @@ function calcTotals(q){
   const trainingSubtotal = q.sections.training ? sumItems(q.items.training) : 0;
   const goatPackageSubtotal = q.sections.goatPackage ? sumItems(q.items.goatPackage) : 0;
   const feedSubtotal = q.sections.feed ? sumItems(q.items.feed) : 0;
-  const grandTotal = trainingSubtotal + goatPackageSubtotal + feedSubtotal;
+  const structureSubtotal = q.sections.housing ? sumItems(q.structure.items) : 0;
+  const grandTotal = trainingSubtotal + goatPackageSubtotal + feedSubtotal + structureSubtotal;
   const deposit = q.sections.goatPackage ? Math.round(goatPackageSubtotal * RATE_CARD.depositPct) : 0;
-  return { trainingSubtotal, goatPackageSubtotal, feedSubtotal, grandTotal, deposit };
+  return { trainingSubtotal, goatPackageSubtotal, feedSubtotal, structureSubtotal, grandTotal, deposit };
 }
 
 function formatMoney(n){
@@ -1064,7 +1475,7 @@ function escapeHtml(s){
   return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-/* ================= PANEL EXPAND / FOCUS MODE ================= */
+/* ================= PANEL EXPAND / FOCUS MODE (single workspace) ================= */
 const workspaceEl = document.getElementById('workspaceView');
 const panelExpandBtn = document.getElementById('panelExpandBtn');
 const panelExpandIcon = document.getElementById('panelExpandIcon');
@@ -1080,22 +1491,280 @@ function setPanelExpanded(expanded){
 }
 panelExpandBtn.addEventListener('click', () => setPanelExpanded(!panelExpanded));
 
-/* ================= PANEL BINDING ================= */
+/* ================= REUSABLE: EDITABLE ITEM ROWS ================= */
+function computeLineTotal(item){
+  return (Number(item.qty) || 0) * (Number(item.unitPrice) || 0);
+}
+
+function renderEditableRows(container, items, onChange){
+  container.innerHTML = '';
+  items.forEach((item) => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    const lineTotal = computeLineTotal(item);
+    row.innerHTML = `
+      <input type="text" data-field="label" value="${escapeHtml(item.label)}" title="${escapeHtml(item.label)}">
+      <input type="number" min="0" step="any" data-field="qty" value="${item.qty}">
+      <input type="number" min="0" step="any" data-field="unitPrice" value="${item.unitPrice}">
+      <span class="row-total" title="KES ${formatMoney(lineTotal)}">${formatMoney(lineTotal)}</span>`;
+    row.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const field = inp.dataset.field;
+        item[field] = field === 'label' ? inp.value : Number(inp.value);
+        const t = computeLineTotal(item);
+        const totalEl = row.querySelector('.row-total');
+        totalEl.textContent = formatMoney(t);
+        totalEl.title = `KES ${formatMoney(t)}`;
+        onChange();
+      });
+    });
+    container.appendChild(row);
+  });
+}
+
+/* ================= REUSABLE: STRUCTURE (SECTION C) EDITOR =================
+   Builds the housing-structure controls (picker, capacity, variant, editable
+   BOM rows) into a target container, wired to a given quote object. Used for
+   both the single-quote panel and the wizard's per-farmer configure step. */
+function mountStructureEditor(container, getQuote, onChange){
+  const tpl = document.getElementById('structureEditorTemplate');
+  container.innerHTML = '';
+  container.appendChild(tpl.content.cloneNode(true));
+
+  const structurePicker = container.querySelector('[data-role="structurePicker"]');
+  const capacityModePills = container.querySelector('[data-role="capacityModePills"]');
+  const customCapacityInput = container.querySelector('[data-role="customCapacityInput"]');
+  const variantPicker = container.querySelector('[data-role="variantPicker"]');
+  const summaryText = container.querySelector('[data-role="structureSummaryText"]');
+  const rowsContainer = container.querySelector('[data-role="structureRows"]');
+  const recalcBtn = container.querySelector('[data-role="recalcBtn"]');
+
+  Object.values(PEN_STRUCTURES).forEach(s => {
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'pill';
+    pill.dataset.structureId = s.id;
+    pill.textContent = s.label;
+    structurePicker.appendChild(pill);
+  });
+
+  function currentStruct(q){ return PEN_STRUCTURES[q.structure.structureId] || PEN_STRUCTURES[DEFAULT_STRUCTURE_ID]; }
+
+  function renderVariantPicker(q){
+    const struct = currentStruct(q);
+    variantPicker.innerHTML = '';
+    struct.variants.forEach(v => {
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'pill' + (q.structure.variant === v.id ? ' active' : '');
+      pill.dataset.variantId = v.id;
+      pill.textContent = v.label;
+      pill.addEventListener('click', () => {
+        q.structure.variant = v.id;
+        recalc(q);
+        sync(q);
+        onChange();
+      });
+      variantPicker.appendChild(pill);
+    });
+  }
+
+  function recalc(q){
+    const cap = structureCapacity(q);
+    q.structure.items = buildStructureItems(q.structure.structureId, q.structure.variant, cap);
+  }
+
+  function sync(q){
+    structurePicker.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.dataset.structureId === q.structure.structureId));
+    capacityModePills.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.dataset.mode === q.structure.capacityMode));
+    customCapacityInput.style.display = q.structure.capacityMode === 'custom' ? '' : 'none';
+    customCapacityInput.value = q.structure.customCapacity;
+    renderVariantPicker(q);
+    const struct = currentStruct(q);
+    const cap = structureCapacity(q);
+    const units = Math.max(1, Math.ceil(cap / struct.baseCapacity));
+    summaryText.textContent = `${struct.label} — housing for ${cap} goat${cap === 1 ? '' : 's'} needs ${units} structure${units === 1 ? '' : 's'}`;
+    renderEditableRows(rowsContainer, q.structure.items, onChange);
+  }
+
+  structurePicker.addEventListener('click', (e) => {
+    const pill = e.target.closest('.pill');
+    if(!pill) return;
+    const q = getQuote();
+    q.structure.structureId = pill.dataset.structureId;
+    const struct = PEN_STRUCTURES[q.structure.structureId];
+    if(!struct.variants.some(v => v.id === q.structure.variant)) q.structure.variant = struct.variants[0].id;
+    recalc(q);
+    sync(q);
+    onChange();
+  });
+
+  capacityModePills.addEventListener('click', (e) => {
+    const pill = e.target.closest('.pill');
+    if(!pill) return;
+    const q = getQuote();
+    q.structure.capacityMode = pill.dataset.mode;
+    if(q.structure.capacityMode === 'custom' && !q.structure.customCapacity){
+      q.structure.customCapacity = q.goatCount || 2;
+    }
+    recalc(q);
+    sync(q);
+    onChange();
+  });
+
+  customCapacityInput.addEventListener('input', () => {
+    const q = getQuote();
+    q.structure.customCapacity = Number(customCapacityInput.value) || 1;
+    recalc(q);
+    sync(q);
+    onChange();
+  });
+
+  recalcBtn.addEventListener('click', () => {
+    const q = getQuote();
+    recalc(q);
+    sync(q);
+    onChange();
+    showToast('Housing materials recalculated from the catalog');
+  });
+
+  refreshIcons();
+  return { sync, recalc };
+}
+
+/* ================= REUSABLE QUOTE EDITOR (panel binding) =================
+   Wires up an entire configuration panel (quote type, customer, goats, line
+   items, structure, notes) against a getter/setter pair, so the exact same
+   logic drives both the single-quote workspace and each step-2 farmer in
+   the batch wizard. `p` = id prefix ('' for the main panel, 'wz' for the
+   wizard). structureSlot = the DOM id suffix used for the structure body. */
+function createQuoteEditor(p, structureSlot, getQuote, onChange){
+  const $ = (id) => document.getElementById(p + id);
+  let structureCtrl = null;
+
+  function els(){
+    return {
+      custFirst: $('CustFirst') || $('custFirst'),
+    };
+  }
+
+  // Field ids differ in case between main panel (lowercase first letter)
+  // and wizard panel (wz + capitalized) — resolve them explicitly.
+  const ids = p === 'wz'
+    ? { custFirst:'wzCustFirst', custLast:'wzCustLast', custLocation:'wzCustLocation', custPhone:'wzCustPhone',
+        farmerName:'wzFarmerName', farmManagerName:'wzFarmManagerName', custCohort:'wzCustCohort',
+        goatCount:'wzGoatCount', othersNote:'wzOthersNote', housingNote:'wzHousingNote',
+        quoteTypePills:'wzQuoteTypePills', sectionToggles:'wzSectionToggles',
+        rowsTraining:'wz-rows-training', rowsGoatPackage:'wz-rows-goatPackage', rowsFeed:'wz-rows-feed' }
+    : { custFirst:'custFirst', custLast:'custLast', custLocation:'custLocation', custPhone:'custPhone',
+        farmerName:'farmerName', farmManagerName:'farmManagerName', custCohort:'custCohort',
+        goatCount:'goatCount', othersNote:'othersNote', housingNote:'housingNote',
+        quoteTypePills:'quoteTypePills', sectionToggles:'sectionToggles',
+        rowsTraining:'rows-training', rowsGoatPackage:'rows-goatPackage', rowsFeed:'rows-feed' };
+
+  const el = {};
+  Object.keys(ids).forEach(k => { el[k] = document.getElementById(ids[k]); });
+
+  function syncSectionCheckboxes(q){
+    document.getElementById(ids.sectionToggles).querySelectorAll('input[type=checkbox]').forEach(cb => {
+      cb.checked = !!q.sections[cb.dataset.section];
+    });
+  }
+  function syncQuoteTypePills(q){
+    document.getElementById(ids.quoteTypePills).querySelectorAll('.pill').forEach(pl => {
+      pl.classList.toggle('active', pl.dataset.type === q.quoteType);
+    });
+  }
+
+  function load(){
+    const q = getQuote();
+    el.custFirst.value = q.customer.firstName || '';
+    el.custLast.value = q.customer.lastName || '';
+    el.custLocation.value = q.customer.location || '';
+    el.custPhone.value = q.customer.phone || '';
+    el.custCohort.value = q.customer.cohort || '';
+    el.farmerName.value = q.farmer || '';
+    el.farmManagerName.value = q.farmManager || '';
+    el.goatCount.value = q.goatCount;
+    el.othersNote.value = q.othersNote;
+    el.housingNote.value = q.housingNote;
+    syncSectionCheckboxes(q);
+    syncQuoteTypePills(q);
+    renderEditableRows(document.getElementById(ids.rowsTraining), q.items.training, onChange);
+    renderEditableRows(document.getElementById(ids.rowsGoatPackage), q.items.goatPackage, onChange);
+    renderEditableRows(document.getElementById(ids.rowsFeed), q.items.feed, onChange);
+    if(!structureCtrl){
+      const structureBody = document.getElementById('structureBody-' + structureSlot);
+      structureCtrl = mountStructureEditor(structureBody, getQuote, onChange);
+    } else {
+      structureCtrl.sync(getQuote());
+    }
+    refreshIcons();
+  }
+
+  [['custFirst','customer','firstName'], ['custLast','customer','lastName'], ['custLocation','customer','location'], ['custPhone','customer','phone'], ['custCohort','customer','cohort']]
+    .forEach(([key, obj, field]) => {
+      el[key].addEventListener('input', (e) => {
+        const q = getQuote();
+        q[obj][field] = e.target.value;
+        onChange();
+      });
+    });
+
+  [['farmerName','farmer'], ['farmManagerName','farmManager'], ['housingNote','housingNote'], ['othersNote','othersNote']]
+    .forEach(([key, field]) => {
+      el[key].addEventListener('input', (e) => {
+        const q = getQuote();
+        q[field] = e.target.value;
+        onChange();
+      });
+    });
+
+  el.goatCount.addEventListener('input', (e) => {
+    const q = getQuote();
+    const count = Math.max(0, Number(e.target.value) || 0);
+    q.goatCount = count;
+    q.items.goatPackage.forEach(i => { if(['goat','goatInsurance'].includes(i.key)) i.qty = count; });
+    q.items.feed.forEach(i => { if(i.key === 'feedBasket') i.qty = count; });
+    renderEditableRows(document.getElementById(ids.rowsGoatPackage), q.items.goatPackage, onChange);
+    renderEditableRows(document.getElementById(ids.rowsFeed), q.items.feed, onChange);
+    if(q.structure.capacityMode === 'goatCount' && structureCtrl){
+      structureCtrl.recalc(q);
+      structureCtrl.sync(q);
+    }
+    onChange();
+  });
+
+  document.getElementById(ids.sectionToggles).addEventListener('change', (e) => {
+    if(e.target.type !== 'checkbox') return;
+    const q = getQuote();
+    q.sections[e.target.dataset.section] = e.target.checked;
+    q.quoteType = 'custom';
+    syncQuoteTypePills(q);
+    onChange();
+  });
+
+  document.getElementById(ids.quoteTypePills).addEventListener('click', (e) => {
+    const pill = e.target.closest('.pill');
+    if(!pill) return;
+    const q = getQuote();
+    const type = pill.dataset.type;
+    q.quoteType = type;
+    if(SECTION_PRESETS[type]) q.sections = { ...SECTION_PRESETS[type] };
+    syncSectionCheckboxes(q);
+    syncQuoteTypePills(q);
+    onChange();
+  });
+
+  return { load };
+}
+
+/* ---- Instantiate the main single-quote panel editor ---- */
+const mainEditor = createQuoteEditor('', '', () => quote, () => { schedulePreviewUpdate(); scheduleAutosave(); });
+
 function bindQuoteToForm(){
-  document.getElementById('custFirst').value = quote.customer.firstName || '';
-  document.getElementById('custLast').value = quote.customer.lastName || '';
-  document.getElementById('custLocation').value = quote.customer.location || '';
-  document.getElementById('custPhone').value = quote.customer.phone || '';
-  document.getElementById('custCohort').value = quote.customer.cohort || '';
-  document.getElementById('farmerName').value = quote.farmer || '';
-  document.getElementById('farmManagerName').value = quote.farmManager || '';
   document.getElementById('preparedByDisplay').textContent = quote.preparedBy || '—';
-  document.getElementById('goatCount').value = quote.goatCount;
-  document.getElementById('housingNote').value = quote.housingNote;
-  document.getElementById('othersNote').value = quote.othersNote;
-  syncSectionCheckboxes();
-  syncQuoteTypePills();
-  renderItemRows();
+  mainEditor.load();
   setControlsEnabled(quote.status !== 'final');
   refreshIcons();
 }
@@ -1114,121 +1783,12 @@ function setControlsEnabled(enabled){
   refreshIcons();
 }
 
-function syncSectionCheckboxes(){
-  document.querySelectorAll('#sectionToggles input[type=checkbox]').forEach(cb => {
-    cb.checked = !!quote.sections[cb.dataset.section];
-  });
-}
-function syncQuoteTypePills(){
-  document.querySelectorAll('#quoteTypePills .pill').forEach(p => {
-    p.classList.toggle('active', p.dataset.type === quote.quoteType);
-  });
-}
-
-function renderItemRows(){
-  renderRowGroup('training', quote.items.training);
-  renderRowGroup('goatPackage', quote.items.goatPackage);
-  renderRowGroup('feed', quote.items.feed);
-}
-function renderRowGroup(group, items){
-  const container = document.getElementById('rows-' + group);
-  container.innerHTML = '';
-  items.forEach((item, idx) => {
-    const row = document.createElement('div');
-    row.className = 'item-row';
-    row.dataset.group = group;
-    row.dataset.index = idx;
-    const lineTotal = (Number(item.qty)||0) * (Number(item.unitPrice)||0);
-    row.innerHTML = `
-      <input type="text" data-field="label" value="${escapeHtml(item.label)}" title="${escapeHtml(item.label)}">
-      <input type="number" min="0" data-field="qty" value="${item.qty}">
-      <input type="number" min="0" data-field="unitPrice" value="${item.unitPrice}">
-      <span class="row-total" title="KES ${formatMoney(lineTotal)}">${formatMoney(lineTotal)}</span>`;
-    container.appendChild(row);
-  });
-}
-
-document.querySelectorAll('.item-rows').forEach(container => {
-  container.addEventListener('input', (e) => {
-    const row = e.target.closest('.item-row');
-    if(!row || !quote) return;
-    const group = row.dataset.group;
-    const idx = Number(row.dataset.index);
-    const field = e.target.dataset.field;
-    if(!field) return;
-    const item = quote.items[group][idx];
-    item[field] = field === 'label' ? e.target.value : Number(e.target.value);
-    const lineTotal = (Number(item.qty)||0) * (Number(item.unitPrice)||0);
-    const totalEl = row.querySelector('.row-total');
-    totalEl.textContent = formatMoney(lineTotal);
-    totalEl.title = `KES ${formatMoney(lineTotal)}`;
-    schedulePreviewUpdate();
-    scheduleAutosave();
-  });
-});
-
-document.getElementById('goatCount').addEventListener('input', (e) => {
-  if(!quote) return;
-  const count = Math.max(0, Number(e.target.value) || 0);
-  quote.goatCount = count;
-  quote.items.goatPackage.forEach(i => { if(['goat','goatInsurance'].includes(i.key)) i.qty = count; });
-  quote.items.feed.forEach(i => { if(i.key === 'feedBasket') i.qty = count; });
-  renderItemRows();
-  schedulePreviewUpdate();
-  scheduleAutosave();
-});
-
-[['custFirst','customer','firstName'], ['custLast','customer','lastName'], ['custLocation','customer','location'], ['custPhone','customer','phone'], ['custCohort','customer','cohort']]
-  .forEach(([id, obj, field]) => {
-    document.getElementById(id).addEventListener('input', (e) => {
-      if(!quote) return;
-      quote[obj][field] = e.target.value;
-      schedulePreviewUpdate();
-      scheduleAutosave();
-    });
-  });
-
-[['farmerName','farmer'], ['farmManagerName','farmManager'], ['housingNote','housingNote'], ['othersNote','othersNote']]
-  .forEach(([id, field]) => {
-    document.getElementById(id).addEventListener('input', (e) => {
-      if(!quote) return;
-      quote[field] = e.target.value;
-      schedulePreviewUpdate();
-      scheduleAutosave();
-    });
-  });
-
-document.getElementById('sectionToggles').addEventListener('change', (e) => {
-  if(!quote || e.target.type !== 'checkbox') return;
-  quote.sections[e.target.dataset.section] = e.target.checked;
-  quote.quoteType = 'custom';
-  syncQuoteTypePills();
-  renderPreview();
-  scheduleAutosave();
-});
-
-document.getElementById('quoteTypePills').addEventListener('click', (e) => {
-  const pill = e.target.closest('.pill');
-  if(!pill || !quote) return;
-  const type = pill.dataset.type;
-  quote.quoteType = type;
-  if(SECTION_PRESETS[type]) quote.sections = { ...SECTION_PRESETS[type] };
-  syncSectionCheckboxes();
-  syncQuoteTypePills();
-  renderPreview();
-  scheduleAutosave();
-});
-
-/* Debounced preview re-render: typing fires this on every keystroke, but
-   the full preview only rebuilds once every ~120ms of inactivity. This is
-   what keeps typing responsive — clicks on checkboxes/pills/presets render
-   immediately since those aren't fired in rapid bursts. */
 function schedulePreviewUpdate(){
   clearTimeout(previewRenderTimer);
-  previewRenderTimer = setTimeout(renderPreview, 120);
+  previewRenderTimer = setTimeout(() => renderPreviewInto(document.getElementById('paper'), quote), 120);
 }
 
-/* ================= PREVIEW RENDER ================= */
+/* ================= PREVIEW RENDER (generic — used everywhere) ================= */
 function setSaveStatus(text, isError){
   const el = document.getElementById('saveStatus');
   el.textContent = text;
@@ -1242,21 +1802,46 @@ function pulse(el){
   el.classList.add('amount-pulse');
 }
 
-function renderPreview(){
-  const paper = document.getElementById('paper');
-  if(!quote){
+function renderTable(title, items, subtotal){
+  const rows = items.map(i => `
+    <tr>
+      <td>${escapeHtml(i.label)}</td>
+      <td class="num">${i.qty}</td>
+      <td class="money">${formatMoney(i.unitPrice)}</td>
+      <td class="money">${formatMoney(computeLineTotal(i))}</td>
+    </tr>`).join('');
+  return `
+    <div class="doc-section">
+      <h3 class="doc-section-title">${title}</h3>
+      <div class="doc-table-scroll">
+        <table class="doc-table">
+          <thead><tr><th>Item</th><th>Qty</th><th>Unit Price (KES)</th><th>Total (KES)</th></tr></thead>
+          <tbody>
+            ${rows}
+            <tr class="subtotal-row"><td>Subtotal</td><td></td><td></td><td>${formatMoney(subtotal)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function renderPreviewInto(paper, q){
+  if(!paper) return;
+  if(!q){
     paper.innerHTML = `<div class="empty-hint"><p>No quotation open. Start a new one to begin — it gets its official number the moment you create it.</p><button class="btn btn-primary" id="emptyNewQuoteBtn2"><i data-lucide="plus"></i> New Quote</button></div>`;
-    document.getElementById('emptyNewQuoteBtn2').addEventListener('click', startNewQuote);
+    const btn = paper.querySelector('#emptyNewQuoteBtn2');
+    if(btn) btn.addEventListener('click', startNewQuote);
     refreshIcons();
     return;
   }
-  const t = calcTotals(quote);
-  const s = quote.sections;
-  const custName = [quote.customer.firstName, quote.customer.lastName].filter(Boolean).join(' ') || '—';
+  const t = calcTotals(q);
+  const s = q.sections;
+  const custName = [q.customer.firstName, q.customer.lastName].filter(Boolean).join(' ') || '—';
   const issueDate = new Date();
   const validUntil = new Date(issueDate.getTime() + RATE_CARD.validityDays*24*3600*1000);
   const fmtDate = d => d.toLocaleDateString('en-KE', { day:'2-digit', month:'short', year:'numeric' });
-  const displayId = quote.id || (quote._pendingId ? 'Assigning number…' : 'Unsaved');
+  const displayId = q.id || (q._pendingId ? 'Assigning number…' : 'Unsaved');
+  const struct = PEN_STRUCTURES[q.structure.structureId] || PEN_STRUCTURES[DEFAULT_STRUCTURE_ID];
 
   let html = `
     <div class="paper-inner">
@@ -1282,7 +1867,7 @@ function renderPreview(){
           <div><strong>${escapeHtml(displayId)}</strong></div>
           <div>Issued ${fmtDate(issueDate)}</div>
           <div>Valid until ${fmtDate(validUntil)}</div>
-          <div><span class="status-badge ${quote.status}">${quote.status}</span></div>
+          <div><span class="status-badge ${q.status}">${q.status}</span></div>
         </div>
       </div>
 
@@ -1292,38 +1877,39 @@ function renderPreview(){
         <div class="party">
           <h5>Quotation for</h5>
           <p><strong>${escapeHtml(custName)}</strong></p>
-          <p>${escapeHtml(quote.customer.location || '—')}</p>
-          <p>${escapeHtml(quote.customer.phone || '—')}</p>
+          <p>${escapeHtml(q.customer.location || '—')}</p>
+          <p>${escapeHtml(q.customer.phone || '—')}</p>
         </div>
         <div class="party">
           <h5>Named roles</h5>
-          <p>Farmer: ${escapeHtml(quote.farmer || '—')}</p>
-          <p>Farm manager: ${escapeHtml(quote.farmManager || '—')}</p>
-          ${quote.customer.cohort ? `<p>Cohort: ${escapeHtml(quote.customer.cohort)}</p>` : ''}
+          <p>Farmer: ${escapeHtml(q.farmer || '—')}</p>
+          <p>Farm manager: ${escapeHtml(q.farmManager || '—')}</p>
+          ${q.customer.cohort ? `<p>Cohort: ${escapeHtml(q.customer.cohort)}</p>` : ''}
         </div>
       </div>`;
 
   if(s.training){
-    html += renderTable('A · Imfuyo Academy — MbuziPlus Trainings', quote.items.training, t.trainingSubtotal);
+    html += renderTable('A · Imfuyo Academy — MbuziPlus Trainings', q.items.training, t.trainingSubtotal);
   }
   if(s.goatPackage){
-    html += renderTable('B · Goats, Feed Concentrate, Goat Insurance &amp; Service', quote.items.goatPackage, t.goatPackageSubtotal);
+    html += renderTable('B · Goats, Feed Concentrate, Goat Insurance &amp; Service', q.items.goatPackage, t.goatPackageSubtotal);
   }
   if(s.housing){
-    html += `
-      <div class="doc-section">
-        <h3 class="doc-section-title">C · Goat Housing Structure</h3>
-        <div class="doc-note-box">${escapeHtml(quote.housingNote)}</div>
-      </div>`;
+    const cap = structureCapacity(q);
+    const units = Math.max(1, Math.ceil(cap / struct.baseCapacity));
+    html += renderTable(`C · Goat Housing Structure — ${escapeHtml(struct.label)} (${units} unit${units===1?'':'s'} for ${cap} goat${cap===1?'':'s'})`, q.structure.items, t.structureSubtotal);
+    if(q.housingNote){
+      html += `<p class="doc-note-plain">${escapeHtml(q.housingNote)}</p>`;
+    }
   }
   if(s.feed){
-    html += renderTable('D · 1-Month Feed', quote.items.feed, t.feedSubtotal);
+    html += renderTable('D · 1-Month Feed', q.items.feed, t.feedSubtotal);
   }
   if(s.others){
     html += `
       <div class="doc-section">
         <h3 class="doc-section-title">E · Others — Billed Separately on Request</h3>
-        <p class="doc-note-plain">${escapeHtml(quote.othersNote)}</p>
+        <p class="doc-note-plain">${escapeHtml(q.othersNote)}</p>
       </div>`;
   }
 
@@ -1332,12 +1918,13 @@ function renderPreview(){
         <table>
           ${s.training ? `<tr><td>A. Training</td><td class="amt-training">KES ${formatMoney(t.trainingSubtotal)}</td></tr>` : ''}
           ${s.goatPackage ? `<tr><td>B. Goat Package</td><td class="amt-goat">KES ${formatMoney(t.goatPackageSubtotal)}</td></tr>` : ''}
+          ${s.housing ? `<tr><td>C. Housing Structure</td><td class="amt-structure">KES ${formatMoney(t.structureSubtotal)}</td></tr>` : ''}
           ${s.feed ? `<tr><td>D. 1-Month Feed</td><td class="amt-feed">KES ${formatMoney(t.feedSubtotal)}</td></tr>` : ''}
           <tr class="grand"><td>Grand total</td><td class="amt-grand">KES ${formatMoney(t.grandTotal)}</td></tr>
         </table>
       </div>
 
-      <p class="doc-note-plain">Housing (C) and other services (E) are quoted separately and are not included in the grand total. This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.</p>
+      <p class="doc-note-plain">This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.${s.others ? ' Other services (E) are billed separately and not included above.' : ''}</p>
 
       <div class="doc-footer-grid">
         <div>
@@ -1351,38 +1938,15 @@ function renderPreview(){
         </div>
       </div>
 
-      <p class="doc-prepared">Prepared by ${escapeHtml(quote.preparedBy || '—')}, MbuziPlus Coordinator · for Imfuyo Usajili Solutions Limited</p>
+      <p class="doc-prepared">Prepared by ${escapeHtml(q.preparedBy || '—')}, MbuziPlus Coordinator · for Imfuyo Usajili Solutions Limited</p>
     </div>`;
 
   paper.innerHTML = html;
   pulse(paper.querySelector('.amt-grand'));
 }
 
-function renderTable(title, items, subtotal){
-  const rows = items.map(i => `
-    <tr>
-      <td>${escapeHtml(i.label)}</td>
-      <td class="num">${i.qty}</td>
-      <td class="money">${formatMoney(i.unitPrice)}</td>
-      <td class="money">${formatMoney((Number(i.qty)||0)*(Number(i.unitPrice)||0))}</td>
-    </tr>`).join('');
-  return `
-    <div class="doc-section">
-      <h3 class="doc-section-title">${title}</h3>
-      <div class="doc-table-scroll">
-        <table class="doc-table">
-          <thead><tr><th>Item</th><th>Qty</th><th>Unit Price (KES)</th><th>Total (KES)</th></tr></thead>
-          <tbody>
-            ${rows}
-            <tr class="subtotal-row"><td>Subtotal</td><td></td><td></td><td>${formatMoney(subtotal)}</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>`;
-}
-
 function renderAll(){
-  renderPreview();
+  renderPreviewInto(document.getElementById('paper'), quote);
 }
 
 /* ================= ACTIONS / NAVIGATION ================= */
@@ -1394,7 +1958,7 @@ document.getElementById('backToDashboardBtn').addEventListener('click', () => { 
 document.getElementById('saveDraftBtn').addEventListener('click', () => saveDraft(false));
 document.getElementById('finalizeBtn').addEventListener('click', finalizeQuote);
 
-/* ================= PDF GENERATION ================= */
+/* ================= PDF GENERATION (generic) ================= */
 function loadImageAsDataUrl(url){
   return new Promise((resolve) => {
     const img = new Image();
@@ -1432,7 +1996,7 @@ document.getElementById('generatePdfBtn').addEventListener('click', async () => 
   try{
     await ensureJsPdf();
     const logoData = await loadImageAsDataUrl(LOGO_URL);
-    await buildPdf(logoData);
+    await buildPdfFor(quote, logoData, document.getElementById('coverPageToggle').checked);
     showToast('PDF downloaded');
   } catch(err){
     console.error(err);
@@ -1444,28 +2008,23 @@ document.getElementById('generatePdfBtn').addEventListener('click', async () => 
   }
 });
 
-/* PDF typography: a single clean sans-serif family (Helvetica — the closest
-   built-in equivalent to Arial/Calibri) used throughout, with bold weight
-   on every header, section title, subtotal and total so the document reads
-   as a professional, confident business quotation rather than a casual note. */
-async function buildPdf(logoData){
+async function buildPdfFor(q, logoData, includeCover){
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ unit:'pt', format:'a4' });
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
   const margin = 48;
-  const footerZone = 30; // reserved space at the bottom of every page for the page-number footer
-  const includeCover = document.getElementById('coverPageToggle').checked;
-  const t = calcTotals(quote);
-  const s = quote.sections;
-  const custName = [quote.customer.firstName, quote.customer.lastName].filter(Boolean).join(' ') || '—';
+  const footerZone = 30;
+  const t = calcTotals(q);
+  const s = q.sections;
+  const custName = [q.customer.firstName, q.customer.lastName].filter(Boolean).join(' ') || '—';
   const issueDate = new Date();
   const validUntil = new Date(issueDate.getTime() + RATE_CARD.validityDays*24*3600*1000);
   const fmtDate = d => d.toLocaleDateString('en-KE', { day:'2-digit', month:'short', year:'numeric' });
   const inkColor = [20,30,24];
   const softColor = [80,92,84];
-  const ochreColor = [153,102,32];
   const F = 'helvetica';
+  const struct = PEN_STRUCTURES[q.structure.structureId] || PEN_STRUCTURES[DEFAULT_STRUCTURE_ID];
 
   if(includeCover){
     if(logoData){ pdf.addImage(logoData, 'PNG', pageW/2 - 30, 130, 60, 60); }
@@ -1475,7 +2034,7 @@ async function buildPdf(logoData){
     pdf.setFont(F,'normal'); pdf.setFontSize(15);
     pdf.text('Dairy-Goat Programme Quotation', pageW/2, 245, { align:'center' });
     pdf.setFont(F,'bold'); pdf.setFontSize(11); pdf.setTextColor(...softColor);
-    pdf.text(quote.id || '', pageW/2, 280, { align:'center' });
+    pdf.text(q.id || '', pageW/2, 280, { align:'center' });
     pdf.setFont(F,'normal');
     pdf.text(`Prepared for ${custName}`, pageW/2, 298, { align:'center' });
     pdf.text(`Issued ${fmtDate(issueDate)}  ·  Valid until ${fmtDate(validUntil)}`, pageW/2, 316, { align:'center' });
@@ -1485,14 +2044,10 @@ async function buildPdf(logoData){
   }
 
   let y = margin;
-
-  // Page breaks now reserve room for the footer band too, so a section
-  // never gets crowded right up against the page-number line.
   function checkPageBreak(extra){
     if(y + extra > pageH - margin - footerZone){ pdf.addPage(); y = margin; }
   }
 
-  // Letterhead
   if(logoData){ pdf.addImage(logoData, 'PNG', margin, y, 30, 30); }
   pdf.setFont(F,'bold'); pdf.setFontSize(16); pdf.setTextColor(...inkColor);
   pdf.text('MbuziPlus Dairy-Goat Programme', margin + 38, y + 13);
@@ -1508,7 +2063,7 @@ async function buildPdf(logoData){
   pdf.setFont(F,'bold'); pdf.setFontSize(21); pdf.setTextColor(...inkColor);
   pdf.text('QUOTATION', margin, y);
   pdf.setFont(F,'bold'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
-  pdf.text(`${quote.id || 'Unsaved'}`, pageW - margin, y - 12, { align:'right' });
+  pdf.text(`${q.id || 'Unsaved'}`, pageW - margin, y - 12, { align:'right' });
   pdf.text(`Issued ${fmtDate(issueDate)}`, pageW - margin, y, { align:'right' });
   pdf.text(`Valid until ${fmtDate(validUntil)}`, pageW - margin, y + 12, { align:'right' });
   y += 30;
@@ -1520,27 +2075,27 @@ async function buildPdf(logoData){
   pdf.setFont(F,'bold'); pdf.setFontSize(11); pdf.setTextColor(...inkColor);
   pdf.text(custName, margin, y);
   pdf.setFont(F,'normal');
-  pdf.text(`Farmer: ${quote.farmer || '—'}`, margin + 270, y);
+  pdf.text(`Farmer: ${q.farmer || '—'}`, margin + 270, y);
   y += 13;
   pdf.setTextColor(...softColor);
-  pdf.text(quote.customer.location || '—', margin, y);
+  pdf.text(q.customer.location || '—', margin, y);
   pdf.setTextColor(...inkColor);
-  pdf.text(`Farm manager: ${quote.farmManager || '—'}`, margin + 270, y);
+  pdf.text(`Farm manager: ${q.farmManager || '—'}`, margin + 270, y);
   y += 13;
   pdf.setTextColor(...softColor);
-  pdf.text(quote.customer.phone || '—', margin, y);
-  if(quote.customer.cohort){
+  pdf.text(q.customer.phone || '—', margin, y);
+  if(q.customer.cohort){
     pdf.setTextColor(...inkColor);
-    pdf.text(`Cohort: ${quote.customer.cohort}`, margin + 270, y);
+    pdf.text(`Cohort: ${q.customer.cohort}`, margin + 270, y);
   }
   y += 24;
 
-  function drawTable(title, items, subtotal, extraRowFn){
-    // Keep the section title glued to at least its header row + one line item.
+  function drawTable(title, items, subtotal){
     checkPageBreak(56);
     pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
-    pdf.text(title, margin, y);
-    y += 14;
+    const titleLines = pdf.splitTextToSize(title, pageW - margin*2);
+    pdf.text(titleLines, margin, y);
+    y += titleLines.length * 13;
     pdf.setFont(F,'bold'); pdf.setFontSize(8.5); pdf.setTextColor(...softColor);
     pdf.text('ITEM', margin, y);
     pdf.text('QTY', pageW - margin - 150, y, { align:'right' });
@@ -1558,11 +2113,10 @@ async function buildPdf(logoData){
       pdf.setFont(F,'bold');
       pdf.text(String(item.qty), pageW - margin - 150, y, { align:'right' });
       pdf.text(formatMoney(item.unitPrice), pageW - margin - 75, y, { align:'right' });
-      pdf.text(formatMoney((Number(item.qty)||0)*(Number(item.unitPrice)||0)), pageW - margin, y, { align:'right' });
+      pdf.text(formatMoney(computeLineTotal(item)), pageW - margin, y, { align:'right' });
       pdf.setFont(F,'normal');
       y += lines.length * 11 + 6;
     });
-    if(extraRowFn) extraRowFn();
     checkPageBreak(30);
     pdf.setDrawColor(...inkColor); pdf.setLineWidth(0.9);
     pdf.line(margin, y, pageW - margin, y);
@@ -1574,24 +2128,25 @@ async function buildPdf(logoData){
   }
 
   if(s.training){
-    drawTable('A · Imfuyo Academy — MbuziPlus Trainings', quote.items.training, t.trainingSubtotal);
+    drawTable('A · Imfuyo Academy — MbuziPlus Trainings', q.items.training, t.trainingSubtotal);
   }
   if(s.goatPackage){
-    drawTable('B · Goats, Feed Concentrate, Goat Insurance & Service', quote.items.goatPackage, t.goatPackageSubtotal);
+    drawTable('B · Goats, Feed Concentrate, Goat Insurance & Service', q.items.goatPackage, t.goatPackageSubtotal);
   }
   if(s.housing){
-    checkPageBreak(60);
-    pdf.setFont(F,'bold'); pdf.setFontSize(13); pdf.setTextColor(...inkColor);
-    pdf.text('C · Goat Housing Structure', margin, y);
-    y += 14;
-    pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
-    const lines = pdf.splitTextToSize(quote.housingNote, pageW - margin*2);
-    checkPageBreak(lines.length * 12 + 14);
-    pdf.text(lines, margin, y);
-    y += lines.length * 12 + 14;
+    const cap = structureCapacity(q);
+    const units = Math.max(1, Math.ceil(cap / struct.baseCapacity));
+    drawTable(`C · Goat Housing Structure — ${struct.label} (${units} unit${units===1?'':'s'} for ${cap} goat${cap===1?'':'s'})`, q.structure.items, t.structureSubtotal);
+    if(q.housingNote){
+      pdf.setFont(F,'italic'); pdf.setFontSize(9.5); pdf.setTextColor(...softColor);
+      const lines = pdf.splitTextToSize(q.housingNote, pageW - margin*2);
+      checkPageBreak(lines.length * 12 + 8);
+      pdf.text(lines, margin, y);
+      y += lines.length * 12 + 14;
+    }
   }
   if(s.feed){
-    drawTable('D · 1-Month Feed', quote.items.feed, t.feedSubtotal);
+    drawTable('D · 1-Month Feed', q.items.feed, t.feedSubtotal);
   }
   if(s.others){
     checkPageBreak(60);
@@ -1599,21 +2154,20 @@ async function buildPdf(logoData){
     pdf.text('E · Others — Billed Separately on Request', margin, y);
     y += 14;
     pdf.setFont(F,'normal'); pdf.setFontSize(10); pdf.setTextColor(...softColor);
-    const lines = pdf.splitTextToSize(quote.othersNote, pageW - margin*2);
+    const lines = pdf.splitTextToSize(q.othersNote, pageW - margin*2);
     checkPageBreak(lines.length * 12 + 14);
     pdf.text(lines, margin, y);
     y += lines.length * 12 + 14;
   }
 
-  // Totals block: kept together on one page rather than letting the grand
-  // total get orphaned alone at the top of a fresh page.
-  checkPageBreak(140);
+  checkPageBreak(150);
   pdf.setDrawColor(...inkColor); pdf.setLineWidth(1.4);
   pdf.line(margin, y, pageW - margin, y);
   y += 18;
   pdf.setFont(F,'bold'); pdf.setFontSize(11.5); pdf.setTextColor(...inkColor);
   if(s.training){ pdf.text('A. Training', margin, y); pdf.text(`KES ${formatMoney(t.trainingSubtotal)}`, pageW - margin, y, { align:'right' }); y += 16; }
   if(s.goatPackage){ pdf.text('B. Goat Package', margin, y); pdf.text(`KES ${formatMoney(t.goatPackageSubtotal)}`, pageW - margin, y, { align:'right' }); y += 16; }
+  if(s.housing){ pdf.text('C. Housing Structure', margin, y); pdf.text(`KES ${formatMoney(t.structureSubtotal)}`, pageW - margin, y, { align:'right' }); y += 16; }
   if(s.feed){ pdf.text('D. 1-Month Feed', margin, y); pdf.text(`KES ${formatMoney(t.feedSubtotal)}`, pageW - margin, y, { align:'right' }); y += 16; }
   pdf.setFont(F,'bold'); pdf.setFontSize(16);
   pdf.text('GRAND TOTAL', margin, y + 4); pdf.text(`KES ${formatMoney(t.grandTotal)}`, pageW - margin, y + 4, { align:'right' });
@@ -1621,7 +2175,7 @@ async function buildPdf(logoData){
 
   checkPageBreak(90);
   pdf.setFont(F,'italic'); pdf.setFontSize(9); pdf.setTextColor(...softColor);
-  const footNote = `Housing (C) and other services (E) are quoted separately and are not included in the grand total. This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.`;
+  const footNote = `This quotation is valid for ${RATE_CARD.validityDays} days from the issue date.` + (s.others ? ' Other services (E) are billed separately and not included above.' : '');
   const footLines = pdf.splitTextToSize(footNote, pageW - margin*2);
   pdf.text(footLines, margin, y);
   y += footLines.length * 11 + 16;
@@ -1642,9 +2196,8 @@ async function buildPdf(logoData){
 
   checkPageBreak(20);
   pdf.setFont(F,'italic'); pdf.setFontSize(9.5); pdf.setTextColor(...softColor);
-  pdf.text(`Prepared by ${quote.preparedBy || '—'}, MbuziPlus Coordinator · for Imfuyo Usajili Solutions Limited`, margin, y);
+  pdf.text(`Prepared by ${q.preparedBy || '—'}, MbuziPlus Coordinator · for Imfuyo Usajili Solutions Limited`, margin, y);
 
-  // ---- Page numbers on every page (added last, once total page count is known) ----
   const totalPages = pdf.internal.getNumberOfPages();
   for(let i = 1; i <= totalPages; i++){
     pdf.setPage(i);
@@ -1656,12 +2209,245 @@ async function buildPdf(logoData){
       ? 'Cover'
       : `Page ${i - coverOffset} of ${totalPages - coverOffset}`;
     pdf.text(label, pageW / 2, pageH - margin + 16, { align:'center' });
-    pdf.text(quote.id || 'Unsaved', margin, pageH - margin + 16);
+    pdf.text(q.id || 'Unsaved', margin, pageH - margin + 16);
     pdf.text('MbuziPlus Quotation', pageW - margin, pageH - margin + 16, { align:'right' });
   }
 
-  pdf.save(`${quote.id || 'MbuziPlus-Quotation'}.pdf`);
+  pdf.save(`${q.id || 'MbuziPlus-Quotation'}.pdf`);
 }
+
+/* ================================================================
+   ================= BATCH WIZARD ================================
+   ================================================================ */
+
+function newBatchQuote(){
+  const q = defaultQuoteState(null);
+  q.customer = { firstName:'', lastName:'', location:'', phone:'', cohort:'' };
+  return q;
+}
+
+function resetWizard(){
+  batchQuotes = [newBatchQuote(), newBatchQuote(), newBatchQuote()];
+  wizardStep = 1;
+  wizActiveIndex = 0;
+  reviewActiveIndex = 0;
+  createdBatchIds = [];
+  document.getElementById('createDoneActions').hidden = true;
+  document.getElementById('createDoneGrid').innerHTML = '';
+  document.getElementById('createProgress').textContent = '';
+  document.getElementById('wizCreateBtn').hidden = false;
+  document.getElementById('wizCreateBtn').disabled = false;
+}
+
+function openWizard(){
+  resetWizard();
+  renderRoster();
+  setWizardStep(1);
+  showWizard();
+}
+
+function setWizardStep(step){
+  wizardStep = step;
+  ['wizStep1','wizStep2','wizStep3','wizStep4'].forEach((id, i) => {
+    document.getElementById(id).hidden = (i + 1) !== step;
+  });
+  document.querySelectorAll('.wizard-step-pill').forEach(pill => {
+    const n = Number(pill.dataset.step);
+    pill.classList.toggle('active', n === step);
+    pill.classList.toggle('done', n < step);
+  });
+  if(step === 2){ wizActiveIndex = Math.min(wizActiveIndex, batchQuotes.length - 1); loadFarmerIntoStep2(); }
+  if(step === 3){ reviewActiveIndex = 0; renderReviewStrip(); loadReviewFarmer(); }
+  if(step === 4){ renderCreateSummary(); }
+  refreshIcons();
+}
+
+document.getElementById('dashNewBatchBtn').addEventListener('click', openWizard);
+document.getElementById('wizCloseBtn').addEventListener('click', () => {
+  if(confirm('Discard this batch and return to the dashboard? Nothing has been saved yet.')) showDashboard();
+});
+
+/* ---- Step 1: roster ---- */
+function renderRoster(){
+  const list = document.getElementById('rosterList');
+  list.innerHTML = '';
+  batchQuotes.forEach((q, idx) => {
+    const row = document.createElement('div');
+    row.className = 'roster-row';
+    row.innerHTML = `
+      <div class="roster-idx">${idx + 1}</div>
+      <div class="roster-fields">
+        <input type="text" placeholder="First name" data-field="firstName" value="${escapeHtml(q.customer.firstName)}">
+        <input type="text" placeholder="Last name" data-field="lastName" value="${escapeHtml(q.customer.lastName)}">
+        <input type="text" placeholder="Location / County" data-field="location" value="${escapeHtml(q.customer.location)}">
+        <input type="tel" placeholder="Phone" data-field="phone" value="${escapeHtml(q.customer.phone)}">
+        <input type="text" placeholder="Farmer (if different)" data-field="farmer" value="${escapeHtml(q.farmer)}">
+        <input type="text" placeholder="Farm manager" data-field="farmManager" value="${escapeHtml(q.farmManager)}">
+      </div>
+      <button type="button" class="icon-btn" data-role="removeRow" title="Remove farmer" ${batchQuotes.length <= 1 ? 'disabled' : ''}><i data-lucide="trash-2"></i></button>`;
+    row.querySelectorAll('input[data-field]').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const f = inp.dataset.field;
+        if(f === 'farmer' || f === 'farmManager'){ q[f] = inp.value; }
+        else { q.customer[f] = inp.value; }
+      });
+    });
+    row.querySelector('[data-role="removeRow"]').addEventListener('click', () => {
+      batchQuotes.splice(idx, 1);
+      renderRoster();
+    });
+    list.appendChild(row);
+  });
+  document.getElementById('rosterCountLabel').textContent = `${batchQuotes.length} of ${MAX_BATCH} farmers`;
+  document.getElementById('rosterAddBtn').disabled = batchQuotes.length >= MAX_BATCH;
+  refreshIcons();
+}
+
+document.getElementById('rosterAddBtn').addEventListener('click', () => {
+  if(batchQuotes.length >= MAX_BATCH) return;
+  batchQuotes.push(newBatchQuote());
+  renderRoster();
+});
+
+document.getElementById('wizStep1NextBtn').addEventListener('click', () => {
+  // Drop fully-blank rows (no name entered) so they don't clutter configure/review.
+  batchQuotes = batchQuotes.filter(q => (q.customer.firstName || '').trim() || (q.customer.lastName || '').trim());
+  if(!batchQuotes.length){
+    showToast('Add at least one farmer with a name to continue.', true);
+    return;
+  }
+  wizActiveIndex = 0;
+  setWizardStep(2);
+});
+
+/* ---- Step 2: configure (per farmer, full custom panel) ---- */
+const wizEditor = createQuoteEditor('wz', 'wz', () => batchQuotes[wizActiveIndex], () => renderPreviewInto(document.getElementById('wzPaper'), batchQuotes[wizActiveIndex]));
+
+function loadFarmerIntoStep2(){
+  const q = batchQuotes[wizActiveIndex];
+  const name = [q.customer.firstName, q.customer.lastName].filter(Boolean).join(' ') || `Farmer ${wizActiveIndex + 1}`;
+  document.getElementById('wzFarmerNavName').textContent = name;
+  document.getElementById('wzFarmerNavSub').textContent = `Farmer ${wizActiveIndex + 1} of ${batchQuotes.length}`;
+  wizEditor.load();
+  renderPreviewInto(document.getElementById('wzPaper'), q);
+  document.getElementById('wzPrevFarmerBtn').disabled = wizActiveIndex === 0;
+  document.getElementById('wzNextFarmerBtn').disabled = wizActiveIndex === batchQuotes.length - 1;
+}
+
+document.getElementById('wzPrevFarmerBtn').addEventListener('click', () => {
+  if(wizActiveIndex > 0){ wizActiveIndex--; loadFarmerIntoStep2(); }
+});
+document.getElementById('wzNextFarmerBtn').addEventListener('click', () => {
+  if(wizActiveIndex < batchQuotes.length - 1){ wizActiveIndex++; loadFarmerIntoStep2(); }
+});
+document.getElementById('wizStep2BackBtn').addEventListener('click', () => setWizardStep(1));
+document.getElementById('wizStep2NextBtn').addEventListener('click', () => setWizardStep(3));
+
+/* ---- Step 3: review carousel ---- */
+function renderReviewStrip(){
+  const strip = document.getElementById('reviewStrip');
+  strip.innerHTML = '';
+  batchQuotes.forEach((q, idx) => {
+    const t = calcTotals(q);
+    const name = [q.customer.firstName, q.customer.lastName].filter(Boolean).join(' ') || `Farmer ${idx + 1}`;
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'review-chip' + (idx === reviewActiveIndex ? ' active' : '');
+    chip.innerHTML = `${escapeHtml(name)} <span class="amt">KES ${formatMoney(t.grandTotal)}</span>`;
+    chip.addEventListener('click', () => { reviewActiveIndex = idx; loadReviewFarmer(); });
+    strip.appendChild(chip);
+  });
+}
+function loadReviewFarmer(){
+  const q = batchQuotes[reviewActiveIndex];
+  document.getElementById('reviewNavSub').textContent = `Farmer ${reviewActiveIndex + 1} of ${batchQuotes.length}`;
+  renderPreviewInto(document.getElementById('reviewPaper'), q);
+  renderReviewStrip();
+  document.getElementById('reviewPrevBtn').disabled = reviewActiveIndex === 0;
+  document.getElementById('reviewNextBtn').disabled = reviewActiveIndex === batchQuotes.length - 1;
+}
+document.getElementById('reviewPrevBtn').addEventListener('click', () => { if(reviewActiveIndex > 0){ reviewActiveIndex--; loadReviewFarmer(); } });
+document.getElementById('reviewNextBtn').addEventListener('click', () => { if(reviewActiveIndex < batchQuotes.length - 1){ reviewActiveIndex++; loadReviewFarmer(); } });
+document.getElementById('wizStep3BackBtn').addEventListener('click', () => setWizardStep(2));
+document.getElementById('wizStep3NextBtn').addEventListener('click', () => setWizardStep(4));
+
+/* ---- Step 4: create ---- */
+function renderCreateSummary(){
+  document.getElementById('createSummaryTitle').textContent = `Ready to create ${batchQuotes.length} quotation${batchQuotes.length===1?'':'s'}`;
+  const list = document.getElementById('createList');
+  list.innerHTML = '';
+  batchQuotes.forEach((q) => {
+    const t = calcTotals(q);
+    const name = [q.customer.firstName, q.customer.lastName].filter(Boolean).join(' ') || 'Unnamed farmer';
+    const row = document.createElement('div');
+    row.className = 'create-list-row';
+    row.innerHTML = `<span>${escapeHtml(name)}</span><span class="amt">KES ${formatMoney(t.grandTotal)}</span>`;
+    list.appendChild(row);
+  });
+}
+document.getElementById('wizStep4BackBtn').addEventListener('click', () => setWizardStep(3));
+
+document.getElementById('wizCreateBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('wizCreateBtn');
+  btn.disabled = true;
+  document.getElementById('createProgress').textContent = `Reserving ${batchQuotes.length} quote number${batchQuotes.length===1?'':'s'}…`;
+  try{
+    const ids = await reserveQuoteNumbers(batchQuotes.length);
+    const batch = writeBatch(db);
+    batchQuotes.forEach((q, i) => {
+      q.id = ids[i];
+      const ref = doc(db, 'quotations', ids[i]);
+      batch.set(ref, serializeQuote(q));
+    });
+    document.getElementById('createProgress').textContent = 'Saving to the database…';
+    await batch.commit();
+    createdBatchIds = ids;
+    btn.hidden = true;
+    document.getElementById('createProgress').textContent = `${ids.length} quotation${ids.length===1?'':'s'} created.`;
+    const doneGrid = document.getElementById('createDoneGrid');
+    doneGrid.innerHTML = '';
+    batchQuotes.forEach((q) => {
+      const name = [q.customer.firstName, q.customer.lastName].filter(Boolean).join(' ') || 'Unnamed farmer';
+      const row = document.createElement('div');
+      row.className = 'create-done-row';
+      row.innerHTML = `<span><i data-lucide="check-circle-2"></i> ${escapeHtml(name)}</span><span class="qid">${escapeHtml(q.id)}</span>`;
+      doneGrid.appendChild(row);
+    });
+    document.getElementById('createDoneActions').hidden = false;
+    showToast(`${ids.length} quotations created`);
+    refreshIcons();
+  } catch(err){
+    console.error(err);
+    showToast('Could not create the batch — check your connection.', true);
+    btn.disabled = false;
+    document.getElementById('createProgress').textContent = 'Something went wrong — try again.';
+  }
+});
+
+document.getElementById('wizDownloadAllBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('wizDownloadAllBtn');
+  btn.disabled = true;
+  const originalHtml = btn.innerHTML;
+  try{
+    await ensureJsPdf();
+    const logoData = await loadImageAsDataUrl(LOGO_URL);
+    for(const q of batchQuotes){
+      btn.innerHTML = `Downloading ${q.id}…`;
+      await buildPdfFor(q, logoData, false);
+      await new Promise(r => setTimeout(r, 250)); // small gap so browsers don't block rapid downloads
+    }
+    showToast('All PDFs downloaded');
+  } catch(err){
+    console.error(err);
+    showToast('Could not generate all PDFs.', true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
+    refreshIcons();
+  }
+});
+
+document.getElementById('wizGoDashboardBtn').addEventListener('click', showDashboard);
 
 refreshIcons();
 </script>
